@@ -13,6 +13,6 @@ public class FoodTableTest {
 
     @Test
     public void select1() {
-        log.info(" df");
+        log.info("");// 수정중
     }
 }
