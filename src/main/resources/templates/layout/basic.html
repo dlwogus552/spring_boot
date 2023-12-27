@@ -10,23 +10,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Favicon -->
-    <link href="img/favicon.ico" rel="shortcut icon"/>
+    <link th:href="@{/img/favicon.ico}" rel="shortcut icon"/>
 
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i&display=swap" rel="stylesheet">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="css/owl.carousel.min.css"/>
-    <link rel="stylesheet" href="css/flaticon.css"/>
-    <link rel="stylesheet" href="css/slicknav.min.css"/>
-    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/flaticon.css}"/>
+    <link rel="stylesheet" th:href="@{/css/slicknav.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/font-awesome.css}">
 
     <!-- Main Stylesheets -->
-    <link rel="stylesheet" href="css/style.css"/>
-    <link rel="stylesheet" href="assets/css/templatemo-training-studio.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/css/templatemo-training-studio.css}">
 
 
 
@@ -49,31 +49,23 @@
     </div>
 </div>
 <!-- ***** Preloader End ***** -->
-<header class="header-area header-sticky">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <nav class="main-nav">
-                    <!-- ***** Logo Start ***** -->
-                    <a href="index.html" class="logo">Training<em> Studio</em></a>
-                    <!-- ***** Logo End ***** -->
-                    <!-- ***** Menu Start ***** -->
-                    <ul class="nav">
-                        <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
-                        <li class="scroll-to-section"><a href="#features">About</a></li>
-                        <li class="scroll-to-section"><a href="#our-classes">Classes</a></li>
-                        <li class="scroll-to-section"><a href="#schedule">Schedules</a></li>
-                        <li class="scroll-to-section"><a href="#contact-us">Contact</a></li>
-                        <li class="main-button"><a href="#">Sign Up</a></li>
-                    </ul>
-                    <a class='menu-trigger'>
-                        <span>Menu</span>
-                    </a>
-                    <!-- ***** Menu End ***** -->
-                </nav>
+<header class="header-section">
+    <a href="home.html" class="site-logo">
+        <img src="/img/logo.png" alt="">
+    </a>
+    <ul class="main-menu">
+        <li><a class="active" href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="classes.html">Classes</a></li>
+        <li><a href="blog.html">News</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="header-right">
+            <div class="hr-box">
+                <img src="img/location-icon.png" alt="">
+                <h6>1525  Amazing Lane, Los Angeles, CA</h6>
             </div>
-        </div>
-    </div>
+        </li>
+    </ul>
 </header>
 <!-- ***** Header Area End ***** -->
 
@@ -87,7 +79,7 @@
 
 
 <!-- Footer section -->
-<footer class="footer-section set-bg" data-setbg="img/footer-bg.jpg">
+<footer class="footer-section set-bg" data-setbg="/img/footer-bg.jpg">
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-sm-6">
@@ -172,30 +164,30 @@
 
 
 <!-- jQuery -->
-<script src="assets/js/jquery-2.1.0.min.js"></script>
+<script th:src="@{/assets/js/jquery-2.1.0.min.js}"></script>
 
 <!-- Bootstrap -->
-<script src="assets/js/popper.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
+<script th:src="@{/assets/js/popper.js}"></script>
+<script th:src="@{/assets/js/bootstrap.min.js}"></script>
 
 <!-- Plugins -->
-<script src="assets/js/scrollreveal.min.js"></script>
-<script src="assets/js/waypoints.min.js"></script>
-<script src="assets/js/jquery.counterup.min.js"></script>
-<script src="assets/js/imgfix.min.js"></script>
-<script src="assets/js/mixitup.js"></script>
-<script src="assets/js/accordions.js"></script>
+<script th:src="@{/assets/js/scrollreveal.min.js}"></script>
+<script th:src="@{/assets/js/waypoints.min.js}"></script>
+<script th:src="@{/assets/js/jquery.counterup.min.js}"></script>
+<script th:src="@{/assets/js/imgfix.min.js}"></script>
+<script th:src="@{/assets/js/mixitup.js}"></script>
+<script th:src="@{/assets/js/accordions.js}"></script>
 
 <!-- Global Init -->
-<script src="assets/js/custom.js"></script>
+<script th:src="@{/assets/js/custom.js}"></script>
 
 <!--====== Javascripts & Jquery ======-->
-<script src="js/jquery-3.2.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery.slicknav.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/circle-progress.min.js"></script>
-<script src="js/main.js"></script>
+<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/jquery.slicknav.js}"></script>
+<script th:src="@{/js/owl.carousel.min.js}"></script>
+<script th:src="@{/js/circle-progress.min.js}"></script>
+<script th:src="@{/js/main.js}"></script>
 
 </body>
 </html>
