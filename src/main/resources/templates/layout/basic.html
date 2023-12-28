@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       lang="en">
 <head>
-    <title>X Gym - Fitness HTML Template</title>
+    <title>1ST GYMS~</title>
     <meta charset="UTF-8">
     <meta name="description" content="X Gym Fitness HTML Template">
     <meta name="keywords" content="fitness, html">
@@ -37,6 +37,12 @@
 
 </head>
 <body>
+
+<!-- Page Preloder -->
+<div id="preloder">
+    <div class="loader"></div>
+</div>
+
 <!-- ***** Preloader Start ***** -->
 <div id="js-preloader" class="js-preloader">
     <div class="preloader-inner">
@@ -72,6 +78,7 @@
 
 <!-- ***** Main Banner Area Start ***** -->
 <section class="section">
+    <div layout:fragment="title"></div>
     <div class="container" layout:fragment="content">
     </div>
 </section>
