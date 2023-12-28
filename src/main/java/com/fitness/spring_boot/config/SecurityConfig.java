@@ -28,7 +28,7 @@ public class SecurityConfig{
                 .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.disable())
                 .authorizeHttpRequests(authorizeHttpRequsetConfigurer -> authorizeHttpRequsetConfigurer
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers("/","/member/**","/sinup").permitAll()
+                        .requestMatchers("/","/member/**","/sinup","/index").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/VIP/**").hasAuthority("VIP")
                         .anyRequest().authenticated()
