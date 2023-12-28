@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic.html}" lang="en">
+
+
+<div class="row" layout:fragment="content">
+    <div class="col-lg-10 offset-lg-1">
+        <div class="cta-content">
+            <h2 align="center"><em>guide</em> Modify</h2>
+            <div class="card-body">
+                <form action="/board/register" method="post">
+                    <div>
+                        <span >제 목</span>
+                        <input type="text" name="title" placeholder="Title">
+                    </div>
+                    <div>
+                        <span >내 용</span>
+                        <textarea class="form-control col-sm-5" rows="5" name="content" placeholder="Content"></textarea>
+                    </div>
+                    <div>
+                        <span>썸네일</span>
+                        <input type="file" name="thumbnail">
+                    </div>
+                    <div>
+                        <span>영상 링크</span>
+                        <input type="text" name="Video">
+                    </div>
+                    <div>
+                        <span >운동부위</span>
+                        <select class="form-select" name="part">
+                            <option value="">---</option>
+                            <option value="b">등</option>
+                            <option value="c">가슴</option>
+                            <option value="s">어께</option>
+                            <option value="f">전면 하체</option>
+                            <option value="h">후면 하체</option>
+                        </select>
+                    </div>
+                    <div class="my-4">
+                        <div class="float-end">
+                            <button class="btn btn-primary" type="submit">글쓰기</button>
+                            <button class="btn btn-secondary" type="reset">목록</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
