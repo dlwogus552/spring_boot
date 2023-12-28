@@ -29,6 +29,7 @@ public class SecurityConfig{
                 .authorizeHttpRequests(authorizeHttpRequsetConfigurer -> authorizeHttpRequsetConfigurer
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
                         .requestMatchers("/","/member/**","/sinup","/index").permitAll()
+                        .requestMatchers("/assets/**","/img/**").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/VIP/**").hasAuthority("VIP")
                         .anyRequest().authenticated()

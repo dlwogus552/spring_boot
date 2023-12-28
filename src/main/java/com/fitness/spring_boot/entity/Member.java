@@ -9,7 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 
 @Entity
-@Table(name = "healthMember")
+@Table(name = "GYMMember")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -44,12 +44,10 @@ public class Member {
     @Column(nullable = false)
     private String regDate;
 
-    @Column(nullable = false)
     private String endDate;
 
     private int cnum;
 
-    @Column(nullable = false)
     private String role;
 
 //    @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
