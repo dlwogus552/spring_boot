@@ -1,206 +1,31 @@
 <!DOCTYPE html>
-<html lang="zxx" xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<!--layout:decorate="~{}" 이후에 추가?-->
-<head>
-    <title>X Gym - Fitness HTML Template</title>
-    <meta charset="UTF-8">
-    <meta name="description" content="X Gym Fitness HTML Template">
-    <meta name="keywords" content="fitness, html">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/basic.html}">
 
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="shortcut icon"/>
+<div layout:fragment="content">
+    <div class="container">
+    <h2> Log in </h2>
+        <form action="/loginProcess" method="post">
+            <div class="form-control mt-3">
+                <label for="id">ID:</label>
+                <input type="text" class="form-control" id="id" name="id">
+            </div>
+            <div class="form-control mt-3">
+                <label for="pass">Password</label>
+                <input type="password" class="form-control" id="pass" name="pass">
+            </div>
 
-    <!-- Google font -->
-    <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i&display=swap" rel="stylesheet">
+            <button type="submit" class="btn btn-primary">Log In</button>
+            <button type="reset" class="btn btn-secondary">Join</button>
 
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="css/owl.carousel.min.css"/>
-    <link rel="stylesheet" href="css/flaticon.css"/>
-    <link rel="stylesheet" href="css/slicknav.min.css"/>
-
-    <!-- Main Stylesheets -->
-    <link rel="stylesheet" href="css/style.css"/>
-
-
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-</head>
-<body>
-<!-- Page Preloder -->
-<div id="preloder">
-    <div class="loader"></div>
-</div>
-
-<!-- Header section -->
-<header class="header-section">
-    <a href="home.html" class="site-logo">
-        <img src="img/logo.png" alt="">
-    </a>
-    <ul class="main-menu">
-        <li><a class="active" href="index.html">Home</a></li>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="classes.html">Classes</a></li>
-        <li><a href="blog.html">News</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li class="header-right">
-            <div class="hr-box">
-                <img src="img/location-icon.png" alt="">
-                <h6>1525  Amazing Lane, Los Angeles, CA</h6>
-            </div>
-        </li>
-    </ul>
-</header>
-<div class="clearfix">
-    <h2> 회원가입 </h2>
-    <div>
-        <form action="/member/register" method="post">
-            <div>
-                <span> 아이디 </span>
-                <input type="text" name="id" placeholder="ID를 입력하세요">
-            </div>
-            <div>
-                <span> 비밀번호 </span>
-                <input type="password" name="pass">
-            </div>
-            <div>
-                <span> 이름 </span>
-                <input type="text" name="mname" placeholder="이름을 입력하세요">
-            </div>
-            <div>
-                <span> 연락처 </span>
-                <input type="text" name="phone" placeholder="연락처를 입력하세요">
-            </div>
-            <div>
-                <span> 나이 </span>
-                <input type="text" name="age" placeholder="나이을 입력하세요">
-            </div>
-            <div>
-                <span> 성별 </span>
-                <label><input type="checkbox" name="gender" value="남"> 남 </label>
-                <label><input type="checkbox" name="gender" value="여"> 여 </label>
-            </div>
-            <div>
-                <button type="submit" class="btn btn-primary">Register</button>
-                <button type="reset" class="btn btn-secondary">Reset</button>
-            </div>
         </form>
     </div>
 </div>
-<!-- Header section end -->
 
-
-
-
-
-<!-- Hero section -->
-<!-- Hero section end -->
-
-<!-- Feature section -->
-<!-- Feature section end -->
-
-<!-- Add section -->
-<!-- Add section end -->
-
-<!-- Milestones section -->
-<!-- Milestones section end -->
-
-<!-- Trainers section -->
-<!-- Trainers section end -->
-
-<!-- BMI section -->
-<!-- BMI section end -->
-
-<!-- Newsletter section  -->
-<!-- Newsletter section end -->
-
-<!-- Footer section -->
-<footer class="footer-section set-bg" data-setbg="img/footer-bg.jpg">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3 col-sm-6">
-                <div class="footer-widget">
-                    <h4>Location</h4>
-                    <div class="fw-info-box">
-                        <img src="img/icons/1.png" alt="">
-                        <div class="fw-info-text">
-                            <p>1525  Awesome Lane, Los Angeles, CA</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="footer-widget">
-                    <h4>Subscriptions</h4>
-                    <div class="fw-info-box">
-                        <img src="img/icons/2.png" alt="">
-                        <div class="fw-info-text">
-                            <p>+1 (603)535-4592</p>
-                            <p>+1 (603)535-4556</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="footer-widget">
-                    <h4>E-mail</h4>
-                    <div class="fw-info-box">
-                        <img src="img/icons/3.png" alt="">
-                        <div class="fw-info-text">
-                            <p>Contact@xgym.com</p>
-                            <p>www.xgym.com</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="footer-widget">
-                    <h4>Social Media</h4>
-                    <div class="fw-info-box">
-                        <img src="img/icons/4.png" alt="">
-                        <div class="social-links">
-                            <a href="#"><i class="fa fa-pinterest"></i></a>
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-dribbble"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 order-2 order-md-1">
-                <div class="copyright"><p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p></div>
-            </div>
-            <div class="col-md-6 order-1 order-md-2">
-                <ul class="footer-menu">
-                    <li><a href="">Home</a></li>
-                    <li><a href="">About Us</a></li>
-                    <li><a href="">Classes</a></li>
-                    <li><a href="">News</a></li>
-                    <li><a href="">Contact</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</footer>
-<!-- Footer section end -->
-
-<!--====== Javascripts & Jquery ======-->
-<script src="js/jquery-3.2.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery.slicknav.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/circle-progress.min.js"></script>
-<script src="js/main.js"></script>
-
-</body>
-</html>
+<script layout:fragment="script" th:inline="javascript">
+    document.querySelector(".btn btn-secondary").addEventListener("click", function (e){
+        e.preventDefault()
+        self.location="/member/join"
+    })
+</script>
