@@ -18,7 +18,15 @@ public class ExerciseFileDTO {
     private Long fno;
     private String uuid;
     private String filename;
-    private boolean video;
+    private boolean image;
     private Exercise exercise;
     private List<MultipartFile> files;
+
+    public String getLink(){
+        if(image){
+            return "s_"+uuid+"_"+filename;
+        }else{
+            return uuid+"_"+filename;
+        }
+    }
 }

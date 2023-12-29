@@ -1,33 +1,37 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/layout/basic.html}" lang="en">
-
-
-<div class="row" layout:fragment="content">
-    <div class="col-lg-10 offset-lg-1">
-        <div class="cta-content">
-            <h2 align="center"><em>guide</em></h2>
-            <div class="card-body">
-                <form action="/board/register" method="post">
+      layout:decorate="~{/layout/basic.html}"
+      lang="en">
+<div layout:fragment="title">
+    <!-- Page top section -->
+    <section class="page-top-section set-bg" data-setbg="/img/header-bg/5.jpg">
+        <div class="container">
+            <h2>Exercise Info Register</h2>
+        </div>
+    </section>
+    <!-- Page top section end -->
+</div>
+<div layout:fragment="content">
+    <section class="elements-section">
+        <div class="container">
+            <div class="element">
+                <form action="/exercise/register" method="post" enctype="multipart/form-data">
                     <div>
-                        <span >제 목</span>
+                        <span>제 목</span>
                         <input type="text" name="title" placeholder="Title">
                     </div>
                     <div>
-                        <span >내 용</span>
-                        <textarea class="form-control col-sm-5" rows="5" name="content" placeholder="Content"></textarea>
+                        <span>내 용</span>
+                        <textarea class="form-control col-sm-5" rows="5" name="content"
+                                  placeholder="Content"></textarea>
                     </div>
                     <div>
-                        <span>썸네일</span>
-                        <input type="file" name="thumbnail">
+                        <span>파 일</span>
+                        <input type="file" name="files" multiple>
                     </div>
                     <div>
-                        <span>영상 링크</span>
-                        <input type="text" name="Video">
-                    </div>
-                    <div>
-                        <span >운동부위</span>
+                        <span>운동부위</span>
                         <select class="form-select" name="part">
                             <option value="">---</option>
                             <option value="b">등</option>
@@ -47,5 +51,5 @@
                 </form>
             </div>
         </div>
-    </div>
+    </section>
 </div>
