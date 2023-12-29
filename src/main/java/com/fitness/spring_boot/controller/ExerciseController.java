@@ -2,13 +2,17 @@ package com.fitness.spring_boot.controller;
 
 import com.fitness.spring_boot.Service.ExerciseFileService;
 import com.fitness.spring_boot.Service.ExerciseService;
+import com.fitness.spring_boot.domain.Exercise;
 import com.fitness.spring_boot.domain.ExerciseFile;
 import com.fitness.spring_boot.dto.ExerciseDTO;
 import com.fitness.spring_boot.dto.ExerciseFileDTO;
+import com.fitness.spring_boot.dto.ExercisePageRequestDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import net.coobird.thumbnailator.Thumbnailator;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,13 +36,24 @@ import java.util.UUID;
 public class ExerciseController {
     private final ExerciseFileService exerciseFileService;
     private final ExerciseService exerciseService;
-    private String uploadPath="";
+    @Value("${com.fitness.spring_boot.upload.path}")
+    private String uploadPath;
+    private final ModelMapper modelMapper;
+
     @GetMapping("/list")
-    public void exercise(){}
+    public void list(ExercisePageRequestDTO exercisePageRequestDTO,Pageable pageable, Model model) {
+//        List<ExerciseDTO> dtoList=exerciseService.getList(pageable);
+//        model.addAttribute("dtoList",dtoList);
+//        PageResponseDTO<BoardDTO> responseDTO = service.listDsl(pageRequestDTO);
+//        PageResponseDTO<BoardListReplyCountDTO> responseDTO = service.listWidReplyCount(exercisePageRequestDTO);
+//        log.info(responseDTO);
+//        model.addAttribute("responseDTO", responseDTO);
+
+    }
     @GetMapping({"/view","/modify"})
     public void view(Long bno, Model model){
-        model.addAttribute("view",exerciseService.getBoard(bno));
-        model.addAttribute("file");
+        model.addAttribute("exerciseDTO",exerciseService.getBoard(bno));
+        model.addAttribute("filelist",exerciseFileService.getList(bno));
     }
     @GetMapping("/register")
     public void register(){}
@@ -81,7 +96,7 @@ public class ExerciseController {
                         .uuid(uuid)
                         .filename(originalFileName)
                         .image(image)
-                        .exercise(exerciseService.getBoard(eno))
+                        .exercise(modelMapper.map(exerciseService.getBoard(eno), Exercise.class))
                         .build();
                 Long fno = exerciseFileService.upload(exerciseFile);
 
@@ -89,7 +104,7 @@ public class ExerciseController {
                         .uuid(uuid)
                         .filename(originalFileName)
                         .image(image)
-                        .exercise(exerciseService.getBoard(eno))
+                        .exercise(modelMapper.map(exerciseService.getBoard(eno), Exercise.class))
                         .build());
             }
             model.addAttribute("fileList",list);
