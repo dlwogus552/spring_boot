@@ -5,7 +5,30 @@
  ------------------------------------
  ====================================*/
 
- 
+
+/* custom */
+.set-bg-color {
+	background-color: #38386e;
+	color: #eeeeee;
+}
+#foodSearchResult {
+	height: 30vh;
+	width: 75vw;
+}
+#foodSearchResult table {
+	border-spacing: 0;
+	border-collapse: separate;
+	width: 85vw;
+	overflow-x: hidden;
+}
+#foodSearchResult table thead tr th {
+	background-color: #fff !important;
+	position: sticky;
+	top: 0;
+}
+
+
+
 /*----------------------------------------*/
 /* Template default CSS
 /*----------------------------------------*/
@@ -151,7 +174,7 @@ Commom elements
 }
 
 .element .el-title {
-	margin-bottom: 75px;
+	margin-bottom: 40px;
 }
 
 /* buttons */
@@ -465,6 +488,7 @@ Header section
 .main-menu li a.active,
 .main-menu li a:hover {
 	background: #38386e;
+	color: #eeeeee;
 }
 
 .header-right {

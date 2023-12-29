@@ -1,41 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/layout/basic.html}" lang="en">
-
-
-<div class="row" layout:fragment="content">
-    <div class="col-lg-10 offset-lg-1">
-        <div class="cta-content">
-            <h2 align="center"><em>guide</em> Modify</h2>
-            <div class="card-body">
-                <form action="/board/register" method="post">
-                    <div>
-                        <span >제 목</span>
-                        <input type="text" name="title" placeholder="Title">
+      layout:decorate="~{/layout/basic.html}"
+      lang="en">
+<div layout:fragment="title">
+    <!-- Page top section -->
+    <section class="page-top-section set-bg" data-setbg="/img/header-bg/5.jpg">
+        <div class="container">
+            <h2>Exercise Info</h2>
+        </div>
+    </section>
+    <!-- Page top section end -->
+</div>
+<div layout:fragment="content">
+    <section class="elements-section">
+        <div class="container">
+            <div class="element">
+                <h2 class="el-title">Modify</h2>
+                <form action="/exercise/modify" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">제 목</label>
+                        <input name="title" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Title">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">내 용</label>
+                        <textarea name="content" class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+                    </div>
+                    <div class="input-group mb-3" >
+                        <form>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="customFile" name="files">
+                                <label class="custom-file-label" for="customFile">Choose file</label>
+                            </div>
+                        </form>
                     </div>
                     <div>
-                        <span >내 용</span>
-                        <textarea class="form-control col-sm-5" rows="5" name="content" placeholder="Content"></textarea>
-                    </div>
-                    <div>
-                        <span>썸네일</span>
-                        <input type="file" name="thumbnail">
-                    </div>
-                    <div>
-                        <span>영상 링크</span>
-                        <input type="text" name="Video">
-                    </div>
-                    <div>
-                        <span >운동부위</span>
-                        <select class="form-select" name="part">
-                            <option value="">---</option>
-                            <option value="b">등</option>
-                            <option value="c">가슴</option>
-                            <option value="s">어께</option>
-                            <option value="f">전면 하체</option>
-                            <option value="h">후면 하체</option>
-                        </select>
+                        <form class="form-inline">
+                            <label class="my-1 mr-2" for="inlineFormCustomSelectPref">운동부위</label>
+                            <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="part">
+                                <option value="b" th:selected="${pageRequestDTO.type==b}">등</option>
+                                <option value="c" th:selected="${pageRequestDTO.type==c}">가슴</option>
+                                <option value="s" th:selected="${pageRequestDTO.type==s}">어깨</option>
+                                <option value="a" th:selected="${pageRequestDTO.type==a}">팔</option>
+                                <option value="f" th:selected="${pageRequestDTO.type==f}">전면 하체</option>
+                                <option value="h" th:selected="${pageRequestDTO.type==h}">후면 하체</option>
+                            </select>
+                        </form>
                     </div>
                     <div class="my-4">
                         <div class="float-end">
@@ -46,5 +56,5 @@
                 </form>
             </div>
         </div>
-    </div>
+    </section>
 </div>

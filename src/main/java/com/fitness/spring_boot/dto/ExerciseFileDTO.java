@@ -1,7 +1,6 @@
-package com.fitness.spring_boot.exercisedto;
+package com.fitness.spring_boot.dto;
 
 import com.fitness.spring_boot.domain.Exercise;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +17,15 @@ public class ExerciseFileDTO {
     private Long fno;
     private String uuid;
     private String filename;
-    private boolean video;
+    private boolean image;
     private Exercise exercise;
     private List<MultipartFile> files;
+
+    public String getLink(){
+        if(image){
+            return "s_"+uuid+"_"+filename;
+        }else{
+            return uuid+"_"+filename;
+        }
+    }
 }

@@ -3,6 +3,7 @@ package com.fitness.spring_boot.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.log4j.Log4j2;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
@@ -27,6 +28,7 @@ public class Exercise {
     @CreatedDate
     @Column(name = "regdate", updatable = false)
     private LocalDateTime regDate;
+    @ColumnDefault("0")
     private int visitcount;
 
     public void updateVisitcount(){

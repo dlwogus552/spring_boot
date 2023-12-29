@@ -3,77 +3,65 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/layout/basic.html}" lang="en">
 
-
-<div class="row" layout:fragment="content">
-    <div class="col-lg-10 offset-lg-1">
-        <div class="cta-content">
-                <h2 align="center"><em>guide</em></h2>
-            <table id="printPost" class="post-body" cellspacing="0" cellpadding="0">
-                <tbody>
-                    <tr>
-                        <td class="bcl" nowrap="nowrap"></td>
-                        <td class="bcc">
-                            <div id="postListBody" class="post_album_view_p966">
-                                <div class="blog2_albumlist" id="PostThumbnailAlbumViewArea">
-                                    <ul class="thumblist">
-                                        <li class="item">
-                                            <a href="" class="link pcol2">
-                                                <div class="area_thumb">
-                                                    <img src="" alt="" onerror="this.onerror=null;this.src=''" class="thumb">
-                                                </div>
-                                                <div class="area_text">
-                                                    <i class="cline"></i>
-                                                    <strong class="title ell">test</strong>
-                                                    <div class="wrap_icon_round">
-                                                    </div>
-                                                    <span class="date">test date</span>
-                                                    <span class="read">
-                                                </span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li class="item">
-                                            <a href="/PostView.naver?blogId=afro_fitness_pilates&amp;logNo=223132995726&amp;categoryNo=20&amp;parentCategoryNo=20&amp;from=thumbnailList" class="link pcol2">
-                                                <div class="area_thumb">
-                                                    <img src="https://postfiles.pstatic.net/MjAyMzA2MTlfMjA5/MDAxNjg3MTU3NjIyODY4.Wj4ZE7_51TD0z_ZfZbO-lKTQKWXO1mK82kxo_VRv600g.4fAyGikTw0OfRKYVBk7tuCeyyauTAN4b9lvwh1hgr1kg.JPEG.djyame/VideoCapture%A3%DF20230619%A3%AD113817.jpg?type=a238_flexible" alt="" onerror="this.onerror=null;this.src='https://ssl.pstatic.net/static/blog/no_image2.svg'" class="thumb">
-                                                </div>
-                                                <div class="area_text">
-                                                    <i class="cline"></i>
-                                                    <strong class="title ell">신도림 필라테스 :) 6월 4주 차 프로그램 _ 소도구 운동 / 보수운동</strong>
-                                                    <div class="wrap_icon_round">
-                                                    </div>
-                                                    <span class="date">2023. 6. 19.</span>
-                                                    <span class="read">
-                                                    <i class="icon"><span class="blind">댓글수</span></i> 0
-                                                </span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li class="item">
-                                            <a href="/PostView.naver?blogId=afro_fitness_pilates&amp;logNo=223108642839&amp;categoryNo=20&amp;parentCategoryNo=20&amp;from=thumbnailList" class="link pcol2">
-                                                <div class="area_text">
-                                                    <i class="cline"></i>
-                                                    <strong class="title ell">신도림필라테스 :) 스쿼트 잘하는 법(체어 운동)</strong>
-                                                    <div class="wrap_icon_round">
-                                                    </div>
-                                                    <p class="desc ell">https://m.blog.naver.com/afropila/223108637472 🌹 100% 대기구 사용 🌹 매주 다양한 시퀀스 🌹 9년차 강사의 노련한 티칭 🌹 다양한 유산소 기구 🌹 깨끗한 샤워실 http:/...</p>
-                                                    <span class="date">2023. 5. 22.</span>
-                                                    <span class="read">
-                                                    <i class="icon"><span class="blind">댓글수</span></i> 0
-                                                </span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    </ul>
+<div layout:fragment="title">
+    <!-- Page top section -->
+    <section class="page-top-section set-bg" data-setbg="/img/header-bg/5.jpg">
+        <div class="container">
+            <h2>Elements</h2>
+        </div>
+    </section>
+    <!-- Page top section end -->
+</div>
+<div layout:fragment="content">
+    <section class="elements-section">
+        <div class="container">
+            <div class="element">
+                <h2 class="el-title">List</h2>
+                <div class="container mb-1">
+                    <form action="/exercise/list" method="get">
+                        <input type="hidden" name="size" th:value="${exercisePageRequestDTO.size}">
+                        <div class="input-group" style="width: 100%;flex-wrap:nowrap; align-content: flex-end; align-items: baseline">
+                            <div class="input-group mb-3" style="width:15%">
+                                <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="type">
+                                    <option>----</option>
+                                    <option value="b">등</option>
+                                    <option value="c">가슴</option>
+                                    <option value="s">어깨</option>
+                                    <option value="a">팔</option>
+                                    <option value="f">전면 하체</option>
+                                    <option value="h">후면 하체</option>
+                                </select>
+                            </div>
+                            <div class="input-group mb-3">
+                                <input type="text" name="keyword" class="form-control" placeholder="Search Title" >
+                                <div class="input-group-append">
+                                    <button class="btn btn-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                                 </div>
                             </div>
-                        </td>
-                        <td class="bcr" nowrap="nowrap">
+                        </div>
+                    </form>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <!-- Gallery Item 1 -->
+                        <tbody th:with="link=${exercisePageRequestDTO.getLink()}">
 
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                        <div class="col-md-4" th:each="dto:${dtoList}">
+                            <div class="card gallery-card">
+<!--                                <a th:href="|@{/exercise/view(eno=${exerciseDTO.eno})}&${link}|"></a>-->
+                                <img src="#" class="card-img-top" alt="Image 1">
+                                <div class="card-body">
+                                    <h5 class="card-title" style="margin-bottom: 0px">[[${dto.title}]]</h5>
+                                    <p class="card-text" style="text-align: right">조회수 : [[${dto.visitcount}]]</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        </tbody>
+
+                        <!-- Add more gallery items as needed -->
+                    </div>
+            </div>
         </div>
-    </div>
+    </section>
 </div>
