@@ -1,40 +1,50 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{/layout/basic.html}"
-	  lang="en">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic.html}"
+      lang="en">
 <div layout:fragment="title">
-	<!-- Page top section -->
-	<section class="page-top-section set-bg" data-setbg="/img/header-bg/5.jpg">
-		<div class="container">
-			<h2>영양정보</h2>
-		</div>
-	</section>
-	<!-- Page top section end -->
+    <!-- Page top section -->
+    <section class="page-top-section set-bg" data-setbg="/img/header-bg/5.jpg">
+        <div class="container">
+            <h2>영양정보</h2>
+        </div>
+    </section>
+    <!-- Page top section end -->
 </div>
 <div layout:fragment="content">
-	<section class="elements-section">
-		<div class="container">
-			<div class="element">
-				<h2 class="el-title">음식 검색</h2>
-				<div class="d-flex">
-					<input type="text" class="form-control form-control-lg mr-3">
-					<button type="button" class="btn set-bg-color btn-lg pl-5 pr-5"><i class="fa-solid fa-magnifying-glass"></i></button>
-				</div>
-			</div>
-			<div class="element" id="foodSearchResultCon">
-				<h2 class="el-title">검색 결과</h2>
-				<div id="foodSearchResult">
-					<!-- 검색 결과가 들어가는 자리 -->
-					<input type="checkbox" class="form-check-input">
-				</div>
-				<button type="button"></button>
-			</div>
-		</div>
-	</section>
-	<!-- Elements section end -->
+    <section class="elements-section">
+        <div class="container">
+            <div class="element">
+                <h2 class="el-title">음식 검색</h2>
+                <div class="d-flex">
+<!--                    <form action="/foodInfo/info" method="get">-->
+                        <input type="text" class="form-control form-control-lg mr-3">
+                        <button type="submit" id="foodSearchSubmit" class="btn set-bg-color btn-lg pl-5 pr-5">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+<!--                    </form>-->
+                </div>
+            </div>
+            <div class="element" id="foodSearchResultCon" style="display: none">
+                <h2 class="el-title">검색 결과</h2>
+                <div id="foodSearchResult">
+                    <!-- 검색 결과가 들어가는 자리 -->
+                    <input type="checkbox" class="form-check-input">
+                </div>
+                <button type="button"></button>
+            </div>
+        </div>
+    </section>
+    <!-- Elements section end -->
 </div>
 
 <script layout:fragment="script" th:inline="javascript">
-	console.log("여기 들어왔음");
+    // $("#foodSearchResultCon").hide()
+    console.log("여기 들어왔음");
+    $("#foodSearchSubmit").click( function () {
+        // $("#preloder").css("display", "none")
+        $("#foodSearchResultCon").show()
+        
+    })
 </script>

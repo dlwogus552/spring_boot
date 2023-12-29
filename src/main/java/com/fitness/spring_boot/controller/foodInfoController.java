@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -20,7 +21,13 @@ public class foodInfoController {
     private final FoodInfoServiceImpl service;
 
     @GetMapping("/info")
-    public void searchList(String keyword, Model model) {
+    public void view() {
+
+    }
+
+    @GetMapping("/info/{keyword}")
+    @ResponseBody
+    public void searchList(@PathVariable("keyword") String keyword, Model model) {
         List<FoodInfoDTO> dtoList = service.search(keyword);
         log.info(dtoList);
         model.addAttribute("list", dtoList);
