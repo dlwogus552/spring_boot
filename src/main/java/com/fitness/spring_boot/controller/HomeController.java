@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class HomeController {
-    @GetMapping("/index")
+    @GetMapping("/")
     public String home() {
         return "index";
     }
@@ -14,8 +14,8 @@ public class HomeController {
     public String home2() {
         return "index2";
     }
-    @GetMapping("/test")
-    public void test(){
-
+    @GetMapping("/copy")
+    public String test(){
+        return "copy";
     }
 }

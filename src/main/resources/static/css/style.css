@@ -295,7 +295,7 @@ Commom elements
 .accordion-area .panel-link.active:after {
 	content: "-";
 	margin-top: -10px;
-	color: #fcff18;
+	color: #38386e;
 }
 
 .accordion-area .panel-link {
@@ -307,7 +307,7 @@ Commom elements
 	padding-left: 30px;
 	font-size: 18px;
 	font-weight: 700;
-	background: #fcff18;
+	background: #38386e;
 	color: #242424;
 	cursor: pointer;
 }
@@ -331,11 +331,11 @@ Commom elements
 	border-radius: 0;
 	font-size: 18px;
 	font-weight: 700;
-	color: #1f1f1f;
+	color: #eeeeee;
 	border: none;
 	padding: 18px 30px;
 	margin-right: 9px;
-	background: #fcff18;
+	background: #38386e;
 	margin-bottom: 10px;
 }
 
@@ -430,7 +430,7 @@ Commom elements
 }
 
 .icon-box-item:hover .ib-icon {
-	background: #fcff18;
+	background: #38386e;
 }
 
 /*------------------
@@ -464,7 +464,7 @@ Header section
 
 .main-menu li a.active,
 .main-menu li a:hover {
-	background: #fcff18;
+	background: #38386e;
 }
 
 .header-right {
@@ -474,16 +474,23 @@ Header section
 
 .header-right .hr-box {
 	width: 294px;
+	min-height: 94px;
 	padding: 23px 52px;
-	background: #fcff18;
+	background: #38386e;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	color : #eeeeee;
 }
 
-.header-right .hr-box img {
-	float: left;
-	margin-right: 16px;
-}
+/*.header-right .hr-box img {*/
+/*	float: left;*/
+/*	margin-right: 16px;*/
+/*}*/
 
 .header-right .hr-box h6 {
+	color : #eeeeee;
 	overflow: hidden;
 }
 
@@ -520,7 +527,7 @@ Hero section
 }
 
 .hero-text h2 span {
-	color: #fcff18;
+	color: #38386e;
 }
 
 .hero-text .site-btn {
@@ -556,7 +563,7 @@ Add section
 }
 
 .add-text h2 span {
-	color: #fcff18;
+	color: #38386e;
 }
 
 .add-text ul {
@@ -589,7 +596,7 @@ Milestones section
 
 .milestone h2 {
 	display: inline-block;
-	background: #fcff18;
+	background: #38386e;
 	padding: 4px 11px;
 	margin-bottom: 2px;
 }
@@ -760,7 +767,7 @@ Footer section
 }
 
 .copyright a:hover {
-	color: #fcff18;
+	color: #38386e;
 }
 
 .footer-menu {
@@ -808,7 +815,7 @@ Other Pages
 	height: 6px;
 	bottom: 0;
 	left: 0;
-	background: #fcff18;
+	background: #38386e;
 }
 
 /* ----------------
@@ -839,7 +846,7 @@ About Page
 }
 
 .achievement-section .circle-progress .progress-info h2 {
-	color: #fcff18;
+	color: #38386e;
 }
 
 .achievement-section .circle-progress .progress-info p {
@@ -956,7 +963,7 @@ Classes Page
 	width: 29px;
 	height: 3px;
 	margin-top: 18px;
-	background: #fcff18;
+	background: #38386e;
 	-webkit-transition: all 0.4s;
 	transition: all 0.4s;
 }
@@ -972,8 +979,8 @@ Classes Page
 }
 
 .pricing-box:hover {
-	background: #fcff18;
-	border-color: #fcff18;
+	background: #38386e;
+	border-color: #38386e;
 }
 
 .pricing-box:hover h2,
@@ -1121,7 +1128,7 @@ Blog page
 	font-size: 14px;
 	border-radius: 50%;
 	color: #242424;
-	background: #fcff18;
+	background: #38386e;
 	text-align: center;
 }
 
@@ -1175,7 +1182,7 @@ Blog page
 	color: #242424;
 	font-size: 12px;
 	padding: 5px 13px 4px 9px;
-	background: #fcff18;
+	background: #38386e;
 }
 
 .tags-widget a {
@@ -1185,7 +1192,7 @@ Blog page
 	color: #242424;
 	margin-bottom: 15px;
 	margin-right: 3px;
-	background: #fcff18;
+	background: #38386e;
 	padding: 4px 18px;
 }
 
@@ -1281,7 +1288,8 @@ Responsive
 	}
 	.header-right .hr-box {
 		width: 240px;
-		padding: 31px 20px;
+		min-height: 94px;
+		padding: 23px 20px;
 	}
 	.hero-text h2 {
 		font-size: 80px;
@@ -1317,7 +1325,8 @@ Responsive
 	}
 	.header-right .hr-box {
 		width: 205px;
-		padding: 31px 10px;
+		min-height: 94px;
+		padding: 23px 10px;
 	}
 	.hero-text h2 {
 		font-size: 60px;
@@ -1383,7 +1392,7 @@ Responsive
 	}
 	.slicknav_nav .slicknav_row.active,
 	.slicknav_nav a.active {
-		color: #fcff18;
+		color: #38386e;
 	}
 	.slicknav_nav a:hover {
 		border-radius: 0;
@@ -1400,7 +1409,7 @@ Responsive
 	}
 	.header-right {
 		float: none;
-		background: #fcff18;
+		background: #38386e;
 		text-align: center;
 	}
 	.header-right .hr-box {

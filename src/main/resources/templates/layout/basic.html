@@ -22,7 +22,12 @@
     <link rel="stylesheet" th:href="@{/css/flaticon.css}"/>
     <link rel="stylesheet" th:href="@{/css/slicknav.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/bootstrap.min.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/font-awesome.css}">
+<!--    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/font-awesome.css}">-->
+
+    <!-- our project just needs Font Awesome Solid + Brands -->
+    <link th:href="@{/assets/fontawesome-free-6.5.1-web/css/fontawesome.css}" rel="stylesheet">
+    <link th:href="@{/assets/fontawesome-free-6.5.1-web/css/brands.css}" rel="stylesheet">
+    <link th:href="@{/assets/fontawesome-free-6.5.1-web/css/solid.css}" rel="stylesheet">
 
     <!-- Main Stylesheets -->
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
@@ -55,18 +60,18 @@
 <!-- ***** Preloader End ***** -->
 <header class="header-section background-header">
     <a href="home.html" class="site-logo">
-        <img th:src="@{/img/logo.png}" alt="">
+        <img th:src="@{/img/thumbnail.png}" alt="">
     </a>
     <ul class="main-menu">
-        <li><a class="active" href="index.html">Home</a></li>
+        <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About Us</a></li>
         <li><a href="classes.html">Classes</a></li>
         <li><a href="blog.html">News</a></li>
         <li><a href="contact.html">Contact</a></li>
         <li class="header-right">
-            <div class="hr-box">
-                <img src="/img/location-icon.png" alt="">
-                <h6>1525  Amazing Lane, Los Angeles, CA</h6>
+            <div class="hr-box" id="joinMember">
+                <i class="fa-solid fa-user"></i>&nbsp;&nbsp;
+                <h6>Member Login</h6>
             </div>
         </li>
     </ul>
@@ -158,14 +163,6 @@
 <th:block layout:fragment="script">
 
 </th:block>
-
-
-
-
-
-
-
-
 
 <!-- jQuery -->
 <script th:src="@{/assets/js/jquery-2.1.0.min.js}"></script>
