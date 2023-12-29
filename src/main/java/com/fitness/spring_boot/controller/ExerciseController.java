@@ -32,12 +32,14 @@ import java.util.UUID;
 public class ExerciseController {
     private final ExerciseFileService exerciseFileService;
     private final ExerciseService exerciseService;
-    @Value("${com.fitness.spring_boot.upload.path}")
-    private String uploadPath;
+    private String uploadPath="";
     @GetMapping("/list")
     public void exercise(){}
     @GetMapping({"/view","/modify"})
-    public void view(Long bno, Model model){}
+    public void view(Long bno, Model model){
+        model.addAttribute("view",exerciseService.getBoard(bno));
+        model.addAttribute("file");
+    }
     @GetMapping("/register")
     public void register(){}
     @GetMapping("/remove")
