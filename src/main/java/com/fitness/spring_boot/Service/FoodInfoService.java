@@ -1,5 +1,9 @@
 package com.fitness.spring_boot.Service;
 
-public interface FoodInfoService {
+import com.fitness.spring_boot.dto.FoodInfoDTO;
 
+import java.util.List;
+
+public interface FoodInfoService {
+    List<FoodInfoDTO> search(String keyword);
 }
