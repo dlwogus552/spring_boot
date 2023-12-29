@@ -2,9 +2,8 @@ package com.fitness.spring_boot.Service;
 
 import com.fitness.spring_boot.domain.Exercise;
 import com.fitness.spring_boot.exercisedto.ExerciseDTO;
-import com.fitness.spring_boot.repository.ExerciseRepository;
+import com.fitness.spring_boot.repository.Exercise.ExerciseRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,7 @@ public class ExerciseServiceImpl implements ExerciseService{
     @Override
     public Long register(ExerciseDTO exerciseDTO) {
         Exercise exercise = modelMapper.map(exerciseDTO, Exercise.class);
-        return exerciseRepository.save(exercise).getId();
+        return exerciseRepository.save(exercise).getEno();
     }
 
     @Override
@@ -28,9 +27,9 @@ public class ExerciseServiceImpl implements ExerciseService{
 
     @Override
     public Long modify(ExerciseDTO exerciseDTO) {
-        Exercise exercise = exerciseRepository.findById(exerciseDTO.getId()).orElseThrow();
-        exercise.change(exerciseDTO.getTitle(), exerciseDTO.getContent(),exerciseDTO.getThumbnail(), exerciseDTO.getVideo(), exerciseDTO.getPart());
-        return exerciseRepository.save(exercise).getId();
+        Exercise exercise = exerciseRepository.findById(exerciseDTO.getEno()).orElseThrow();
+        exercise.change(exerciseDTO.getTitle(), exerciseDTO.getContent(), exerciseDTO.getPart());
+        return exerciseRepository.save(exercise).getEno();
     }
 
     @Override

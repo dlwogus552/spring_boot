@@ -14,11 +14,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ExerciseDTO {
-    private Long id;
+    private Long eno;
     private String title;
     private String content;
-    private String thumbnail;
-    private String video;
     private String part;
     private LocalDateTime regDate;
     private int visitcount;
