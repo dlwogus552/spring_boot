@@ -18,16 +18,11 @@ import java.time.LocalDateTime;
 public class Exercise {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "eno")
-    private Long id;
+    private Long eno;
     @Column(length = 45)
     private String title;
     @Lob
     private String content;
-    @Column(length = 200)
-    private String thumbnail;
-    @Column(length = 200)
-    private String video;
     private String part;
     @CreatedDate
     @Column(name = "regdate", updatable = false)
@@ -37,11 +32,9 @@ public class Exercise {
     public void updateVisitcount(){
         this.visitcount+=1;
     }
-    public void change(String title, String content, String thumbnail, String video, String part){
+    public void change(String title, String content, String part){
         this.title=title;
         this.content=content;
-        this.thumbnail=thumbnail;
-        this.video=video;
         this.part=part;
     }
 }
