@@ -1,11 +1,9 @@
-package com.fitness.spring_boot.exercisedto;
+package com.fitness.spring_boot.dto;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;

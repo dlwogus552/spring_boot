@@ -1,7 +1,7 @@
 package com.fitness.spring_boot.Service;
 
 import com.fitness.spring_boot.domain.Exercise;
-import com.fitness.spring_boot.exercisedto.ExerciseDTO;
+import com.fitness.spring_boot.dto.ExerciseDTO;
 import com.fitness.spring_boot.repository.Exercise.ExerciseRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
