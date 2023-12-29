@@ -31,7 +31,7 @@ public class SecurityConfig{
                         .requestMatchers("/","/member/**","/sinup").permitAll()
                         .requestMatchers("/assets/**", "/img/**").permitAll()
                         .requestMatchers("/copy").permitAll() // 테스트를 위한 것
-                        .requestMatchers("/admin/**").hasAuthority("ADMIN")
+                        .requestMatchers("/admin/**").hasAuthority("관리자")
                         .requestMatchers("/VIP/**").hasAuthority("VIP")
                         .anyRequest().authenticated()
                     )      //인증별 권한 설정
