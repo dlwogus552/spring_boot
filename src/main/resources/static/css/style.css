@@ -472,6 +472,7 @@ Header section
 .main-menu li a.active,
 .main-menu li a:hover {
 	background: #38386e;
+	color: #eeeeee;
 }
 
 .header-right {
