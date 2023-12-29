@@ -31,7 +31,7 @@ public class SecurityConfig{
                         .requestMatchers("/","/member/**","/sinup").permitAll()
                         .requestMatchers("/assets/**", "/img/**").permitAll()
                         .requestMatchers("/copy").permitAll() // 테스트를 위한 것
-                        .requestMatchers("/foodInfo/**").permitAll() // 영양정보 부분
+                        .requestMatchers("/foodInfo","/foodInfo/**").permitAll() // 영양정보 부분
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/VIP/**").hasAuthority("VIP")
                         .anyRequest().authenticated()

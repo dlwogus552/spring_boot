@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{/layout/basic.html}"
+	  lang="en">
+<div layout:fragment="title">
+	<!-- Page top section -->
+	<section class="page-top-section set-bg" data-setbg="/img/header-bg/5.jpg">
+		<div class="container">
+			<h2>영양정보</h2>
+		</div>
+	</section>
+	<!-- Page top section end -->
+</div>
+<div layout:fragment="content">
+	<section class="elements-section">
+		<div class="container">
+			<div class="element">
+				<h2 class="el-title">음식 검색</h2>
+				<div class="d-flex">
+					<input type="text" class="form-control form-control-lg mr-3">
+					<button type="button" class="btn set-bg-color btn-lg pl-5 pr-5"><i class="fa-solid fa-magnifying-glass"></i></button>
+				</div>
+			</div>
+			<div class="element" id="foodSearchResultCon">
+				<h2 class="el-title">검색 결과</h2>
+				<div id="foodSearchResult">
+					<!-- 검색 결과가 들어가는 자리 -->
+					<input type="checkbox" class="form-check-input">
+				</div>
+				<button type="button"></button>
+			</div>
+			<div class="element">
+				<h2 class="el-title">Loaders</h2>
+				<div class="row">
+					<div class="col-lg-3 col-sm-6">
+						<div class="circle-progress" data-cptitle="Happy Clients" data-cpid="id-1" data-cpvalue="50" data-cpcolor="#fcff18"></div>
+					</div>
+					<div class="col-lg-3 col-sm-6">
+						<div class="circle-progress" data-cptitle="Fatt Lost" data-cpid="id-2" data-cpvalue="75" data-cpcolor="#fcff18"></div>
+					</div>
+					<div class="col-lg-3 col-sm-6">
+						<div class="circle-progress" data-cptitle="Work" data-cpid="id-3" data-cpvalue="100" data-cpcolor="#fcff18"></div>
+					</div>
+					<div class="col-lg-3 col-sm-6">
+						<div class="circle-progress" data-cptitle="Energy" data-cpid="id-4" data-cpvalue="25" data-cpcolor="#fcff18"></div>
+					</div>
+				</div>
+			</div>
+			<div class="element">
+				<h2 class="el-title">Milestones</h2>
+				<div class="row">
+					<div class="col-lg-3 col-sm-6">
+						<div class="milestone">
+							<h2>1374</h2>
+							<p>Happy Clients</p>
+						</div>
+					</div>
+					<div class="col-lg-3 col-sm-6">
+						<div class="milestone">
+							<h2>356</h2>
+							<p>Strong Bodies</p>
+						</div>
+					</div>
+					<div class="col-lg-3 col-sm-6">
+						<div class="milestone">
+							<h2>57k</h2>
+							<p>IG Followers</p>
+						</div>
+					</div>
+					<div class="col-lg-3 col-sm-6">
+						<div class="milestone">
+							<h2>24/7</h2>
+							<p>Working Hours</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="element">
+				<h2 class="el-title">Icon Boxes</h2>
+				<div class="row">
+					<div class="col-lg-4">
+						<div class="icon-box-item">
+							<div class="ib-icon">
+								<i class="flaticon-004-dumbbell"></i>
+							</div>
+							<h4>Intense Workouts</h4>
+							<p>Donec nec sapien in urna fermentum ornare. Morbi vel ultrices leo. Sed eu turpis eu arcu vehicula fringilla ut vitae orci. </p>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="icon-box-item">
+							<div class="ib-icon">
+								<i class="flaticon-031-app-1"></i>
+							</div>
+							<h4>Intense Workouts</h4>
+							<p>Donec nec sapien in urna fermentum ornare. Morbi vel ultrices leo. Sed eu turpis eu arcu vehicula fringilla ut vitae orci. </p>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="icon-box-item">
+							<div class="ib-icon">
+								<i class="flaticon-010-podium"></i>
+							</div>
+							<h4>Intense Workouts</h4>
+							<p>Donec nec sapien in urna fermentum ornare. Morbi vel ultrices leo. Sed eu turpis eu arcu vehicula fringilla ut vitae orci. </p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Elements section end -->
+</div>

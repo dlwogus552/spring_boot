@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/foodInfo")
 public class foodInfoController {
-    @GetMapping("/")
-    public String mainView() {
-        return "foodInfo";
+    @GetMapping("/info")
+    public void mainView() {
     }
 }

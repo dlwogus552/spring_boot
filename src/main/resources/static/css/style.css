@@ -5,7 +5,14 @@
  ------------------------------------
  ====================================*/
 
- 
+
+/* custom */
+.set-bg-color {
+	background-color: #38386e;
+	color: #eeeeee;
+}
+
+
 /*----------------------------------------*/
 /* Template default CSS
 /*----------------------------------------*/
@@ -151,7 +158,7 @@ Commom elements
 }
 
 .element .el-title {
-	margin-bottom: 75px;
+	margin-bottom: 40px;
 }
 
 /* buttons */
