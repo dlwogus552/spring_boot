@@ -22,13 +22,16 @@
     <link rel="stylesheet" th:href="@{/css/flaticon.css}"/>
     <link rel="stylesheet" th:href="@{/css/slicknav.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/bootstrap.min.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/font-awesome.css}">
+<!--    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/font-awesome.css}">-->
+
+    <!-- our project just needs Font Awesome Solid + Brands -->
+    <link th:href="@{/assets/fontawesome-free-6.5.1-web/css/fontawesome.css}" rel="stylesheet">
+    <link th:href="@{/assets/fontawesome-free-6.5.1-web/css/brands.css}" rel="stylesheet">
+    <link th:href="@{/assets/fontawesome-free-6.5.1-web/css/solid.css}" rel="stylesheet">
 
     <!-- Main Stylesheets -->
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
     <link rel="stylesheet" th:href="@{/assets/css/templatemo-training-studio.css}">
-
-
 
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -43,7 +46,7 @@
     <div class="loader"></div>
 </div>
 
-<!-- ***** Preloader Start ***** -->
+<!--***** Preloader Start *****-->
 <div id="js-preloader" class="js-preloader">
     <div class="preloader-inner">
         <span class="dot"></span>
@@ -55,35 +58,34 @@
     </div>
 </div>
 <!-- ***** Preloader End ***** -->
-<header class="header-section">
+<header class="header-section background-header">
     <a href="home.html" class="site-logo">
-        <img src="/img/logo.png" alt="">
+        <img th:src="@{/img/thumbnail.png}" alt="">
     </a>
     <ul class="main-menu">
-        <li><a class="active" href="index.html">Home</a></li>
+        <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About Us</a></li>
         <li><a href="classes.html">Classes</a></li>
         <li><a href="blog.html">News</a></li>
         <li><a href="contact.html">Contact</a></li>
         <li class="header-right">
-            <div class="hr-box">
-                <img src="img/location-icon.png" alt="">
-                <h6>1525  Amazing Lane, Los Angeles, CA</h6>
+            <div class="hr-box" id="joinMember">
+                <i class="fa-solid fa-user"></i>&nbsp;&nbsp;
+                <h6>Member Login</h6>
             </div>
         </li>
     </ul>
 </header>
+<div class="clearfix"></div>
 <!-- ***** Header Area End ***** -->
 
-
 <!-- ***** Main Banner Area Start ***** -->
+<div layout:fragment="title"></div>
 <section class="section">
-    <div layout:fragment="title"></div>
     <div class="container" layout:fragment="content">
     </div>
 </section>
 <!-- ***** Main Banner Area End ***** -->
-
 
 <!-- Footer section -->
 <footer class="footer-section set-bg" data-setbg="/img/footer-bg.jpg">
@@ -93,7 +95,7 @@
                 <div class="footer-widget">
                     <h4>Location</h4>
                     <div class="fw-info-box">
-                        <img src="img/icons/1.png" alt="">
+                        <img src="/img/icons/1.png" alt="">
                         <div class="fw-info-text">
                             <p>1525  Awesome Lane, Los Angeles, CA</p>
                         </div>
@@ -104,7 +106,7 @@
                 <div class="footer-widget">
                     <h4>Subscriptions</h4>
                     <div class="fw-info-box">
-                        <img src="img/icons/2.png" alt="">
+                        <img src="/img/icons/2.png" alt="">
                         <div class="fw-info-text">
                             <p>+1 (603)535-4592</p>
                             <p>+1 (603)535-4556</p>
@@ -116,7 +118,7 @@
                 <div class="footer-widget">
                     <h4>E-mail</h4>
                     <div class="fw-info-box">
-                        <img src="img/icons/3.png" alt="">
+                        <img src="/img/icons/3.png" alt="">
                         <div class="fw-info-text">
                             <p>Contact@xgym.com</p>
                             <p>www.xgym.com</p>
@@ -128,7 +130,7 @@
                 <div class="footer-widget">
                     <h4>Social Media</h4>
                     <div class="fw-info-box">
-                        <img src="img/icons/4.png" alt="">
+                        <img src="/img/icons/4.png" alt="">
                         <div class="social-links">
                             <a href="#"><i class="fa fa-pinterest"></i></a>
                             <a href="#"><i class="fa fa-facebook"></i></a>
@@ -161,14 +163,6 @@
 <th:block layout:fragment="script">
 
 </th:block>
-
-
-
-
-
-
-
-
 
 <!-- jQuery -->
 <script th:src="@{/assets/js/jquery-2.1.0.min.js}"></script>

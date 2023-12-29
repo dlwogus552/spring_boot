@@ -25,6 +25,9 @@ $(window).on('load', function() {
         appendTo: '.header-section',
         allowParentLinks: true
     });
+	$("#joinMember").click(function () {
+		location.href="/member/login";
+	});
 
 	/*------------------
 		Background Set
