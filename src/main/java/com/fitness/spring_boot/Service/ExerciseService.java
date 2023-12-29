@@ -1,7 +1,7 @@
 package com.fitness.spring_boot.Service;
 
 import com.fitness.spring_boot.domain.Exercise;
-import com.fitness.spring_boot.exercisedto.ExerciseDTO;
+import com.fitness.spring_boot.dto.ExerciseDTO;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;

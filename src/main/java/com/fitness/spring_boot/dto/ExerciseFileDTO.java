@@ -1,7 +1,6 @@
-package com.fitness.spring_boot.exercisedto;
+package com.fitness.spring_boot.dto;
 
 import com.fitness.spring_boot.domain.Exercise;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
