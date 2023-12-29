@@ -17,7 +17,7 @@ public class ExerciseFile {
     private Long efno;
     private String uuid;
     private String filename;
-    private boolean video;
+    private boolean image;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="eno")
     private Exercise exercise;

@@ -33,14 +33,13 @@ public class ExerciseServiceImpl implements ExerciseService{
     }
 
     @Override
-    public void remove(Long id) {
-        exerciseRepository.deleteById(id);
+    public void remove(Long eno) {
+        exerciseRepository.deleteById(eno);
     }
 
     @Override
-    public ExerciseDTO getBoard(Long id) {
-        Exercise result = exerciseRepository.findById(id).orElseThrow();
-        ExerciseDTO exerciseDTO = modelMapper.map(result,ExerciseDTO.class);
-        return exerciseDTO;
+    public Exercise getBoard(Long eno) {
+        Exercise result = exerciseRepository.findById(eno).orElseThrow();
+        return result;
     }
 }

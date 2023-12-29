@@ -10,6 +10,6 @@ public interface ExerciseService {
     Long register(ExerciseDTO exerciseDTO);
     List<ExerciseDTO> getList(Pageable pageable);
     Long modify(ExerciseDTO exerciseDTO);
-    void remove(Long bno);
-    ExerciseDTO getBoard(Long bno);
+    void remove(Long eno);
+    Exercise getBoard(Long eno);
 }
