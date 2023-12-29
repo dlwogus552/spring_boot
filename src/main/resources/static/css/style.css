@@ -11,6 +11,22 @@
 	background-color: #38386e;
 	color: #eeeeee;
 }
+#foodSearchResult {
+	height: 30vh;
+	width: 75vw;
+}
+#foodSearchResult table {
+	border-spacing: 0;
+	border-collapse: separate;
+	width: 85vw;
+	overflow-x: hidden;
+}
+#foodSearchResult table thead tr th {
+	background-color: #fff !important;
+	position: sticky;
+	top: 0;
+}
+
 
 
 /*----------------------------------------*/
