@@ -60,4 +60,5 @@ public class ExerciseServiceImpl implements ExerciseService{
         ExerciseDTO exerciseDTO = modelMapper.map(result, ExerciseDTO.class);
         return exerciseDTO;
     }
+
 }

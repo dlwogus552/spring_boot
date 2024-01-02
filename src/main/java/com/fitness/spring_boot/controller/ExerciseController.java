@@ -7,6 +7,7 @@ import com.fitness.spring_boot.domain.ExerciseFile;
 import com.fitness.spring_boot.dto.ExerciseDTO;
 import com.fitness.spring_boot.dto.ExerciseFileDTO;
 import com.fitness.spring_boot.dto.ExercisePageRequestDTO;
+import com.fitness.spring_boot.dto.ExercisePageResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import net.coobird.thumbnailator.Thumbnailator;
@@ -42,12 +43,9 @@ public class ExerciseController {
 
     @GetMapping("/list")
     public void list(ExercisePageRequestDTO exercisePageRequestDTO,Pageable pageable, Model model) {
-//        List<ExerciseDTO> dtoList=exerciseService.getList(pageable);
-//        model.addAttribute("dtoList",dtoList);
-//        PageResponseDTO<BoardDTO> responseDTO = service.listDsl(pageRequestDTO);
-//        PageResponseDTO<BoardListReplyCountDTO> responseDTO = service.listWidReplyCount(exercisePageRequestDTO);
-//        log.info(responseDTO);
-//        model.addAttribute("responseDTO", responseDTO);
+        ExercisePageResponseDTO<ExerciseDTO> responseDTO=exerciseService.getList(exercisePageRequestDTO);
+        log.info(responseDTO);
+        model.addAttribute("responseDTO",responseDTO);
 
     }
     @GetMapping({"/view","/modify"})
@@ -66,10 +64,10 @@ public class ExerciseController {
     public String upload(ExerciseDTO exerciseDTO, Model model){
         if(exerciseDTO.getFiles()!=null){
         // 글 작성
-        log.info(exerciseDTO);
-        Long eno = exerciseService.register(exerciseDTO);
+            log.info(exerciseDTO);
+            Long eno = exerciseService.register(exerciseDTO);
         //파일 업로드
-        int i = 0;
+            int i = 0;
             List<ExerciseFileDTO> list = new ArrayList<>();
 
             for (MultipartFile file : exerciseDTO.getFiles()) {

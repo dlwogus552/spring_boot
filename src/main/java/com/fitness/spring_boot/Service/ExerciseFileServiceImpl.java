@@ -13,7 +13,7 @@ public class ExerciseFileServiceImpl implements ExerciseFileService{
     private final ExerciseFileUploadRepository exerciseFileUploadRepository;
 
     @Override
-    public List<ExerciseFileDTO> getList(Long bno) {
+    public List<ExerciseFileDTO> getList(Long eno) {
         return null;
     }
 
@@ -36,4 +36,6 @@ public class ExerciseFileServiceImpl implements ExerciseFileService{
     public void deleteAll(Long bno) {
 
     }
+
+
 }
