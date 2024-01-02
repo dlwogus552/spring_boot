@@ -26,12 +26,11 @@
 <!--                    </form>-->
                 </div>
             </div>
-            <div class="element d-flex flex-column align-items-center" id="foodSearchResultCon" style="display: none">
+            <div class="element d-flex flex-column align-items-center" id="foodSearchResultCon" style="display: none !important;">
                 <h2 class="el-title text-center">검색 결과</h2>
-                <div id="foodSearchResult" class="d-flex justify-content-center">
-
+                <div id="foodSearchResult" class="d-flex justify-content-center table-wrapper-scroll-y my-custom-scrollbar">
                 </div>
-                <button type="button"></button>
+                <button type="button" class="btn set-bg-color mt-3">칼로리 계산하기</button>
             </div>
         </div>
     </section>
@@ -58,8 +57,11 @@
             console.log("성공")
             console.log("resp : " + resp)
             foodSearchResultCon.show();
-            str += `<table class="table table-bordered text-center table-responsive">
-                        <thead>
+            if(Object.keys(resp).length === 0) {
+                str += ``;
+            } else {
+                str += `<table id="dtVerticalScrollExample" class="table table-bordered table-sm text-center">
+                        <thead class="text-center"
                         <tr>
                             <th style="width: 7%">#</th>
                             <th style="width: 33%">식품명</th>
@@ -67,29 +69,46 @@
                             <th style="width: 15%">단백질</th>
                             <th style="width: 15%">지방</th>
                             <th style="width: 15%">탄수화물</th>
+<!--                            <th>#</th>-->
+<!--                            <th>식품명</th>-->
+<!--                            <th>칼로리</th>-->
+<!--                            <th>단백질</th>-->
+<!--                            <th>지방</th>-->
+<!--                            <th>탄수화물</th>-->
                         </tr>
                         </thead><tbody><form action="/foodInfo/select" method="post">`
-            $.each(resp, function (key, val) {
-                console.log(key)
-                console.log(val)
-                str += `<tr>
+                $.each(resp, function (key, val) {
+                    console.log(key)
+                    console.log(val)
+                    str += `<tr>
                             <td class="d-flex align-items-center justify-content-center">
                                 <input type="checkbox"
                                  class="form-check-input position-static m-0"
                                  style="zoom: 2.0; margin-top: 3px"
-                                 name="foodSelect" value="`+val.fno+`">
+                                 name="foodSelect" value="` + val.fno + `">
                             </td>
-                            <td>`+val.fname+`</td>
-                            <td>`+val.kcal+`</td>
-                            <td>`+val.protein+`</td>
-                            <td>`+val.province+`</td>
-                            <td>`+val.carbohydrate+`</td>
+                            <td>` + val.fname + `</td>
+                            <td>` + val.kcal + `</td>
+                            <td>` + val.protein + `</td>
+                            <td>` + val.province + `</td>
+                            <td>` + val.carbohydrate + `</td>
                         </tr> `
-            });
-            str += `</form></tbody></table>`
-            foodSearchResult.html(str);
+                });
+                str += `</form></tbody></table>
+                   <div class="ps__rail-y" style="height: 200px; right: 0px; top: 0px;">
+                         <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 101px;"></div>
+                   </div>`
+            }
+                foodSearchResult.html(str);
         }).fail(function () {
             console.log("실패")
         })
     })
+    // $(document).ready(function () {
+    //     $('#dtVerticalScrollExample').DataTable({
+    //         "scrollY": "200px",
+    //         "scrollCollapse": true,
+    //     });
+    //     $('.dataTables_length').addClass('bs-select');
+    // });
 </script>
