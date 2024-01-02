@@ -14,8 +14,8 @@ import java.util.List;
 
 public class ExerciseSearchImpl extends QuerydslRepositorySupport implements ExerciseSearch{
 
-    public ExerciseSearchImpl(Class<?> domainClass) {
-        super(domainClass);
+    public ExerciseSearchImpl() {
+        super(Exercise.class);
     }
 
     @Override
