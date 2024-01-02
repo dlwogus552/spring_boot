@@ -18,19 +18,57 @@
             <div class="element d-flex flex-column align-items-center">
                 <h2 class="el-title">음식 검색</h2>
                 <div class="d-flex w-75 justify-content-center">
-<!--                    <form action="/foodInfo/info" method="get">-->
-                        <input type="text" id="foodKeyword" class="form-control form-control-lg mr-3">
-                        <button type="submit" id="foodSearchSubmit" class="btn set-bg-color btn-lg pl-5 pr-5">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                        </button>
-<!--                    </form>-->
+                    <!--                    <form action="/foodInfo/info" method="get">-->
+                    <input type="text" id="foodKeyword" class="form-control form-control-lg mr-3">
+                    <button type="submit" id="foodSearchSubmit" class="btn set-bg-color btn-lg pl-5 pr-5">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                    <!--                    </form>-->
                 </div>
             </div>
-            <div class="element d-flex flex-column align-items-center" id="foodSearchResultCon" style="display: none !important;">
+            <div class="element d-flex flex-column align-items-center" id="foodSearchResultCon"
+                 style="display: none !important;">
                 <h2 class="el-title text-center">검색 결과</h2>
-                <div id="foodSearchResult" class="d-flex justify-content-center table-wrapper-scroll-y my-custom-scrollbar">
+                <!-- 검색결과 -->
+                <div id="foodSearchResult"
+                     class="d-flex justify-content-center table-wrapper-scroll-y my-custom-scrollbar"></div>
+                <button type="button" class="btn set-bg-color mt-3" id="kcalCalculateBtn">선택하기</button>
+                <div id="kcalCalculateResultCon" style="display: none !important;">
+                    <h2 class="el-title">칼로리 계산</h2>
+                    <!-- 칼로리 계산 -->
+                    <div id="kcalCalculateResult"
+                         class="d-flex justify-content-center table-wrapper-scroll-y my-custom-scrollbar">
+                        <table class="table table-bordered table-sm text-center mb-0">
+                            <thead class="text-center">
+                            <tr>
+                                <th style="width: 7%">#</th>
+                                <th style="width: 31%">식품명</th>
+                                <th style="width: 13%">칼로리</th>
+                                <th style="width: 13%">단백질(g)</th>
+                                <th style="width: 13%">지방(g)</th>
+                                <th style="width: 13%">탄수화물(g)</th>
+                                <th style="width: 10%"></th>
+                            </tr>
+                            </thead>
+                            <tbody id="kcalCalculateResultTBody">
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th></th>
+                                    <th>계산결과</th>
+                                    <th id="kcal">칼로리</th>
+                                    <th id="protein">단백질</th>
+                                    <th id="province">지방</th>
+                                    <th id="carbohydrate">탄수화물</th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div class="ps__rail-y" style="height: 200px; right: 0px; top: 0px;">
+                            <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 101px;"></div>
+                        </div>
+                    </div>
                 </div>
-                <button type="button" class="btn set-bg-color mt-3">칼로리 계산하기</button>
             </div>
         </div>
     </section>
@@ -40,46 +78,42 @@
 <script layout:fragment="script" th:inline="javascript">
     const foodSearchResultCon = $("#foodSearchResultCon")
     const foodSearchResult = $("#foodSearchResult")
+    const kcalCalculateResultCon = $("#kcalCalculateResultCon")
+    const kcalCalculateResult = $("#kcalCalculateResult")
     console.log("여기 들어왔음");
-    $("#foodSearchSubmit").click( function (e) {
+    $("#foodSearchSubmit").click(function (e) {
         var str = "";
         e.preventDefault();
-        const data = {keyword:$("#foodKeyword").val()};
+        const data = {keyword: $("#foodKeyword").val()};
         console.log("keyword : " + data.keyword)
         $.ajax({
-            url:"/foodInfo/info/"+data.keyword,
-            type:"GET",
-            dataType:"JSON", // 받는 타입
-            data:data.keyword
+            url: "/foodInfo/info/" + data.keyword,
+            type: "GET",
+            dataType: "JSON", // 받는 타입
+            data: data.keyword
             // contentType:"application/json",
             // data : JSON.stringify(data),
         }).done(function (resp) {
             console.log("성공")
             console.log("resp : " + resp)
             foodSearchResultCon.show();
-            if(Object.keys(resp).length === 0) {
-                str += ``;
-            } else {
-                str += `<table id="dtVerticalScrollExample" class="table table-bordered table-sm text-center">
+            str += `<table class="table table-bordered table-sm text-center mb-0">
                         <thead class="text-center"
                         <tr>
                             <th style="width: 7%">#</th>
                             <th style="width: 33%">식품명</th>
                             <th style="width: 15%">칼로리</th>
-                            <th style="width: 15%">단백질</th>
-                            <th style="width: 15%">지방</th>
-                            <th style="width: 15%">탄수화물</th>
-<!--                            <th>#</th>-->
-<!--                            <th>식품명</th>-->
-<!--                            <th>칼로리</th>-->
-<!--                            <th>단백질</th>-->
-<!--                            <th>지방</th>-->
-<!--                            <th>탄수화물</th>-->
+                            <th style="width: 15%">단백질(g)</th>
+                            <th style="width: 15%">지방(g)</th>
+                            <th style="width: 15%">탄수화물(g)</th>
                         </tr>
-                        </thead><tbody><form action="/foodInfo/select" method="post">`
+                        </thead><tbody>`
+            if (Object.keys(resp).length === 0) {
+                str += `<tr><th colspan="6">== 검색결과가 없습니다 ==</th></tr>`;
+            } else {
                 $.each(resp, function (key, val) {
-                    console.log(key)
-                    console.log(val)
+                    // console.log(key)
+                    // console.log(val)
                     str += `<tr>
                             <td class="d-flex align-items-center justify-content-center">
                                 <input type="checkbox"
@@ -94,21 +128,76 @@
                             <td>` + val.carbohydrate + `</td>
                         </tr> `
                 });
-                str += `</form></tbody></table>
+            }
+            str += `</tbody></table>
                    <div class="ps__rail-y" style="height: 200px; right: 0px; top: 0px;">
                          <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 101px;"></div>
                    </div>`
-            }
-                foodSearchResult.html(str);
+            foodSearchResult.html(str);
         }).fail(function () {
             console.log("실패")
         })
     })
-    // $(document).ready(function () {
-    //     $('#dtVerticalScrollExample').DataTable({
-    //         "scrollY": "200px",
-    //         "scrollCollapse": true,
-    //     });
-    //     $('.dataTables_length').addClass('bs-select');
-    // });
+    // 칼로리 계산하기
+    $("#kcalCalculateBtn").click(function (e) {
+        var str = "";
+        e.preventDefault();
+        // 선택된 목록 가져오기
+        const query = 'input[name="foodSelect"]:checked';
+        const selectedEls = document.querySelectorAll(query);
+        // 선택된 목록에서 value 찾기
+        let result = [];
+        selectedEls.forEach((el) => {
+            result.push(el.value);
+        });
+        const kcalCalculateResultTBody = $("#kcalCalculateResultTBody")
+        console.log(result)
+        var kcal = 0, protein = 0, province = 0, carbohydrate = 0;
+        $.ajax({
+            url: "/foodInfo/foodSelect",
+            type: "POST",
+            dataType: "JSON", // 받는 타입
+            data: {fnoList: result}
+        }).done(function (resp) {
+            console.log("성공")
+            console.log("foodselect부분 : " + resp);
+            kcalCalculateResultCon.show();
+            if (Object.keys(resp).length === 0) {
+                str += `<tr><th colspan="6">== 검색결과가 없습니다 ==</th></tr>`;
+            } else {
+                $.each(resp, function (key, val) {
+                    // console.log(key)
+                    // console.log(val)
+                    str += `<tr>
+                                <td class="d-flex align-items-center justify-content-center h-100">
+                                    <input type="checkbox"
+                                    class="form-check-input position-static m-0"
+                                    style="zoom: 2.0; margin-top: 3px"
+                                    name="kcalCalcSelect" value="` + val.fno + `">
+                                </td>
+                                <td>` + val.fname + `</td>
+                                <td>` + val.kcal + `</td>
+                                <td>` + val.protein + `</td>
+                                <td>` + val.province + `</td>
+                                <td>` + val.carbohydrate + `</td>
+                                <td class="d-flex align-items-center justify-content-center p-0">
+                                    <button type="button" class="btn btn-danger btn-sm w-100">
+                                        삭제하기
+                                    </button></td>
+                            </tr> `
+                    kcal += val.kcal;
+                    protein += val.protein;
+                    province += val.province;
+                    carbohydrate += val.carbohydrate;
+                });
+            }
+            kcalCalculateResultTBody.html(str);
+            $("#kcal").html(kcal);
+            $("#protein").html(protein);
+            $("#province").html(province);
+            $("#carbohydrate").html(carbohydrate);
+        }).fail(function () {
+            console.log("실패")
+        })
+    })
 </script>

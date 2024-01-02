@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +22,15 @@ public class FoodInfoServiceImpl implements FoodInfoService{
         List<FoodTable> result = repository.findFoodTableByFnameContaining(keyword);
         List<FoodInfoDTO> list = result.stream()
                 .map(foodInfo->modelMapper.map(foodInfo, FoodInfoDTO.class))
+                .toList();
+        return list;
+    }
+
+    @Override
+    public List<FoodInfoDTO> foodSelect(ArrayList<String> fnoList) {
+        List<FoodTable> result = repository.findFoodTableByFnoIn(fnoList);
+        List<FoodInfoDTO> list = result.stream()
+                .map(foodInfo -> modelMapper.map(foodInfo, FoodInfoDTO.class))
                 .toList();
         return list;
     }
