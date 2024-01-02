@@ -28,8 +28,9 @@ public class SecurityConfig{
                 .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.disable())
                 .authorizeHttpRequests(authorizeHttpRequsetConfigurer -> authorizeHttpRequsetConfigurer
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers("/","/member/**","/sinup").permitAll()
+                        .requestMatchers("/","/member/**","/sinup","/index").permitAll()
                         .requestMatchers("/assets/**", "/img/**").permitAll()
+                        .requestMatchers("/**").permitAll()
                         .requestMatchers("/copy").permitAll() // 테스트를 위한 것
                         .requestMatchers("/admin/**").hasAuthority("관리자")
                         .requestMatchers("/VIP/**").hasAuthority("VIP")

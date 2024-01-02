@@ -14,25 +14,26 @@ import java.util.List;
 
 public class ExerciseSearchImpl extends QuerydslRepositorySupport implements ExerciseSearch{
 
-    public ExerciseSearchImpl(Class<?> domainClass) {
-        super(domainClass);
+    public ExerciseSearchImpl() {
+        super(Exercise.class);
     }
 
     @Override
     public Page<Exercise> searchAll(String type, String keyword, Pageable pageable) {
-        QExercise exercise=QExercise.exercise;
-        JPQLQuery<Exercise> query = this.from(exercise);
-
-        if(type !=null && keyword!=null){
-            BooleanBuilder booleanBuilder = new BooleanBuilder();
-            booleanBuilder.or(exercise.title.contains(keyword));
-            booleanBuilder.or(exercise.part.contains(type));
-            query.where(new Predicate[]{booleanBuilder});
-        }//end if
-        query.where(exercise.eno.gt(0L));
-        this.getQuerydsl().applyPagination(pageable,query);
-        List<Exercise> list = query.fetch();
-        Long count = query.fetchCount();
-        return new PageImpl<>(list,pageable,count);
+//        QExercise exercise=QExercise.exercise;
+//        JPQLQuery<Exercise> query = this.from(exercise);
+//
+//        if(type !=null && keyword!=null){
+//            BooleanBuilder booleanBuilder = new BooleanBuilder();
+//            booleanBuilder.or(exercise.title.contains(keyword));
+//            booleanBuilder.or(exercise.part.contains(type));
+//            query.where(new Predicate[]{booleanBuilder});
+//        }//end if
+//        query.where(exercise.eno.gt(0L));
+//        this.getQuerydsl().applyPagination(pageable,query);
+//        List<Exercise> list = query.fetch();
+//        Long count = query.fetchCount();
+//        return new PageImpl<>(list,pageable,count);
+        return null;
     }
 }
