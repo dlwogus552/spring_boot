@@ -6,8 +6,8 @@ import com.fitness.spring_boot.dto.ExerciseFileDTO;
 import java.util.List;
 
 public interface ExerciseFileService {
-    List<ExerciseFileDTO> getList(Long bno);
-    ExerciseFileDTO getFile(Long fno);
+    List<ExerciseFileDTO> getList(Long eno);
+    ExerciseFileDTO getFile(Long efno);
     void delete(Long fno);
     Long upload(ExerciseFile file);
     void deleteAll(Long bno);
