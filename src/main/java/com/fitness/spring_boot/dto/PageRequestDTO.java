@@ -15,7 +15,7 @@ import java.net.URLEncoder;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExercisePageRequestDTO {
+public class PageRequestDTO {
     @Builder.Default
     private int page=1;
     @Builder.Default
@@ -49,4 +49,5 @@ public class ExercisePageRequestDTO {
         }
         return link;
     }
+
 }
