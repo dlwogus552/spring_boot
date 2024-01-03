@@ -31,7 +31,7 @@
 	background-color: #212141;
 	color: #eeeeee;
 }
-#foodSearchResult, #kcalCalculateResult {
+#foodSearchResultCon > div:nth-child(2), #kcalCalculateResult {
 	width: 75vw;
 	border: 1px solid #dee2e6;
 }
@@ -46,6 +46,11 @@
 	background-color: #fff !important;
 	position: sticky;
 	top: 0;
+}
+#kcalCalculateResult table tfoot tr th{
+	background-color: #fff !important;
+	position: sticky;
+	bottom: 0;
 }
 table.dataTable thead .sorting:after,
 table.dataTable thead .sorting:before,
