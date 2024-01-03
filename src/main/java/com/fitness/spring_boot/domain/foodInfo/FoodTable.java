@@ -1,4 +1,4 @@
-package com.fitness.spring_boot.domain;
+package com.fitness.spring_boot.domain.foodInfo;
 
 import jakarta.persistence.*;
 import lombok.*;

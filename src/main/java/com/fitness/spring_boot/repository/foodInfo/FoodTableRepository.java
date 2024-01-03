@@ -1,6 +1,6 @@
-package com.fitness.spring_boot.repository;
+package com.fitness.spring_boot.repository.foodInfo;
 
-import com.fitness.spring_boot.domain.FoodTable;
+import com.fitness.spring_boot.domain.foodInfo.FoodTable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.ArrayList;
