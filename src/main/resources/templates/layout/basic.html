@@ -80,7 +80,7 @@
         <li><a href="classes.html">Classes</a></li>
         <li><a href="blog.html">News</a></li>
         <li><a href="contact.html">Contact</a></li>
-        <li sec:authorize="isAuthenticated()"><a href="">My Page</a></li>
+        <li sec:authorize="isAuthenticated()"><a href="/member/mypage" >My Page</a></li>
 <!--        <li sec:authorize="hasAnyAuthority('관리자')"><a href="">ADMIN</a></li>-->
         <li class="header-right" sec:authorize="!isAuthenticated()">
             <div class="hr-box" id="joinMember">

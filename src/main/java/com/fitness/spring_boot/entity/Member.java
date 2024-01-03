@@ -23,12 +23,12 @@ public class Member {
     private String mname;
 
     @Column(nullable = false, unique = true)
-    private String id;
+    private String mId;
 
     @Column(nullable = false)
     private String pass;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String phone;
 
     @Column(nullable = false)
@@ -36,19 +36,21 @@ public class Member {
 
     @Column(nullable = false)
     private int age;
-//    @Column(nullable = false)
-//    private String grade;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private String regDate;
 
+    @Column(nullable = true)
     private String endDate;
 
+    @Column(nullable = true)
     private int cnum;
 
     private String role;
+
+
 
 //    @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
 //    List<BoardEntity> boardEntityList = new ArrayList<>();
