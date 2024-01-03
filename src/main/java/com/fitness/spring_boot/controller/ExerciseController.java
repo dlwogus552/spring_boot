@@ -13,11 +13,17 @@ import lombok.extern.log4j.Log4j2;
 import net.coobird.thumbnailator.Thumbnailator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,16 +48,20 @@ public class ExerciseController {
     private final ModelMapper modelMapper;
 
     @GetMapping("/list")
-    public void list(ExercisePageRequestDTO exercisePageRequestDTO,Pageable pageable, Model model) {
+    public void list(ExercisePageRequestDTO exercisePageRequestDTO, Model model, ExerciseFileDTO exerciseFileDTO) {
         ExercisePageResponseDTO<ExerciseDTO> responseDTO=exerciseService.getList(exercisePageRequestDTO);
+        List<ExerciseFileDTO> fileDTOList = exerciseFileService.getList();
         log.info(responseDTO);
+        log.info("file"+fileDTOList);
         model.addAttribute("responseDTO",responseDTO);
+        model.addAttribute("fileDTOList",fileDTOList);
+
 
     }
     @GetMapping({"/view","/modify"})
-    public void view(Long bno, Model model){
-        model.addAttribute("exerciseDTO",exerciseService.getBoard(bno));
-        model.addAttribute("filelist",exerciseFileService.getList(bno));
+    public void view(ExercisePageRequestDTO exercisePageRequestDTO, Long eno, Model model){
+        model.addAttribute("exerciseDTO",exerciseService.getBoard(eno));
+        model.addAttribute("fileList",exerciseFileService.getViewList(eno));
     }
     @GetMapping("/register")
     public void register(){}
@@ -77,6 +87,7 @@ public class ExerciseController {
                 String uuid = UUID.randomUUID().toString();
                 Path savePath = Paths.get(uploadPath, uuid + "_" + originalFileName);
                 boolean image = false;
+                boolean thumbnail = false;
                     try {
                         file.transferTo(savePath);
                         if (Files.probeContentType(savePath).startsWith("image")) {
@@ -84,6 +95,7 @@ public class ExerciseController {
                             if(i==0) {
                                 File thumbFile = new File(uploadPath, "s_" + uuid + "_" + originalFileName);
                                 Thumbnailator.createThumbnail(savePath.toFile(), thumbFile, 200, 200);
+                                thumbnail = true;
                                 i++;
                             }
                         }
@@ -94,6 +106,7 @@ public class ExerciseController {
                         .uuid(uuid)
                         .filename(originalFileName)
                         .image(image)
+                        .thumbnail(thumbnail)
                         .exercise(modelMapper.map(exerciseService.getBoard(eno), Exercise.class))
                         .build();
                 Long fno = exerciseFileService.upload(exerciseFile);
@@ -102,6 +115,7 @@ public class ExerciseController {
                         .uuid(uuid)
                         .filename(originalFileName)
                         .image(image)
+                        .thumbnail(thumbnail)
                         .exercise(modelMapper.map(exerciseService.getBoard(eno), Exercise.class))
                         .build());
             }
@@ -109,6 +123,20 @@ public class ExerciseController {
             return "redirect:/exercise/list";
         }
         return "/exercise/register";
+    }
+
+    @GetMapping("/display/{fileName}")
+    public ResponseEntity<Resource> display(@PathVariable("fileName") String fileName){
+        Resource resource = new FileSystemResource(uploadPath+File.separator+fileName);
+        String resourceName = resource.getFilename();
+        HttpHeaders headers = new HttpHeaders();
+        if(fileName.isEmpty()){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resource);
+        }
+        try{
+            headers.add("Content-Type",Files.probeContentType(resource.getFile().toPath()));
+        }catch (Exception e){e.printStackTrace();}
+        return ResponseEntity.ok().headers(headers).body(resource);
     }
 
 }

@@ -3,14 +3,39 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/layout/basic.html}" lang="en">
 
-
-<div class="row" layout:fragment="content">
-    <div class="col-lg-10 offset-lg-1">
-        <div class="cta-content">
-            <h2 align="center"><em>guide</em></h2>
-            <table>
-
-            </table>
+<div layout:fragment="title">
+    <!-- Page top section -->
+    <section class="page-top-section set-bg" data-setbg="/img/header-bg/5.jpg">
+        <div class="container">
+            <h2>Exercise View</h2>
         </div>
-    </div>
+    </section>
+    <!-- Page top section end -->
+</div>
+<div layout:fragment="content">
+    <section class="elements-section">
+        <div class="container">
+            <div class="element">
+                <h2 class="el-title">View</h2>
+                <div id="gallery-post" class="card">
+                    <div class="card-header">
+                        <h5 class="card-title" id="post-title">[[${exerciseDTO.title}]]</h5>
+                        <p class="card-text">운동부위 : [[${exerciseDTO.part}]]</p>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text" style="color : black" id="post-content">[[${exerciseDTO.content}]]</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted" id="post-details">게시일: [[${exerciseDTO.regDate}]] | 조회수 : [[${exerciseDTO.visitcount}]]</small>
+                    </div>
+                </div>
+
+                <div align="right">
+                    <a th:href="|@{/exercise/modify(eno=${exerciseDTO.eno})}&${exercisePageRequestDTO.getLink()}|"class="btn btn-primary">수정하기</a>
+                    <a th:href="|@{/exercise/remove(eno=${exerciseDTO.eno})}|" class="btn btn-danger">삭제하기</a>
+                    <a th:href="|@{/exercise/list(${exercisePageRequestDTO.getLink()})}|" class="btn btn-secondary">뒤로가기</a>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
