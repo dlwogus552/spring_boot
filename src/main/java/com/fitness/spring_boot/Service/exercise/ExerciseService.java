@@ -1,6 +1,6 @@
-package com.fitness.spring_boot.Service;
+package com.fitness.spring_boot.Service.exercise;
 
-import com.fitness.spring_boot.dto.ExerciseDTO;
+import com.fitness.spring_boot.dto.exercise.ExerciseDTO;
 import com.fitness.spring_boot.dto.PageRequestDTO;
 import com.fitness.spring_boot.dto.PageResponseDTO;
 

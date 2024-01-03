@@ -1,4 +1,4 @@
-package com.fitness.spring_boot.dto;
+package com.fitness.spring_boot.dto.exercise;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Data
@@ -49,6 +50,9 @@ public class ExerciseDTO {
         }
         return result;
     }
-
+    public String localDateFormat (){
+            String date= regDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            return date;
+    }
 
 }

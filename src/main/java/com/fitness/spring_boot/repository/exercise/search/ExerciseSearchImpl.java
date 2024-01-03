@@ -1,7 +1,7 @@
-package com.fitness.spring_boot.repository.search;
+package com.fitness.spring_boot.repository.exercise.search;
 
-import com.fitness.spring_boot.domain.Exercise;
-import com.fitness.spring_boot.domain.QExercise;
+import com.fitness.spring_boot.domain.exercise.Exercise;
+import com.fitness.spring_boot.domain.exercise.QExercise;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.JPQLQuery;

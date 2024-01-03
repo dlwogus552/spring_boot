@@ -54,9 +54,9 @@
 <body>
 
 <!-- Page Preloder -->
-<div id="preloder">
-    <div class="loader"></div>
-</div>
+<!--<div id="preloder">-->
+<!--    <div class="loader"></div>-->
+<!--</div>-->
 
 <!--***** Preloader Start *****-->
 <div id="js-preloader" class="js-preloader">
@@ -71,17 +71,17 @@
 </div>
 <!-- ***** Preloader End ***** -->
 <header class="header-section background-header">
-    <a href="home.html" class="site-logo">
+    <a href="/" class="site-logo">
         <img th:src="@{/img/thumbnail.png}" alt="">
     </a>
     <ul class="main-menu">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="classes.html">Classes</a></li>
-        <li><a href="blog.html">News</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="">Q&A</a></li>
+        <li><a href="">Review</a></li>
+        <li><a href="/exercise/list">Exercise Guide</a></li>
+        <li><a href="/foodInfo/info">Food Info</a></li>
+        <li><a href="">P.T. Reserve</a></li>
         <li sec:authorize="isAuthenticated()"><a href="/member/mypage" >My Page</a></li>
-<!--        <li sec:authorize="hasAnyAuthority('관리자')"><a href="">ADMIN</a></li>-->
+        <!--        <li sec:authorize="hasAnyAuthority('관리자')"><a href="">ADMIN</a></li>-->
         <li class="header-right" sec:authorize="!isAuthenticated()">
             <div class="hr-box" id="joinMember">
                 <i class="fa-solid fa-user"></i>&nbsp;&nbsp;
@@ -170,20 +170,16 @@
             </div>
             <div class="col-md-6 order-1 order-md-2">
                 <ul class="footer-menu">
-                    <li><a href="">Home</a></li>
-                    <li><a href="">About Us</a></li>
-                    <li><a href="">Classes</a></li>
-                    <li><a href="">News</a></li>
-                    <li><a href="">Contact</a></li>
+                    <li><a href="">Q&A</a></li>
+                    <li><a href="">Review</a></li>
+                    <li><a href="/exercise/list">Exercise Guide</a></li>
+                    <li><a href="/foodInfo/info">Food Info</a></li>
+                    <li><a href="">P.T. Reserve</a></li>
                 </ul>
             </div>
         </div>
     </div>
 </footer>
-<!-- Footer section end -->
-<th:block layout:fragment="script">
-
-</th:block>
 
 <!-- jQuery -->
 <script th:src="@{/assets/js/jquery-2.1.0.min.js}"></script>
@@ -210,6 +206,11 @@
 <script th:src="@{/js/owl.carousel.min.js}"></script>
 <script th:src="@{/js/circle-progress.min.js}"></script>
 <script th:src="@{/js/main.js}"></script>
+
+<!-- Footer section end -->
+<th:block layout:fragment="script">
+
+</th:block>
 
 </body>
 </html>

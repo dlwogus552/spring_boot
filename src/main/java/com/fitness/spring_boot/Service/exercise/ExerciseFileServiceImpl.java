@@ -1,9 +1,8 @@
-package com.fitness.spring_boot.Service;
+package com.fitness.spring_boot.Service.exercise;
 
-import com.fitness.spring_boot.domain.ExerciseFile;
-import com.fitness.spring_boot.dto.ExerciseDTO;
-import com.fitness.spring_boot.dto.ExerciseFileDTO;
-import com.fitness.spring_boot.repository.ExerciseFileUploadRepository;
+import com.fitness.spring_boot.domain.exercise.ExerciseFile;
+import com.fitness.spring_boot.dto.exercise.ExerciseFileDTO;
+import com.fitness.spring_boot.repository.exercise.ExerciseFileUploadRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

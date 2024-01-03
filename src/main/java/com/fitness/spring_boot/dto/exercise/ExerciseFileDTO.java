@@ -1,15 +1,10 @@
-package com.fitness.spring_boot.dto;
+package com.fitness.spring_boot.dto.exercise;
 
-import com.fitness.spring_boot.Service.ExerciseFileService;
-import com.fitness.spring_boot.domain.Exercise;
+import com.fitness.spring_boot.domain.exercise.Exercise;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Data
 @Builder
