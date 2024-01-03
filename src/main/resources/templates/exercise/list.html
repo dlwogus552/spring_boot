@@ -7,7 +7,7 @@
     <!-- Page top section -->
     <section class="page-top-section set-bg" data-setbg="/img/header-bg/5.jpg">
         <div class="container">
-            <h2>Elements</h2>
+            <h2>Exercise List</h2>
         </div>
     </section>
     <!-- Page top section end -->
@@ -20,7 +20,8 @@
                 <div class="container mb-1">
                     <form action="/exercise/list" method="get">
                         <input type="hidden" name="size" th:value="${exercisePageRequestDTO.size}">
-                        <div class="input-group" style="width: 100%;flex-wrap:nowrap; align-content: flex-end; align-items: baseline">
+                        <div class="input-group"
+                             style="width: 100%;flex-wrap:nowrap; align-content: flex-end; align-items: baseline">
                             <div class="input-group mb-3" style="width:15%">
                                 <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="type">
                                     <option>----</option>
@@ -33,35 +34,71 @@
                                 </select>
                             </div>
                             <div class="input-group mb-3">
-                                <input type="text" name="keyword" class="form-control" placeholder="Search Title" >
+                                <input type="text" name="keyword" class="form-control" placeholder="Search Title">
                                 <div class="input-group-append">
-                                    <button class="btn btn-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                    <button class="btn btn-success" type="submit"><i
+                                            class="fa-solid fa-magnifying-glass"></i></button>
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
-                <div class="container">
-                    <div class="row">
+                <div class="container" >
+                    <div class="row" >
                         <!-- Gallery Item 1 -->
-                        <tbody th:with="link=${exercisePageRequestDTO.getLink()}">
-
-                        <div class="col-md-4" th:each="dto:${dtoList}">
+                        <div class="col-md-4 mb-4" th:each="dto:${responseDTO.dtoList}" >
                             <div class="card gallery-card">
-<!--                                <a th:href="|@{/exercise/view(eno=${exerciseDTO.eno})}&${link}|"></a>-->
-                                <img src="#" class="card-img-top" alt="Image 1">
-                                <div class="card-body">
-                                    <h5 class="card-title" style="margin-bottom: 0px">[[${dto.title}]]</h5>
-                                    <p class="card-text" style="text-align: right">조회수 : [[${dto.visitcount}]]</p>
-                                </div>
+                                <a style="text-align: center" th:href="|@{/exercise/view(eno=${dto.eno})}&${exercisePageRequestDTO.getLink()}|">
+                                    <img th:each="fileDTO : ${fileDTOList}" th:if="${fileDTO.thumbnail && fileDTO.exercise.eno == dto.eno} "th:src="|/exercise/display/${fileDTO.getLink(dto.eno)}|" class="card-img-top" style="object-fit:scale-down; width: 188px; height: 188px;">
+                                    <div class="card-body">
+                                        <h5 class="card-title" style="margin-bottom: 0px; text-align: left">[[${dto.title}]]</h5>
+                                        <p class="card-text" style="text-align: right">조회수 : [[${dto.visitcount}]]</p>
+                                    </div>
+                                </a>
                             </div>
                         </div>
+                        <div style="display: flex; justify-content: center;">
+                            <div class="Page navigation" style="display: inline-block">
+                                <ul class="pagination flex-wrap">
+                                    <li class="page-item" th:if="${responseDTO.prev}">
+                                        <a class="page-link" th:data-num="${responseDTO.start -1}">Prev</a>
+                                    </li>
+                                    <th:block th:each="i:${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                                        <li th:class="${responseDTO.page == i} ? 'page-item active' : 'page-item'">
+                                            <a class="page-link" th:data-num="${i}">[[${i}]]</a>
+                                        </li>
+                                    </th:block>
+                                    <li class="page-item" th:if="${responseDTO.next}">
+                                        <a class="page-link" th:data-num="${responseDTO.end +1}">next</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                            <!-- Add more gallery items as needed -->
+                            <form action="/exercise/register" method="get">
+                                <div class="float-end" style="text-align: right">
+                                    <button class="btn btn-primary" type="submit">글쓰기</button>
+                                </div>
+                            </form>
 
-                        </tbody>
-
-                        <!-- Add more gallery items as needed -->
                     </div>
+                </div>
             </div>
         </div>
     </section>
 </div>
+<script layout:fragment="script" th:inline="javascript">
+    document.querySelector(".pagination").addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const target = e.target;
+        if (target.tagName != 'A') {
+            return
+        }
+        const num = target.getAttribute("data-num");
+        //self.length="/board/list?bno="+num
+        const formOjb = document.querySelector("form")
+        formOjb.innerHTML += `<input type=hidden name='page' value='${num}'>`
+        formOjb.submit();
+    }, false)
+</script>

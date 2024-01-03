@@ -34,7 +34,7 @@ public class ExercisePageResponseDTO<E> {
         this.dtoList=dtoList;
 
         this.end = (int)(Math.ceil(this.page/5.0)*5);
-        this.start = this.end -5;
+        this.start = this.end -4;
 
         int last = (int)(Math.ceil((total/(double)size)));
         this.end=end>last ? last : end;
