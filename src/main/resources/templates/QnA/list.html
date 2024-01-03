@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{/layout/basic.html}"
+	  lang="en">
+
+
+<div layout:fragment="title">
+	<!-- Page top section -->
+	<section class="page-top-section set-bg" data-setbg="/img/header-bg/5.jpg">
+		<div class="container">
+			<h2>Q&A</h2>
+		</div>
+	</section>
+	<!-- Page top section end -->
+</div>
+<div layout:fragment="content">
+	<section class="elements-section">
+		<div class="container">
+			<div class="element">
+				<h2 class="el-title">Buttons</h2>
+				<button class="site-btn mr-3 mb-3">Send Message</button>
+				<button class="site-btn sb-dark mr-3 mb-3">Send Message</button>
+				<button class="site-btn sb-line">Send Message</button>
+			</div>
+
+		</div>
+	</section>
+	<!-- Elements section end -->
+</div>

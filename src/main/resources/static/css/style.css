@@ -7,6 +7,9 @@
 
 
 /* custom */
+
+/* foodInfo */
+
 #foodSearchResult::-webkit-scrollbar, #kcalCalculateResult::-webkit-scrollbar{
 	width: 13px;  /* 스크롤바의 너비 */
 }

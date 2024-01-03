@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic.html}"
+      lang="en">
+
+
+<div layout:fragment="title">
+    <!-- Page top section -->
+    <section class="page-top-section set-bg" data-setbg="/img/header-bg/5.jpg">
+        <div class="container">
+            <h2>Q&A</h2>
+        </div>
+    </section>
+    <!-- Page top section end -->
+</div>
+<div layout:fragment="content">
+    <section class="elements-section">
+        <div class="container">
+            <div class="element">
+                <h2 class="el-title text-center">질문작성</h2>
+                <table class="table table-bordered table-lg text-center mb-0">
+                    <form action="/QnA/register" method="post" enctype="multipart/form-data">
+                        <tr>
+                            <th class="align-middle">제목</th>
+                            <td>
+                                <input type="text" id="title" name="title" class="form-control form-control"
+                                       placeholder="제목을 입력하세요.">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="align-middle">제목</th>
+                            <td>
+                                <input type="text" id="writer" name="writer" class="form-control form-control"
+                                       placeholder="이름을 입력하세요.">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="align-middle">제목</th>
+                            <td>
+                                <textarea rows="10" placeholder="내용을 입력하세요" name="content" id="content"></textarea>
+                            </td>
+                        </tr>
+                    </form>
+                </table>
+            </div>
+
+        </div>
+    </section>
+    <!-- Elements section end -->
+</div>
