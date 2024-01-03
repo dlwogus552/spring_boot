@@ -7,25 +7,27 @@
     <div class="container">
     <h2> Log in </h2>
         <form action="/loginProcess" method="post">
-            <div class="form-control mt-3">
-                <label for="id">ID:</label>
-                <input type="text" class="form-control" id="id" name="id">
+<!--        입력칸 길이 줄여야함 지금 너무 긴 상태;;; -->
+            <div>
+                <label for="mId">ID</label>
+                <input type="text" class="form-control" id="mId" name="mId" width="10px">
             </div>
-            <div class="form-control mt-3">
+            <div>
                 <label for="pass">Password</label>
                 <input type="password" class="form-control" id="pass" name="pass">
             </div>
-
-            <button type="submit" class="btn btn-primary">Log In</button>
-            <button type="reset" class="btn btn-secondary">Join</button>
-
+            <div class="form-group mt-3">
+                <button type="submit" class="btn-btn-primary">Log In</button>
+                <button type="button" class="btn-btn-secondary">Join</button>
+            </div>
         </form>
     </div>
 </div>
 
 <script layout:fragment="script" th:inline="javascript">
-    document.querySelector(".btn btn-secondary").addEventListener("click", function (e){
+    document.querySelector(".btn-btn-secondary").addEventListener("click",function (e){
         e.preventDefault()
         self.location="/member/join"
+        //location이 에러표시여도 실행 됨 / 에러내용은 재할당 불가 / 회원 ID를 나타내는 Id컬럼을 mId로 바꾼 뒤 발생함
     })
 </script>

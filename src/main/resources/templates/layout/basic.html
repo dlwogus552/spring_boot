@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
       lang="en">
 <head>
     <title>1ST GYMS~</title>
@@ -79,10 +80,19 @@
         <li><a href="/exercise/list">Exercise Guide</a></li>
         <li><a href="/foodInfo/info">Food Info</a></li>
         <li><a href="">P.T. Reserve</a></li>
-        <li class="header-right">
+        <li sec:authorize="isAuthenticated()"><a href="/member/mypage" >My Page</a></li>
+        <!--        <li sec:authorize="hasAnyAuthority('관리자')"><a href="">ADMIN</a></li>-->
+        <li class="header-right" sec:authorize="!isAuthenticated()">
             <div class="hr-box" id="joinMember">
                 <i class="fa-solid fa-user"></i>&nbsp;&nbsp;
                 <h6>Member Login</h6>
+            </div>
+        </li>
+        <li class="header-right" sec:authorize="isAuthenticated()">
+            <div class="hr-box" id="logout">
+                <i class="fa-solid fa-user"></i>&nbsp;&nbsp;
+<!--                로그아웃 기능은 하나 LogOut 글자가 검은색이 되버림-->
+                <h6><a href="/logout">LogOut</a></h6>
             </div>
         </li>
     </ul>

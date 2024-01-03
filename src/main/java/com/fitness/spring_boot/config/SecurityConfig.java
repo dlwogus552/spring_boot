@@ -12,10 +12,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig{
+public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer configure(){
         return (web) -> web.ignoring()
@@ -32,15 +33,14 @@ public class SecurityConfig{
                         .requestMatchers("/assets/**", "/img/**").permitAll()
                         .requestMatchers("/**").permitAll()
                         .requestMatchers("/copy").permitAll() // 테스트를 위한 것
-                        .requestMatchers("/foodInfo","/foodInfo/**").permitAll() // 영양정보 부분
-                        .requestMatchers("/admin/**").hasAuthority("ADMIN")
+                        .requestMatchers("/admin/**").hasAuthority("관리자")
                         .requestMatchers("/VIP/**").hasAuthority("VIP")
                         .anyRequest().authenticated()
                     )      //인증별 권한 설정
                 .formLogin(formLoginConfigurer -> formLoginConfigurer
                         .loginPage("/member/login")
                         .loginProcessingUrl("/loginProcess")
-                        .usernameParameter("id")
+                        .usernameParameter("mId")
                         .passwordParameter("pass")
                         .defaultSuccessUrl("/")
                 )       //로그인 품과 로그인 프로세스 설정
