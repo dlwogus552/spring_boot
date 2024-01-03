@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{/layout/basic.html}" lang="en">
 
 <div layout:fragment="title">
@@ -34,8 +35,8 @@
                 </div>
 
                 <div align="right" th:with="link=${pageRequestDTO.getLink()}">
-                    <a th:href="|@{/exercise/modify(eno=${exerciseDTO.eno})}&${link}|" class="btn btn-primary">수정하기</a>
-                    <a th:href="|@{/exercise/remove(eno=${exerciseDTO.eno})}|" class="btn btn-danger">삭제하기</a>
+                    <a sec:authorize="" th:href="|@{/exercise/modify(eno=${exerciseDTO.eno})}&${link}|" class="btn btn-primary">수정하기</a>
+                    <a sec:authorize="" th:href="|@{/exercise/remove(eno=${exerciseDTO.eno})}|" class="btn btn-danger">삭제하기</a>
                     <a th:href="|@{/exercise/list}?${link}|" type="button" class="btn btn-secondary">뒤로가기</a>
                 </div>
             </div>

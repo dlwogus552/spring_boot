@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{/layout/basic.html}" lang="en">
 
 <div layout:fragment="title">
@@ -83,7 +84,7 @@
                     </div>
                     <form action="/exercise/register" method="get">
                         <div class="float-end" style="text-align: right">
-                            <button class="btn btn-primary" type="submit">글쓰기</button>
+                            <button sec:authorize="" class="btn btn-primary" type="submit">글쓰기</button>
                         </div>
                     </form>
                 </div>

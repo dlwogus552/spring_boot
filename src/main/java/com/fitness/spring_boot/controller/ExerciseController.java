@@ -1,11 +1,11 @@
 package com.fitness.spring_boot.controller;
 
-import com.fitness.spring_boot.Service.ExerciseFileService;
-import com.fitness.spring_boot.Service.ExerciseService;
-import com.fitness.spring_boot.domain.Exercise;
-import com.fitness.spring_boot.domain.ExerciseFile;
-import com.fitness.spring_boot.dto.ExerciseDTO;
-import com.fitness.spring_boot.dto.ExerciseFileDTO;
+import com.fitness.spring_boot.Service.exercise.ExerciseFileService;
+import com.fitness.spring_boot.Service.exercise.ExerciseService;
+import com.fitness.spring_boot.domain.exercise.Exercise;
+import com.fitness.spring_boot.domain.exercise.ExerciseFile;
+import com.fitness.spring_boot.dto.exercise.ExerciseDTO;
+import com.fitness.spring_boot.dto.exercise.ExerciseFileDTO;
 import com.fitness.spring_boot.dto.PageRequestDTO;
 import com.fitness.spring_boot.dto.PageResponseDTO;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,7 +32,6 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 

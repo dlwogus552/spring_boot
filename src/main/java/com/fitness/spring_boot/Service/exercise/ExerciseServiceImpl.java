@@ -1,10 +1,10 @@
-package com.fitness.spring_boot.Service;
+package com.fitness.spring_boot.Service.exercise;
 
-import com.fitness.spring_boot.domain.Exercise;
-import com.fitness.spring_boot.dto.ExerciseDTO;
+import com.fitness.spring_boot.domain.exercise.Exercise;
+import com.fitness.spring_boot.dto.exercise.ExerciseDTO;
 import com.fitness.spring_boot.dto.PageRequestDTO;
 import com.fitness.spring_boot.dto.PageResponseDTO;
-import com.fitness.spring_boot.repository.ExerciseRepository;
+import com.fitness.spring_boot.repository.exercise.ExerciseRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;

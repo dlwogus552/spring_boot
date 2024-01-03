@@ -1,4 +1,4 @@
-package com.fitness.spring_boot.dto;
+package com.fitness.spring_boot.dto.exercise;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
