@@ -62,12 +62,25 @@ public class ExerciseController {
     @GetMapping({"/view","/modify"})
     public void view(PageRequestDTO PageRequestDTO, Long eno, Model model){
         model.addAttribute("exerciseDTO",exerciseService.getBoard(eno));
-        model.addAttribute("fileList",exerciseFileService.getViewList(eno));
+        model.addAttribute("fileDTOList",exerciseFileService.getViewList(eno));
     }
     @GetMapping("/register")
     public void register(){}
     @GetMapping("/remove")
-    public String remove(Long bno){
+    @Transactional
+    public String remove(Long eno){
+        List<ExerciseFileDTO> fileDTOList = exerciseFileService.getViewList(eno);
+
+        for(ExerciseFileDTO dto : fileDTOList) {
+            File file = new File(uploadPath, dto.getSaveFileName(dto.getFilename(),dto.getUuid()));
+            file.delete();
+            if(dto.isThumbnail()){
+                file = new File(uploadPath, "s_"+dto.getSaveFileName(dto.getFilename(),dto.getUuid()));
+                file.delete();
+            }
+        }
+        exerciseFileService.deleteAll(eno);
+        exerciseService.remove(eno);
         return "redirect:/exercise/list";
     }
 
@@ -79,8 +92,6 @@ public class ExerciseController {
             Long eno = exerciseService.register(exerciseDTO);
         //파일 업로드
             int i = 0;
-            List<ExerciseFileDTO> list = new ArrayList<>();
-
             for (MultipartFile file : exerciseDTO.getFiles()) {
                 String originalFileName = file.getOriginalFilename();
                 log.info(originalFileName);
@@ -112,15 +123,7 @@ public class ExerciseController {
                         .build();
                 Long fno = exerciseFileService.upload(exerciseFile);
 
-                list.add(ExerciseFileDTO.builder()
-                        .uuid(uuid)
-                        .filename(originalFileName)
-                        .image(image)
-                        .thumbnail(thumbnail)
-                        .exercise(modelMapper.map(exerciseService.getBoard(eno), Exercise.class))
-                        .build());
             }
-            model.addAttribute("fileList",list);
             return "redirect:/exercise/list";
         }
         return "/exercise/register";
@@ -138,6 +141,58 @@ public class ExerciseController {
             headers.add("Content-Type",Files.probeContentType(resource.getFile().toPath()));
         }catch (Exception e){e.printStackTrace();}
         return ResponseEntity.ok().headers(headers).body(resource);
+    }
+    @Transactional
+    @PostMapping(value = "/modify",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String modify(PageRequestDTO pageRequestDTO, ExerciseDTO exerciseDTO){
+        Long eno = exerciseService.modify(exerciseDTO);
+        List<ExerciseFileDTO> fileDTOList = exerciseFileService.getViewList(eno);
+
+        for(ExerciseFileDTO dto : fileDTOList) {
+            File file = new File(uploadPath, dto.getSaveFileName(dto.getFilename(),dto.getUuid()));
+            file.delete();
+            if(dto.isThumbnail()){
+                file = new File(uploadPath, "s_"+dto.getSaveFileName(dto.getFilename(),dto.getUuid()));
+                file.delete();
+            }
+        }
+        exerciseFileService.deleteAll(eno);
+
+        //파일 업로드
+        int i = 0;
+
+        for (MultipartFile file : exerciseDTO.getFiles()) {
+            String originalFileName = file.getOriginalFilename();
+            log.info(originalFileName);
+            String uuid = UUID.randomUUID().toString();
+            Path savePath = Paths.get(uploadPath, uuid + "_" + originalFileName);
+            boolean image = false;
+            boolean thumbnail = false;
+            try {
+                file.transferTo(savePath);
+                if (Files.probeContentType(savePath).startsWith("image")) {
+                    image = true;
+                    if(i==0) {
+                        File thumbFile = new File(uploadPath, "s_" + uuid + "_" + originalFileName);
+                        Thumbnailator.createThumbnail(savePath.toFile(), thumbFile, 200, 200);
+                        thumbnail = true;
+                        i++;
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            ExerciseFile exerciseFile = ExerciseFile.builder()
+                    .uuid(uuid)
+                    .filename(originalFileName)
+                    .image(image)
+                    .thumbnail(thumbnail)
+                    .exercise(modelMapper.map(exerciseService.getBoard(eno), Exercise.class))
+                    .build();
+            Long fno = exerciseFileService.upload(exerciseFile);
+
+        }
+        return "redirect:/exercise/view?eno="+eno+"&"+pageRequestDTO.getLink();
     }
 
 }
