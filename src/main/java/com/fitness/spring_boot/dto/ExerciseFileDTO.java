@@ -27,7 +27,11 @@ public class ExerciseFileDTO {
         if(thumbnail && this.exercise.getEno()==eno){
             return "s_"+uuid+"_"+filename;
         }else{
-            return null;
+            return "";
         }
     }
+    public String getSaveFileName(String filename, String uuid){
+            return uuid+"_"+filename;
+    }
+
 }

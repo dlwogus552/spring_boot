@@ -6,8 +6,8 @@ import com.fitness.spring_boot.domain.Exercise;
 import com.fitness.spring_boot.domain.ExerciseFile;
 import com.fitness.spring_boot.dto.ExerciseDTO;
 import com.fitness.spring_boot.dto.ExerciseFileDTO;
-import com.fitness.spring_boot.dto.ExercisePageRequestDTO;
-import com.fitness.spring_boot.dto.ExercisePageResponseDTO;
+import com.fitness.spring_boot.dto.PageRequestDTO;
+import com.fitness.spring_boot.dto.PageResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import net.coobird.thumbnailator.Thumbnailator;
@@ -15,12 +15,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,31 +48,43 @@ public class ExerciseController {
     private final ModelMapper modelMapper;
 
     @GetMapping("/list")
-    public void list(ExercisePageRequestDTO exercisePageRequestDTO, Model model, ExerciseFileDTO exerciseFileDTO) {
-        ExercisePageResponseDTO<ExerciseDTO> responseDTO=exerciseService.getList(exercisePageRequestDTO);
+    public void list(PageRequestDTO pageRequestDTO, Model model) {
+        PageResponseDTO<ExerciseDTO> responseDTO=exerciseService.getList(pageRequestDTO);
         List<ExerciseFileDTO> fileDTOList = exerciseFileService.getList();
-        log.info(responseDTO);
-        log.info("file"+fileDTOList);
+//        log.info(responseDTO);
+//        log.info("file"+fileDTOList);
         model.addAttribute("responseDTO",responseDTO);
         model.addAttribute("fileDTOList",fileDTOList);
-
-
     }
     @GetMapping({"/view","/modify"})
-    public void view(ExercisePageRequestDTO exercisePageRequestDTO, Long eno, Model model){
+    public void view(PageRequestDTO pageRequestDTO, Long eno, Model model){
         model.addAttribute("exerciseDTO",exerciseService.getBoard(eno));
-        model.addAttribute("fileList",exerciseFileService.getViewList(eno));
+        model.addAttribute("fileDTOList",exerciseFileService.getViewList(eno));
     }
     @GetMapping("/register")
     public void register(){}
     @GetMapping("/remove")
-    public String remove(Long bno){
+    @Transactional
+    public String remove(Long eno){
+        List<ExerciseFileDTO> fileDTOList = exerciseFileService.getViewList(eno);
+
+        for(ExerciseFileDTO dto : fileDTOList) {
+            File file = new File(uploadPath, dto.getSaveFileName(dto.getFilename(),dto.getUuid()));
+            file.delete();
+            if(dto.isThumbnail()){
+                file = new File(uploadPath, "s_"+dto.getSaveFileName(dto.getFilename(),dto.getUuid()));
+                file.delete();
+            }
+        }
+        exerciseFileService.deleteAll(eno);
+        exerciseService.remove(eno);
         return "redirect:/exercise/list";
     }
 
     @PostMapping(value = "/register",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String upload(ExerciseDTO exerciseDTO, Model model){
-        if(exerciseDTO.getFiles()!=null){
+        log.info(exerciseDTO.getFiles());
+        if(exerciseDTO.getFiles()!=null && exerciseDTO.getFiles().size()>0){
         // 글 작성
             log.info(exerciseDTO);
             Long eno = exerciseService.register(exerciseDTO);
@@ -110,21 +122,11 @@ public class ExerciseController {
                         .exercise(modelMapper.map(exerciseService.getBoard(eno), Exercise.class))
                         .build();
                 Long fno = exerciseFileService.upload(exerciseFile);
-
-                list.add(ExerciseFileDTO.builder()
-                        .uuid(uuid)
-                        .filename(originalFileName)
-                        .image(image)
-                        .thumbnail(thumbnail)
-                        .exercise(modelMapper.map(exerciseService.getBoard(eno), Exercise.class))
-                        .build());
             }
-            model.addAttribute("fileList",list);
             return "redirect:/exercise/list";
         }
         return "/exercise/register";
     }
-
     @GetMapping("/display/{fileName}")
     public ResponseEntity<Resource> display(@PathVariable("fileName") String fileName){
         Resource resource = new FileSystemResource(uploadPath+File.separator+fileName);
@@ -138,5 +140,56 @@ public class ExerciseController {
         }catch (Exception e){e.printStackTrace();}
         return ResponseEntity.ok().headers(headers).body(resource);
     }
+    @Transactional
+    @PostMapping(value = "/modify",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String modify(PageRequestDTO pageRequestDTO, ExerciseDTO exerciseDTO){
+        Long eno = exerciseService.modify(exerciseDTO);
+        List<ExerciseFileDTO> fileDTOList = exerciseFileService.getViewList(eno);
 
+        for(ExerciseFileDTO dto : fileDTOList) {
+            File file = new File(uploadPath, dto.getSaveFileName(dto.getFilename(),dto.getUuid()));
+            file.delete();
+            if(dto.isThumbnail()){
+                file = new File(uploadPath, "s_"+dto.getSaveFileName(dto.getFilename(),dto.getUuid()));
+                file.delete();
+            }
+        }
+        exerciseFileService.deleteAll(eno);
+
+        //파일 업로드
+        int i = 0;
+
+        for (MultipartFile file : exerciseDTO.getFiles()) {
+            String originalFileName = file.getOriginalFilename();
+            log.info(originalFileName);
+            String uuid = UUID.randomUUID().toString();
+            Path savePath = Paths.get(uploadPath, uuid + "_" + originalFileName);
+            boolean image = false;
+            boolean thumbnail = false;
+            try {
+                file.transferTo(savePath);
+                if (Files.probeContentType(savePath).startsWith("image")) {
+                    image = true;
+                    if(i==0) {
+                        File thumbFile = new File(uploadPath, "s_" + uuid + "_" + originalFileName);
+                        Thumbnailator.createThumbnail(savePath.toFile(), thumbFile, 200, 200);
+                        thumbnail = true;
+                        i++;
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            ExerciseFile exerciseFile = ExerciseFile.builder()
+                    .uuid(uuid)
+                    .filename(originalFileName)
+                    .image(image)
+                    .thumbnail(thumbnail)
+                    .exercise(modelMapper.map(exerciseService.getBoard(eno), Exercise.class))
+                    .build();
+            Long fno = exerciseFileService.upload(exerciseFile);
+
+        }
+        return "redirect:/exercise/view?eno="+eno+"&"+pageRequestDTO.getLink();
+    }
 }

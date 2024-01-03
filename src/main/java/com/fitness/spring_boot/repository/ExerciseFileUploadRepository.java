@@ -7,5 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ExerciseFileUploadRepository extends JpaRepository<ExerciseFile, Long> {
-    List<ExerciseFileDTO> findByExercise_EnoOrderByEfno(Long eno);
+    List<ExerciseFile> findByExercise_EnoOrderByEfno(Long eno);
+    void deleteExerciseFileByExercise_Eno(Long eno);
 }
