@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic.html}"
+      lang="en">
+<div layout:fragment="title">
+    <!-- Page top section -->
+    <section class="page-top-section set-bg" data-setbg="/img/header-bg/5.jpg">
+        <div class="container">
+            <h2>Exercise Info</h2>
+        </div>
+    </section>
+    <!-- Page top section end -->
+</div>
+<div layout:fragment="content">
+    <section class="elements-section">
+        <div class="container">
+            <div class="element">
+                <h2 class="el-title">Register</h2>
+                <form action="/exercise/modify" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="eno" th:value="${exerciseDTO.eno}">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">제 목</label>
+                        <input name="title" type="text" class="form-control" id="title" th:value="${exerciseDTO.title}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="content" class="form-label">내 용</label>
+                        <textarea name="content" class="form-control" id="content" rows="5">[[${exerciseDTO.content}]]</textarea>
+                    </div>
+                    <div class="input-group mb-3" >
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="customFile" name="files" multiple>
+                            <label class="custom-file-label" for="customFile">Choose File</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="currentFile" class="form-label">현재파일</label>
+                        <div class="card" id="currentFile" style="padding: 3px">
+                            <p class="card-text" th:each="fileDTO:${fileDTOList}">[[${fileDTO.filename}]]</p>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="my-1 mr-2" for="part">운동부위</label>
+                        <select class="custom-select my-1 mr-sm-2" id="part" name="part">
+                            <option value="">----</option>
+                            <option value="b" th:selected="${exerciseDTO.part=='b'}">등</option>
+                            <option value="c" th:selected="${exerciseDTO.part=='c'}">가슴</option>
+                            <option value="s" th:selected="${exerciseDTO.part=='s'}">어깨</option>
+                            <option value="a" th:selected="${exerciseDTO.part=='a'}">팔</option>
+                            <option value="f" th:selected="${exerciseDTO.part=='f'}">전면 하체</option>
+                            <option value="h" th:selected="${exerciseDTO.part=='h'}">후면 하체</option>
+                        </select>
+                        <div class="my-4">
+                            <div class="float-end" style="text-align: right">
+                                <button  class="btn btn-primary" type="submit">수정하기</button>
+                                <button class="btn btn-secondary" type="button">목록</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+<script layout:fragment="script" th:inline="javascript">
+    document.querySelector('.btn-secondary').addEventListener('click',function (e){
+        console.log("클릭")
+        e.preventDefault();
+        const link=[[${pageRequestDTO.getLink()}]]
+        const eno =[[${exerciseDTO.eno}]]
+        self.location=`/exercise/view?eno=${eno}&${link}`
+    })
+</script>
