@@ -4,6 +4,7 @@ import com.fitness.spring_boot.entity.Member;
 import com.fitness.spring_boot.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +33,6 @@ public class MemberServiceImpl implements MemberService{
     public void delete(Long mno) {
         memberRepository.deleteById(mno);
         SecurityContextHolder.clearContext();
-
     }
 
 

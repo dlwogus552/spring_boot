@@ -68,7 +68,7 @@ public class MemberController {
     @GetMapping("/remove")
     public String remove(Long mno){
         memberService.delete(mno);
-        return "redirect:/";
+        return "redirect:/logout";
     }
 
 
