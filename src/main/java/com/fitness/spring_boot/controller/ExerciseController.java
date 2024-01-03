@@ -49,8 +49,8 @@ public class ExerciseController {
     private final ModelMapper modelMapper;
 
     @GetMapping("/list")
-    public void list(ExercisePageRequestDTO exercisePageRequestDTO, Model model, ExerciseFileDTO exerciseFileDTO) {
-        ExercisePageResponseDTO<ExerciseDTO> responseDTO=exerciseService.getList(exercisePageRequestDTO);
+    public void list(PageRequestDTO pageRequestDTO, Model model, ExerciseFileDTO exerciseFileDTO) {
+        PageResponseDTO<ExerciseDTO> responseDTO=exerciseService.getList(pageRequestDTO);
         List<ExerciseFileDTO> fileDTOList = exerciseFileService.getList();
         log.info(responseDTO);
         log.info("file"+fileDTOList);
@@ -60,7 +60,7 @@ public class ExerciseController {
 
     }
     @GetMapping({"/view","/modify"})
-    public void view(ExercisePageRequestDTO exercisePageRequestDTO, Long eno, Model model){
+    public void view(PageRequestDTO PageRequestDTO, Long eno, Model model){
         model.addAttribute("exerciseDTO",exerciseService.getBoard(eno));
         model.addAttribute("fileList",exerciseFileService.getViewList(eno));
     }
