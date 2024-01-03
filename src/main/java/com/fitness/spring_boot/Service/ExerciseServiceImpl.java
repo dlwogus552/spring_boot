@@ -2,8 +2,8 @@ package com.fitness.spring_boot.Service;
 
 import com.fitness.spring_boot.domain.Exercise;
 import com.fitness.spring_boot.dto.ExerciseDTO;
-import com.fitness.spring_boot.dto.ExercisePageRequestDTO;
-import com.fitness.spring_boot.dto.ExercisePageResponseDTO;
+import com.fitness.spring_boot.dto.PageRequestDTO;
+import com.fitness.spring_boot.dto.PageResponseDTO;
 import com.fitness.spring_boot.repository.ExerciseRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -26,17 +26,17 @@ public class ExerciseServiceImpl implements ExerciseService{
     }
 
     @Override
-    public ExercisePageResponseDTO<ExerciseDTO> getList(ExercisePageRequestDTO exercisePageRequestDTO) {
-        String type= exercisePageRequestDTO.getType();
-        String keyword = exercisePageRequestDTO.getKeyword();
-        Pageable pageable = exercisePageRequestDTO.getPageable("eno");
+    public PageResponseDTO<ExerciseDTO> getList(PageRequestDTO pageRequestDTO) {
+        String type= pageRequestDTO.getType();
+        String keyword = pageRequestDTO.getKeyword();
+        Pageable pageable = pageRequestDTO.getPageable("eno");
         Page<Exercise> result=exerciseRepository.searchAll(type,keyword,pageable);
 //        int count = replyRepository.listOfBoard(bno)
 
         List<ExerciseDTO> dtoList = result.getContent().stream().map(board -> modelMapper.map(board,ExerciseDTO.class)).collect(Collectors.toList());
-        return ExercisePageResponseDTO.<ExerciseDTO>withAll()
+        return PageResponseDTO.<ExerciseDTO>withAll()
                 .dtoList(dtoList)
-                .exercisePageRequestDTO(exercisePageRequestDTO)
+                .pageRequestDTO(pageRequestDTO)
                 .total((int)result.getTotalElements())
                 .build();
     }
@@ -57,6 +57,8 @@ public class ExerciseServiceImpl implements ExerciseService{
     @Override
     public ExerciseDTO getBoard(Long eno) {
         Exercise result = exerciseRepository.findById(eno).orElseThrow();
+        result.updateVisitcount();
+        exerciseRepository.save(result);
         ExerciseDTO exerciseDTO = modelMapper.map(result, ExerciseDTO.class);
         return exerciseDTO;
     }

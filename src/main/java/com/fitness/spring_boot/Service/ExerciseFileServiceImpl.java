@@ -25,8 +25,9 @@ public class ExerciseFileServiceImpl implements ExerciseFileService{
     }
     @Override
     public List<ExerciseFileDTO> getViewList(Long eno) {
-        List<ExerciseFileDTO> result = exerciseFileUploadRepository.findByExercise_EnoOrderByEfno(eno);
-        return result;
+        List<ExerciseFile> result = exerciseFileUploadRepository.findByExercise_EnoOrderByEfno(eno);
+        List<ExerciseFileDTO> list = result.stream().map(files -> modelMapper.map(files, ExerciseFileDTO.class)).collect(Collectors.toList());
+        return list;
     }
 
     @Override
@@ -45,8 +46,8 @@ public class ExerciseFileServiceImpl implements ExerciseFileService{
     }
 
     @Override
-    public void deleteAll(Long bno) {
-
+    public void deleteAll(Long eno) {
+        exerciseFileUploadRepository.deleteExerciseFileByExercise_Eno(eno);
     }
 
 

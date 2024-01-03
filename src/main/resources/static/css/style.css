@@ -40,7 +40,10 @@
 	border-collapse: separate;
 	width: 100%;
 }
-
+#foodSearchResult table td,
+#kcalCalculateResult table td {
+	vertical-align: middle;
+}
 #foodSearchResult table thead tr th,
 #kcalCalculateResult table thead tr th{
 	background-color: #fff !important;

@@ -1,14 +1,10 @@
 package com.fitness.spring_boot.repository;
 
-import com.fitness.spring_boot.domain.FoodTable;
-import com.fitness.spring_boot.dto.FoodInfoDTO;
+import com.fitness.spring_boot.repository.foodInfo.FoodTableRepository;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @SpringBootTest
 @Log4j2

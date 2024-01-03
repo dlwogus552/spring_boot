@@ -11,5 +11,5 @@ public interface ExerciseFileService {
     ExerciseFileDTO getFile(Long efno);
     void delete(Long fno);
     Long upload(ExerciseFile file);
-    void deleteAll(Long bno);
+    void deleteAll(Long eno);
 }

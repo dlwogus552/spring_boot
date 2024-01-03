@@ -25,8 +25,8 @@ public class ExerciseSearchImpl extends QuerydslRepositorySupport implements Exe
 
         if(type !=null && keyword!=null){
             BooleanBuilder booleanBuilder = new BooleanBuilder();
-            booleanBuilder.or(exercise.title.contains(keyword));
-            booleanBuilder.or(exercise.part.contains(type));
+            booleanBuilder.and(exercise.title.contains(keyword));
+            booleanBuilder.and(exercise.part.contains(type));
             query.where(new Predicate[]{booleanBuilder});
         }//end if
         query.where(exercise.eno.gt(0L));

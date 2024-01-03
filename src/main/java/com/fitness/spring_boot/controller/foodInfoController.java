@@ -1,7 +1,7 @@
 package com.fitness.spring_boot.controller;
 
-import com.fitness.spring_boot.Service.FoodInfoServiceImpl;
-import com.fitness.spring_boot.dto.FoodInfoDTO;
+import com.fitness.spring_boot.Service.foodInfo.FoodInfoServiceImpl;
+import com.fitness.spring_boot.dto.foodInfo.FoodInfoDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;

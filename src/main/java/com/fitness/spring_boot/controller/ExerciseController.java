@@ -6,8 +6,8 @@ import com.fitness.spring_boot.domain.Exercise;
 import com.fitness.spring_boot.domain.ExerciseFile;
 import com.fitness.spring_boot.dto.ExerciseDTO;
 import com.fitness.spring_boot.dto.ExerciseFileDTO;
-import com.fitness.spring_boot.dto.ExercisePageRequestDTO;
-import com.fitness.spring_boot.dto.ExercisePageResponseDTO;
+import com.fitness.spring_boot.dto.PageRequestDTO;
+import com.fitness.spring_boot.dto.PageResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import net.coobird.thumbnailator.Thumbnailator;
@@ -21,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,8 +49,8 @@ public class ExerciseController {
     private final ModelMapper modelMapper;
 
     @GetMapping("/list")
-    public void list(ExercisePageRequestDTO exercisePageRequestDTO, Model model, ExerciseFileDTO exerciseFileDTO) {
-        ExercisePageResponseDTO<ExerciseDTO> responseDTO=exerciseService.getList(exercisePageRequestDTO);
+    public void list(PageRequestDTO pageRequestDTO, Model model, ExerciseFileDTO exerciseFileDTO) {
+        PageResponseDTO<ExerciseDTO> responseDTO=exerciseService.getList(pageRequestDTO);
         List<ExerciseFileDTO> fileDTOList = exerciseFileService.getList();
         log.info(responseDTO);
         log.info("file"+fileDTOList);
@@ -59,7 +60,7 @@ public class ExerciseController {
 
     }
     @GetMapping({"/view","/modify"})
-    public void view(ExercisePageRequestDTO exercisePageRequestDTO, Long eno, Model model){
+    public void view(PageRequestDTO PageRequestDTO, Long eno, Model model){
         model.addAttribute("exerciseDTO",exerciseService.getBoard(eno));
         model.addAttribute("fileList",exerciseFileService.getViewList(eno));
     }
