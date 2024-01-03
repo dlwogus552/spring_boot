@@ -7,7 +7,7 @@
     <!-- Page top section -->
     <section class="page-top-section set-bg" data-setbg="/img/header-bg/5.jpg">
         <div class="container">
-            <h2>Elements</h2>
+            <h2>Exercise List</h2>
         </div>
     </section>
     <!-- Page top section end -->
@@ -48,10 +48,10 @@
                         <!-- Gallery Item 1 -->
                         <div class="col-md-4 mb-4" th:each="dto:${responseDTO.dtoList}" >
                             <div class="card gallery-card">
-                                <a th:href="|@{/exercise/view(eno=${dto.eno})}&${exercisePageRequestDTO.getLink()}|">
-                                    <img th:src="|@{c:/upload/}|" class="card-img-top" alt="">
+                                <a style="text-align: center" th:href="|@{/exercise/view(eno=${dto.eno})}&${exercisePageRequestDTO.getLink()}|">
+                                    <img th:each="fileDTO : ${fileDTOList}" th:if="${fileDTO.thumbnail && fileDTO.exercise.eno == dto.eno} "th:src="|/exercise/display/${fileDTO.getLink(dto.eno)}|" class="card-img-top" style="object-fit:scale-down; width: 188px; height: 188px;">
                                     <div class="card-body">
-                                        <h5 class="card-title" style="margin-bottom: 0px">[[${dto.title}]]</h5>
+                                        <h5 class="card-title" style="margin-bottom: 0px; text-align: left">[[${dto.title}]]</h5>
                                         <p class="card-text" style="text-align: right">조회수 : [[${dto.visitcount}]]</p>
                                     </div>
                                 </a>
