@@ -1,4 +1,4 @@
-package com.fitness.spring_boot.dto;
+package com.fitness.spring_boot.dto.foodInfo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

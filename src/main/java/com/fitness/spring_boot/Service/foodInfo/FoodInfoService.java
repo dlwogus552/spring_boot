@@ -1,6 +1,6 @@
-package com.fitness.spring_boot.Service;
+package com.fitness.spring_boot.Service.foodInfo;
 
-import com.fitness.spring_boot.dto.FoodInfoDTO;
+import com.fitness.spring_boot.dto.foodInfo.FoodInfoDTO;
 
 import java.util.ArrayList;
 import java.util.List;

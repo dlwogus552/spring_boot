@@ -1,15 +1,14 @@
-package com.fitness.spring_boot.Service;
+package com.fitness.spring_boot.Service.foodInfo;
 
-import com.fitness.spring_boot.domain.FoodTable;
-import com.fitness.spring_boot.dto.FoodInfoDTO;
-import com.fitness.spring_boot.repository.FoodTableRepository;
+import com.fitness.spring_boot.domain.foodInfo.FoodTable;
+import com.fitness.spring_boot.dto.foodInfo.FoodInfoDTO;
+import com.fitness.spring_boot.repository.foodInfo.FoodTableRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
