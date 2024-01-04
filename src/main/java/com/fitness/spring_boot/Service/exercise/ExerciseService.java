@@ -10,4 +10,5 @@ public interface ExerciseService {
     Long modify(ExerciseDTO exerciseDTO);
     void remove(Long eno);
     ExerciseDTO getBoard(Long eno);
+
 }
