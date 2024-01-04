@@ -39,6 +39,9 @@
 	overflow: hidden;
 	border: 0;
 }
+.filebox button {
+	height: 40px;
+}
 
 /* foodInfo */
 
