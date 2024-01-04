@@ -1,5 +1,6 @@
 package com.fitness.spring_boot.dto.exercise;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,12 +18,14 @@ import java.util.List;
 @NoArgsConstructor
 public class ExerciseDTO {
     private Long eno;
+    @NotBlank(message = "제목을 입력하세요.")
     private String title;
+    @NotBlank(message = "내용을 입력하세요.")
     private String content;
+    @NotBlank(message = "운동부위를 선택하세요")
     private String part;
     private LocalDateTime regDate;
     private int visitcount;
-    @NotEmpty
     private List<MultipartFile> files;
 
 

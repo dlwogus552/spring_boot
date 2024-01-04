@@ -1,6 +1,7 @@
 package com.fitness.spring_boot.dto.exercise;
 
 import com.fitness.spring_boot.domain.exercise.Exercise;
+import com.fitness.spring_boot.domain.exercise.ExerciseFile;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,12 +20,14 @@ public class ExerciseFileDTO {
     private Exercise exercise;
 
     public String getLink(Long eno){
-        if(thumbnail && this.exercise.getEno()==eno){
+        if(image && thumbnail && this.exercise.getEno()==eno){
             return "s_"+uuid+"_"+filename;
-        }else{
-            return "";
+        }else if(exercise.getEno()==eno){
+            return uuid+"_"+filename;
         }
+        return "";
     }
+
     public String getSaveFileName(String filename, String uuid){
             return uuid+"_"+filename;
     }

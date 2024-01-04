@@ -26,7 +26,12 @@
                     <div class="card-body" style="text-align: center">
                         <p class="card-text" style="color : black" id="post-content">[[${exerciseDTO.content}]]</p>
                         <div th:each="fileDTO:${fileDTOList}">
-                            <img th:if="${fileDTO.image}" th:src="|/exercise/display/${fileDTO.getSaveFileName(fileDTO.filename,fileDTO.uuid)}|">
+                            <img class="view-image" th:if="${fileDTO.image}" th:src="|/exercise/display/${fileDTO.getSaveFileName(fileDTO.filename,fileDTO.uuid)}|" >
+                            <video class="view-image" th:if="${!fileDTO.image}" controls preload="metadata" th:src="|/exercise/display/${fileDTO.getSaveFileName(fileDTO.filename,fileDTO.uuid)}|+'#t=0.5'">
+                                <source  th:src="|/exercise/display/${fileDTO.getSaveFileName(fileDTO.filename,fileDTO.uuid)}|">
+                            </video>
+
+
                         </div>
                     </div>
                     <div class="card-footer" style="text-align: right">
@@ -35,8 +40,8 @@
                 </div>
 
                 <div align="right" th:with="link=${pageRequestDTO.getLink()}">
-                    <a sec:authorize="" th:href="|@{/exercise/modify(eno=${exerciseDTO.eno})}&${link}|" class="btn btn-primary">수정하기</a>
-                    <a sec:authorize="" th:href="|@{/exercise/remove(eno=${exerciseDTO.eno})}|" class="btn btn-danger">삭제하기</a>
+                    <a th:href="|@{/exercise/modify(eno=${exerciseDTO.eno})}&${link}|" class="btn btn-primary">수정하기</a>
+                    <a th:href="|@{/exercise/remove(eno=${exerciseDTO.eno})}|" class="btn btn-danger">삭제하기</a>
                     <a th:href="|@{/exercise/list}?${link}|" type="button" class="btn btn-secondary">뒤로가기</a>
                 </div>
             </div>
