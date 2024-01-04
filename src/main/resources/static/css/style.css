@@ -30,6 +30,13 @@
 	position: relative;
 	left: -5px;
 	border-radius: 0 5px 5px 0;
+	border: 1px solid #999;
+	width: 106px;
+}
+.filebox label:hover {
+	color: #999999;
+	background-color: #fff;
+	border: 1px solid #999;
 }
 .filebox input[type="file"] {
 	position: absolute;
@@ -41,6 +48,15 @@
 }
 .filebox button {
 	height: 40px;
+}
+.filebox {
+	width: 70%;
+}
+.qna-title {
+	background-color: #dfdfdf;
+}
+.qna-table td, .qna-table th {
+	border: 1px solid #aaa !important;
 }
 
 /* foodInfo */

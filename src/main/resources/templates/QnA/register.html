@@ -19,46 +19,55 @@
         <div class="container">
             <div class="element">
                 <h2 class="el-title text-center">질문작성</h2>
-                <table class="table table-bordered table-lg text-center mb-0">
-                    <form action="/QnA/register" method="post" enctype="multipart/form-data">
+                <table class="table table-lg text-center mb-0 qna-table">
+                    <form action="/QnA/register" id="qnaForm" method="post" enctype="multipart/form-data">
                         <tr>
-                            <th class="align-middle">제목</th>
+                            <th class="align-middle qna-title">제목</th>
                             <td>
                                 <input type="text" id="title" name="title" class="form-control form-control"
                                        placeholder="제목을 입력하세요.">
                             </td>
                         </tr>
                         <tr>
-                            <th class="align-middle">제목</th>
+                            <th class="align-middle qna-title">이름</th>
                             <td>
-                                <input type="text" id="writer" name="writer" class="form-control form-control"
+                                <input type="text" id="writer" name="writer" class="form-control form-control w-50"
                                        placeholder="이름을 입력하세요.">
                             </td>
                         </tr>
                         <tr>
-                            <th class="align-middle">내용</th>
+                            <th class="align-middle qna-title">내용</th>
                             <td>
                                 <textarea rows="10" class="form-control" placeholder="내용을 입력하세요"
                                           name="content" id="content" style="resize: none"></textarea>
                             </td>
                         </tr>
                         <tr>
-                            <th class="align-middle">파일</th>
+                            <th class="align-middle qna-title">파일</th>
                             <td>
                                 <div class="file_list">
-                                    <div class="file_input filebox">
-                                        <input class="upload-name" value="첨부파일" placeholder="첨부파일" readonly>
-                                        <label for="file">파일찾기</label>
-                                        <input type="file" id="file">
-                                        <button class="btn btn-outline-danger">
-                                            <i class="fa-solid fa-circle-minus" style="color: #ff3547;"></i> 삭제
-                                        </button>
-                                        <button class="btn btn-outline-info">
-                                            <i class="fa-solid fa-circle-plus" style="color: #33b5e5;"></i> 추가
-                                        </button>
+                                    <div>
+                                        <div class="file_input filebox text-left">
+                                            <input class="upload-name" value="첨부파일" placeholder="첨부파일" readonly>
+                                            <label>파일찾기
+                                                <input type="file" name="files" onchange="selectFile(this)">
+                                            </label>
+                                            <button type="button" class="btn btn-outline-info" onclick="addFile()">
+                                                <i class="fa-solid fa-circle-plus" style="color: #33b5e5;"></i> 추가
+                                            </button>
+                                        </div>
                                     </div>
-
                                 </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <button type="button" id="submitBtn" class="btn btn-outline-dark pl-5 pr-5">
+                                    작성
+                                </button>
+                                <button type="button" class="btn btn-outline-dark pl-5 pr-5" onclick="location.href='/QnA/list'">
+                                    목록
+                                </button>
                             </td>
                         </tr>
                     </form>
@@ -70,10 +79,31 @@
 </div>
 
 <script layout:fragment="script" th:inline="javascript">
-    $("#file").on('change',function(){
-        var fileName = $("#file").val().split("\\").pop();
-        $(".upload-name").val(fileName);
-    });
+    $("#submitBtn").click(function (e) {
+        e.preventDefault();
+        var formData = new FormData($("#qnaForm")[0]);
+        const fileFormName = "files"
+        formData.delete(fileFormName)
+
+        var inputFile = $("input[name='files']");
+        console.log("인풋 파일 확인 : " + inputFile.length)
+        var files;
+
+        for (var i = 0; i < inputFile.length; i++) {
+            files = inputFile[i].files;
+            console.log("files 확인 : " + files[0].name)
+            formData.append("files", files[0]);
+        }
+
+        fetch('/QnA/register', {
+            method: 'POST',
+            body: formData // body 부분에 폼데이터 변수를 할당
+        }).then((response) => {
+            // response.json()
+            console.log("response : " + response)
+            location.href= "/QnA/list";
+        });
+    })
 
     // 파일 선택
     function selectFile(element) {
@@ -81,7 +111,7 @@
         const filename = element.closest('.file_input').firstElementChild;
 
         // 1. 파일 선택 창에서 취소 버튼이 클릭된 경우
-        if ( !file ) {
+        if (!file) {
             filename.value = '';
             return false;
         }
@@ -95,7 +125,13 @@
             return false;
         }
 
-        // 3. 파일명 지정
+        var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)")
+        if (regex.test(filename)) {
+            alert("해당 종류의 파일은 업로드할 수 없습니다.");
+            return false;
+        }
+
+        // 4. 파일명 지정
         filename.value = file.name;
     }
 
@@ -103,18 +139,24 @@
     // 파일 추가
     function addFile() {
         const fileDiv = document.createElement('div');
-        fileDiv.innerHTML =`
-            <div class="file_input">
-                <input type="text" readonly />
-                <label> 첨부파일
-                    <input type="file" name="files" onchange="selectFile(this);" />
+        const fileListClass = document.querySelector('.file_list')
+        fileDiv.innerHTML = `
+            <div class="file_input filebox text-left mt-3">
+                <input class="upload-name" value="첨부파일" placeholder="첨부파일" readonly>
+                <label>파일찾기
+                    <input type="file" name="files" onchange="selectFile(this)">
                 </label>
+                <button type="button" class="btn btn-outline-danger" onclick="removeFile(this)">
+                    <i class="fa-solid fa-circle-minus" style="color: #ff3547;"></i> 삭제
+                </button>
             </div>
-            <button type="button" onclick="removeFile(this);" class="btns del_btn"><span>삭제</span></button>
         `;
-        document.querySelector('.file_list').appendChild(fileDiv);
+        if (fileListClass.childElementCount < 5) {
+            fileListClass.appendChild(fileDiv);
+        } else {
+            alert("파일은 5개까지 업로드 할 수 있습니다.");
+        }
     }
-
 
     // 파일 삭제
     function removeFile(element) {
@@ -124,7 +166,6 @@
             inputs.forEach(input => input.value = '')
             return false;
         }
-        element.parentElement.remove();
+        element.parentElement.parentElement.remove();
     }
-    출처: https://congsong.tistory.com/39 [Let's develop:티스토리]
 </script>
