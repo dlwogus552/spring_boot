@@ -38,7 +38,7 @@ public class QNABoardServiceImpl implements QNABoardService {
         String type = pageRequestDTO.getType();
         String keyword = pageRequestDTO.getKeyword();
         Pageable pageable = pageRequestDTO.getPageable("qnabno");
-        Page<QNABoard> result = repository.findByKeyword(type, keyword, pageable);
+        Page<QNABoard> result = repository.searchAll(type, keyword, pageable);
         List<QNABoardDTO> dtoList = result.getContent().stream()
                 .map(board -> modelMapper.map(board, QNABoardDTO.class))
                 .toList();
@@ -54,7 +54,8 @@ public class QNABoardServiceImpl implements QNABoardService {
         QNABoard board = modelMapper.map(qnaBoardDTO, QNABoard.class);
         Long qnabno = repository.save(board).getQnabno();
         // 파일이 있을 경우
-        if(qnaBoardDTO.getFiles() != null) {
+        if(qnaBoardDTO.getFiles() != null && !qnaBoardDTO.getFiles().get(0).isEmpty()) {
+            log.info("파일 확인 : " + qnaBoardDTO.getFiles());
             final List<QNABoardFileDTO> list = new ArrayList<>();
             File folder = new File(uploadPath+"\\qnafile");
             if (!folder.exists()) {
@@ -80,6 +81,7 @@ public class QNABoardServiceImpl implements QNABoardService {
                 QNABoardFileDTO fileDTO = QNABoardFileDTO.builder()
                         .qnafno(qnabno)
                         .filename(oFilename)
+                        .qnaBoard(board)
                         .uuid(uuid)
                         .build();
                 fileService.FileUpload(fileDTO);

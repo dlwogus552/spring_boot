@@ -7,6 +7,61 @@
 
 
 /* custom */
+/* Exercise */
+.view-image{
+	max-width: 80%; display: block; margin: 20px auto;"
+}
+
+.filebox .upload-name {
+	display: inline-block;
+	height: 40px;
+	padding: 0 10px;
+	vertical-align: middle;
+	border: 1px solid #dddddd;
+	width: 60%;
+	color: #999999;
+	border-radius: 5px 0 0 5px;
+}
+.filebox label {
+	display: inline-block;
+	padding: 10px 20px;
+	color: #fff;
+	vertical-align: middle;
+	background-color: #999999;
+	cursor: pointer;
+	height: 40px;
+	margin : 0;
+	position: relative;
+	left: -5px;
+	border-radius: 0 5px 5px 0;
+	border: 1px solid #999;
+	width: 106px;
+}
+.filebox label:hover {
+	color: #999999;
+	background-color: #fff;
+	border: 1px solid #999;
+}
+.filebox input[type="file"] {
+	position: absolute;
+	width: 0;
+	height: 0;
+	padding: 0;
+	overflow: hidden;
+	border: 0;
+}
+.filebox button {
+	height: 40px;
+}
+.filebox {
+	width: 70%;
+}
+.qna-title {
+	background-color: #dfdfdf;
+}
+.qna-table td, .qna-table th {
+	border: 1px solid #aaa !important;
+}
 
 /* foodInfo */
 
