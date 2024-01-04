@@ -30,7 +30,8 @@ public class QNABoard {
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime writedate;        // 작성일
+    @ColumnDefault("0")
     private Long readcnt = 0L;              // 읽은 수
-
+    @ColumnDefault("0")
     private boolean answer = false;         // 답변 여부
 }

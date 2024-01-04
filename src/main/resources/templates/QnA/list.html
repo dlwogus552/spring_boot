@@ -18,12 +18,61 @@
 	<section class="elements-section">
 		<div class="container">
 			<div class="element">
-				<h2 class="el-title">Buttons</h2>
-				<button class="site-btn mr-3 mb-3">Send Message</button>
-				<button class="site-btn sb-dark mr-3 mb-3">Send Message</button>
-				<button class="site-btn sb-line">Send Message</button>
+				<form action="/board/list" method="get">
+					<input type="hidden" name="size" th:value="${pageRequestDTO.size}">
+					<div class="col">
+						<div class="input-group">
+							<div class="input-group-prepend me-2">
+								<select name="type" class="form-select">
+									<option value="">---</option>
+									<option value="t" th:selected="${pageRequestDTO.type=='t'}">제목</option>
+									<option value="c" th:selected="${pageRequestDTO.type=='c'}">내용</option>
+									<option value="w" th:selected="${pageRequestDTO.type=='w'}">작성자</option>
+									<option value="tc" th:selected="${pageRequestDTO.type=='tc'}">제목+내용</option>
+									<option value="tcw" th:selected="${pageRequestDTO.type=='tcw'}">제목+내용+작성자</option>
+								</select>
+							</div>
+							<input type="text" name="keyword" th:value="${pageRequestDTO.keyword}" class="form-control me-2">
+							<div class="input-group-append">
+								<button class="btn btn-outline-secondary searchBtn" type="submit">Search</button>
+								<button class="btn btn-outline-secondary clearBtn" type="reset">Clear</button>
+							</div>
+						</div>
+					</div>
+				</form>
 			</div>
-
+			<div class="element">
+				<h2 class="el-title">목록</h2>
+				<table class="table table-lg text-center mb-0 qna-table">
+					<tbody th:with="link=${pageRequestDTO.getLink()}">
+						<tr th:each="dto:${responseDTO.dtoList}">
+							<th>[[${dto.qnabno}]]</th>
+							<td>
+								<a th:href="|@{/QnA/view(bno=${dto.qnabno})}&${link}|">[[${dto.title}]]</a>
+							</td>
+							<td>[[${dto.writer}]]</td>
+							<td>[[${dto.readcnt}]]</td>
+							<td>[[${dto.writedate}]]</td>
+							<td>[[${dto.answer}]]</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="float-end">
+					<ul class="pagination flex-wrap">
+						<li class="page-item" th:if="${responseDTO.prev}">
+							<a class="page-link" th:data-num="${responseDTO.start -1}">Prev</a>
+						</li>
+						<th:block th:each="i : ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+							<li th:class="${responseDTO.page == i} ? 'active page-item' : 'page-item' ">
+								<a class="page-link" th:data-num="${i}">[[${i}]]</a>
+							</li>
+						</th:block>
+						<li class="page-item" th:if="${responseDTO.next}">
+							<a class="page-link" th:data-num="${responseDTO.end +1}">Next</a>
+						</li>
+					</ul>
+				</div>
+			</div>
 		</div>
 	</section>
 	<!-- Elements section end -->

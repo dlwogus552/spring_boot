@@ -38,7 +38,7 @@ public class QNABoardServiceImpl implements QNABoardService {
         String type = pageRequestDTO.getType();
         String keyword = pageRequestDTO.getKeyword();
         Pageable pageable = pageRequestDTO.getPageable("qnabno");
-        Page<QNABoard> result = repository.findByKeyword(type, keyword, pageable);
+        Page<QNABoard> result = repository.searchAll(type, keyword, pageable);
         List<QNABoardDTO> dtoList = result.getContent().stream()
                 .map(board -> modelMapper.map(board, QNABoardDTO.class))
                 .toList();
