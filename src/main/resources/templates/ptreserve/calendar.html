@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic.html}"
+      lang="en">
+<div layout:fragment="title">
+    <!-- Page top section -->
+    <section class="page-top-section set-bg" data-setbg="/img/header-bg/5.jpg">
+        <div class="container">
+            <h2>P.T 예약</h2>
+        </div>
+    </section>
+    <!-- Page top section end -->
+</div>
+
+<html>
+<div layout:fragment="content">
+    <section class="elements-section el-title align-items-center">
+        <div class="container">
+            <div class="element">
+                <h2 class="el-title">P.T 예약</h2>
+                <div class="container mb-1">
+                    <form action="/pttime/calendar" method="get">
+                        <script>
+                            var today = new Date();
+                            function buildCalendar(){
+                                var row = null
+                                var row1 = null
+                                var cnt = 0;
+                                var calendarTable = document.getElementById("calendar");
+                                var calendarTableTitle = document.getElementById("calendarTitle");
+                                calendarTableTitle.innerHTML = today.getFullYear()+"년"+(today.getMonth()+1)+"월";
+
+                                var firstDate = new Date(today.getFullYear(), today.getMonth(), 1);
+                                var lastDate = new Date(today.getFullYear(), today.getMonth()+1, 0);
+                                while(calendarTable.rows.length > 2){
+                                    calendarTable.deleteRow(calendarTable.rows.length -1);
+                                }
+
+                                row = calendarTable.insertRow();
+                                for(i = 0; i < firstDate.getDay(); i++){
+                                    cell = row.insertCell();
+                                    cnt += 1;
+                                }
+
+                                row1 = calendarTable.insertRow();
+
+                                for(i = 1; i <= lastDate.getDate(); i++){
+                                    cell = row.insertCell();
+                                    cnt += 1;
+
+                                    cell.setAttribute('id', i);
+                                    cell.innerHTML = i;
+                                    cell.align = "center";
+
+                                    cell.onclick = function(){
+                                        clickedYear = today.getFullYear();
+                                        clickedMonth = ( 1 + today.getMonth() );
+                                        clickedDate = this.getAttribute('id');
+
+                                        clickedDate = clickedDate >= 10 ? clickedDate : '0' + clickedDate;
+                                        clickedMonth = clickedMonth >= 10 ? clickedMonth : '0' + clickedMonth;
+                                        clickedYMD = clickedYear + "-" + clickedMonth + "-" + clickedDate;
+
+                                        opener.document.getElementById("date").value = clickedYMD;
+                                        self.close();
+                                    }
+
+                                    if (cnt % 7 == 1) {
+                                        cell.innerHTML = "<font color=red>" + i + "</font>";
+                                    }
+
+                                    if (cnt % 7 == 0){
+                                        cell.innerHTML = "<font color=red>" + i + "</font>";
+                                        row = calendar.insertRow();
+                                    }
+                                }
+
+                                if(cnt % 7 != 0){
+                                    for(i = 0; i < 7 - (cnt % 7); i++){
+                                        cell = row.insertCell();
+                                    }
+                                }
+                            }
+
+                            function prevCalendar(){
+                                today = new Date(today.getFullYear(), today.getMonth()-1, today.getDate());
+                                buildCalendar();
+                            }
+
+                            function nextCalendar(){
+                                today = new Date(today.getFullYear(), today.getMonth()+1, today.getDate());
+                                buildCalendar();
+                            }
+                        </script>
+                        <body>
+                        <table id="calendar" align="center" width="80%">
+                            <tr>
+                                <td align="center"><label onclick="prevCalendar()"> ◀ </label></td>
+                                <td colspan="5" align="center" id="calendarTitle">yyyy년 m월</td>
+                                <td align="center"><label onclick="nextCalendar()"> ▶ </label></td>
+                            </tr>
+                            <tr>
+                                <td align="center"><font color ="red">일</td>
+                                <td align="center">월</td>
+                                <td align="center">화</td>
+                                <td align="center">수</td>
+                                <td align="center">목</td>
+                                <td align="center">금</td>
+                                <td align="center"><font color ="red">토</td>
+                            </tr>
+                            <script type="text/javascript">buildCalendar();</script>
+                        </table>
+                        </body>
+                        </script>
+                        <div align="center">
+                            <button class="btn btn-outline-secondary clearBtn" type="reset" relative="top">리셋하기</button>
+                            <button class="btn btn-outline-secondary clearBtn" type="button" onClick="location.href='/ptreserve/trainer'">돌아가기</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>
+</html>
+

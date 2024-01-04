@@ -17,7 +17,7 @@
         <div class="container">
             <div class="element">
                 <h2 class="el-title">Register</h2>
-                <form action="/exercise/modify" method="post" enctype="multipart/form-data" onsubmit="return validateForm(this)">
+                <form action="/exercise/modify" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="eno" th:value="${exerciseDTO.eno}">
                     <div class="mb-3">
                         <label for="title" class="form-label">제 목</label>
@@ -70,20 +70,4 @@
         const eno =[[${exerciseDTO.eno}]]
         self.location=`/exercise/view?eno=${eno}&${link}`
     })
-    function validateForm(form) {
-        if (form.title.value==""){
-            alert("제목을 입력하세요")
-            form.title.focus();
-            return false;
-        }
-        if (form.content.value==""){
-            alert("내용을 입력하세요")
-            form.content.focus();
-            return false;
-        }
-        if (form.part.value==""){
-            alert("운동부위를 선택하세요")
-            return false;
-        }
-    }
 </script>

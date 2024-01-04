@@ -1,8 +1,7 @@
 package com.fitness.spring_boot;
 
-import com.fitness.spring_boot.Service.ExerciseService;
-import com.fitness.spring_boot.dto.ExerciseDTO;
-import com.fitness.spring_boot.repository.ExerciseRepository;
+
+import com.fitness.spring_boot.Service.exercise.ExerciseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
