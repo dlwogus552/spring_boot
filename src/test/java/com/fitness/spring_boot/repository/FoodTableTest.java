@@ -1,6 +1,7 @@
 package com.fitness.spring_boot.repository;
 
-import com.fitness.spring_boot.domain.FoodTable;
+import com.fitness.spring_boot.domain.foodInfo.FoodTable;
+import com.fitness.spring_boot.repository.foodInfo.FoodTableRepository;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
