@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @ToString
 @Getter
-@Setter
+// 엔티티에 setter 를 모두 여는건 좋은 방법이 아님 @Setter 참고로 필드에도 선언 가능하디
 @Table(name = "exercise_file")
 public class ExerciseFile {
     @Id

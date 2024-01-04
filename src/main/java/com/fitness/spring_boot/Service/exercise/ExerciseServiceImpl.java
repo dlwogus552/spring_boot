@@ -20,9 +20,8 @@ public class ExerciseServiceImpl implements ExerciseService{
     private final ExerciseRepository exerciseRepository;
     private final ModelMapper modelMapper;
     @Override
-    public Long register(ExerciseDTO exerciseDTO) {
-        Exercise exercise = modelMapper.map(exerciseDTO, Exercise.class);
-        return exerciseRepository.save(exercise).getEno();
+    public void register(ExerciseDTO exerciseDTO) {
+        modelMapper.map(exerciseDTO, Exercise.class);
     }
 
     @Override
@@ -31,7 +30,6 @@ public class ExerciseServiceImpl implements ExerciseService{
         String keyword = pageRequestDTO.getKeyword();
         Pageable pageable = pageRequestDTO.getPageable("eno");
         Page<Exercise> result=exerciseRepository.searchAll(type,keyword,pageable);
-//        int count = replyRepository.listOfBoard(bno)
 
         List<ExerciseDTO> dtoList = result.getContent().stream().map(board -> modelMapper.map(board,ExerciseDTO.class)).collect(Collectors.toList());
         return PageResponseDTO.<ExerciseDTO>withAll()
@@ -43,14 +41,13 @@ public class ExerciseServiceImpl implements ExerciseService{
 
 
     @Override
-    public Long modify(ExerciseDTO exerciseDTO) {
+    public void modify(ExerciseDTO exerciseDTO) {
         Exercise exercise = exerciseRepository.findById(exerciseDTO.getEno()).orElseThrow();
         exercise.change(exerciseDTO.getTitle(), exerciseDTO.getContent(), exerciseDTO.getPart());
-        return exerciseRepository.save(exercise).getEno();
     }
 
     @Override
-    public void remove(Long eno) {
+    public void remove(Long eno) { // 이런거 이렇게 해버리면 삭제 되었는지 알수있나 기억은 안나는데 existById 로 존재하는지 체크하고 삭제를 하던가 하는게 좋음 예외처리가 진짜 생명임.
         exerciseRepository.deleteById(eno);
     }
 

@@ -20,9 +20,9 @@ public class ExerciseFileDTO {
     private Exercise exercise;
 
     public String getLink(Long eno){
-        if(image && thumbnail && this.exercise.getEno()==eno){
+        if(image && thumbnail && this.exercise.getEno().equals(eno)){
             return "s_"+uuid+"_"+filename;
-        }else if(exercise.getEno()==eno){
+        }else if(exercise.getEno().equals(eno)){
             return uuid+"_"+filename;
         }
         return "";
