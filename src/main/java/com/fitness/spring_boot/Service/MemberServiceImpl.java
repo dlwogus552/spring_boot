@@ -25,8 +25,11 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public void update(Member member) {
-        Member m=memberRepository.findById(member.getMno()).get();
-        m.setPhone(m.getPhone());
+        Member m=memberRepository.findById(member.getMno()).orElse(null);
+        if (m != null) {
+            m.setPhone(member.getPhone());
+            memberRepository.save(m);
+        }
     }
 
     @Override

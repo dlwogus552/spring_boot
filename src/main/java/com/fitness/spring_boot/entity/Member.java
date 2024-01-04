@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.util.Date;
+
 
 @Entity
 @Table(name = "GYMMember")
@@ -40,10 +42,10 @@ public class Member {
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
-    private String regDate;
+    private Date regDate;
 
     @Column(nullable = true)
-    private String endDate;
+    private Date endDate;
 
     @Column(nullable = true)
     private int cnum;

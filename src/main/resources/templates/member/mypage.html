@@ -8,8 +8,8 @@
     <h2> My Page </h2>
 <!--        <form action="/member/mypage" method="post">-->
             <div class="form-group mt-3">
-                <img src="/static/img/NoProfilePhoto.png" alt="프로필 사진">
-                <input type="image" name="photo">
+                <img src="/img/NoProfilePhoto.png" alt="">
+                <input type="button" value="프로필 수정" class="modifyPhoto">
             </div>
 
             <div class="form-group mt-3">
@@ -17,23 +17,26 @@
                 <input type="text" class="form-control" name="mno" id="mno" th:value="${member.mno}" readonly>
             </div>
 
-<!--            <div class="form-group mt-3">-->
-<!--                <span> 아이디 </span>-->
-<!--                <input type="text" name="id" placeholder="ID를 입력하세요">-->
-<!--            </div>-->
-<!--            <div class="form-group mt-3">-->
-<!--                <span> 비밀번호 </span>-->
-<!--                <input type="password" name="pass">-->
-<!--            </div>-->
             <div class="form-group mt-3">
                 <label for="mname"> 이름 </label>
                 <input type="text" class="form-control" name="mname" id="mname" th:value="${member.mname}" readonly>
             </div>
+
             <div class="form-group mt-3">
                 <label for="phone"> 연락처 </label>
-                <button type="button">연락처 수정</button>
-                <input type="text" class="form-control" name="phone" id="phone" th:value="${member.phone}" readonly>
+                <input type="button" value="수정" class="modifyHP" onclick="openPhoneModal()">
+                <input type="text" class="form-control" name="phone" id="phone" th:value="${member.phone}">
             </div>
+
+            <div id="phoneModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closePhoneModal()">&times;</span>
+                    <label for="newPhone">새 연락처:</label>
+                    <input type="text" id="newPhone">
+                    <button onclick="updatePhone()">수정</button>
+                </div>
+            </div>
+
             <div class="form-group mt-3">
                 <label for="age"> 나이 </label>
                 <input type="text" class="form-control" name="age" id="age" th:value="${member.age}" readonly>
@@ -46,12 +49,12 @@
 
             <div class="form-group mt-3">
                 <label for="regDate"> 등록일자 </label>
-                <input type="text" class="form-control" name="regDate" id="regDate" th:value="${member.regDate}" readonly>
+                <input type="text" class="form-control" name="regDate" id="regDate" th:value="${#dates.format(member.regDate, 'yyyy-MM-dd')}" readonly>
             </div>
 
             <div class="form-group mt-3">
                 <label for="endDate"> 종료일자 </label>
-                <input type="text" class="form-control" name="endDate" id="endDate" th:value="${member.endDate}" readonly>
+                <input type="text" class="form-control" name="endDate" id="endDate" th:value="${#dates.format(member.endDate, 'yyyy-MM-dd')}" readonly>
             </div>
 
             <div class="form-group mt-3">
@@ -71,3 +74,81 @@
         </form>
     </div>
 </div>
+
+<script layout:fragment="script" th:inline="javascript">
+    // 모달 열기
+    function openPhoneModal() {
+        document.getElementById('phoneModal').style.display = 'block';
+    }
+
+    // 모달 닫기
+    function closePhoneModal() {
+        document.getElementById('phoneModal').style.display = 'none';
+    }
+    // 연락처 수정
+    function updatePhone() {
+        var newPhoneValue = document.getElementById('newPhone').value;
+
+        // Ajax 요청
+        $.ajax({
+            type: 'POST',
+            url: '/member/updatePhone',
+            data: { newPhone: newPhoneValue },
+            success: function (response) {
+                console.log('연락처 수정 성공');
+                // 모달 닫기
+                closePhoneModal();
+
+                // mypage의 연락처 업데이트
+                updatePhoneNumberOnPage(newPhoneValue);
+            },
+            error: function (error) {
+                console.error('연락처 수정 실패');
+            }
+        });
+    }
+
+    // 페이지의 연락처 업데이트
+    function updatePhoneNumberOnPage(newPhoneValue) {
+        // 연락처를 보여주는 엘리먼트의 ID를 확인하고 해당 엘리먼트를 업데이트
+        document.getElementById('phone').value = newPhoneValue;
+    }
+
+
+
+    // 연락처 수정
+    // function updatePhone() {
+    //     // 새로운 연락처 값을 가져와서 처리하는 로직 추가
+    //     var newPhoneValue = document.getElementById('newPhone').value;
+    //     // AJAX를 사용하여 서버로 새로운 연락처를 전송
+    //     var xhr = new XMLHttpRequest();
+    //     xhr.onreadystatechange = function() {
+    //         if (xhr.readyState === XMLHttpRequest.DONE) {
+    //             if (xhr.status === 200) {
+    //                 // 성공적으로 서버에서 응답을 받았을 때 처리
+    //                 console.log('연락처 수정 성공!');
+    //                 // 모달 닫기
+    //                 closePhoneModal();
+    //             } else {
+    //                 // 서버에서 오류 응답을 받았을 때 처리
+    //                 console.error('연락처 수정 실패:', xhr.status);
+    //             }
+    //         }
+    //     };
+    //
+    //     // 서버로 전송할 데이터 설정
+    //     var data = "newPhone=" + encodeURIComponent(newPhoneValue);
+    //
+    //     // POST 방식으로 서버에 요청
+    //     xhr.open("POST", "/member/updatePhone", true);
+    //     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    //     xhr.send(data);
+    //
+    //     // 예시로 console에 출력
+    //     console.log('새로운 연락처:', newPhoneValue);
+    //
+    //     // 모달 닫기
+    //     closePhoneModal();
+
+</script>
+

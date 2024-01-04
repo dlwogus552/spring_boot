@@ -6,6 +6,7 @@ import com.fitness.spring_boot.entity.Member;
 import com.fitness.spring_boot.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -58,11 +59,12 @@ public class MemberController {
         model.addAttribute("member", memberService.findById(mno));
     }
 
-    @PostMapping("/modify")
-    public String modify(Member member){
+    @PostMapping("/updatePhone")
+    public ResponseEntity<String> updatePhone(@RequestParam("newPhone") String newPhone, @AuthenticationPrincipal PrincipalDetails principalDetails){
+        Member member = principalDetails.getMember();
+        member.setPhone(newPhone);
         memberService.update(member);
-        return "redirect:/member/mypage";
-        //리다이렉트 위치 설정 제대로 해야함
+        return ResponseEntity.ok("연락처 수정 성공");
     }
 
     @GetMapping("/remove")
