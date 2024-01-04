@@ -6,6 +6,7 @@ import com.fitness.spring_boot.dto.PageResponseDTO;
 import com.fitness.spring_boot.dto.qna.QNABoardDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,14 +24,17 @@ public class QNABoardController {
     public void QnABoardWrite() {
 
     }
-    @PostMapping("/register")
-    public String QnABoardWrite(QNABoardDTO qnaBoardDTO) {
+    @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void QnABoardWrite(QNABoardDTO qnaBoardDTO) {
+        qnaBoardDTO.getFiles().forEach(multipartFile -> {
+            log.info("controller에서 : "+multipartFile.getOriginalFilename());
+        });
         Long qnabno = service.register(qnaBoardDTO);
         if(qnabno != null) {
             log.info("board 작성 됨 : "+qnabno);
-            return "redirect:/QnA/list";
+//            return "redirect:/QnA/list";
         }
-        return "redirect:/QnA/write";
+//        return "redirect:/QnA/write";
     }
 
     @GetMapping("/list")

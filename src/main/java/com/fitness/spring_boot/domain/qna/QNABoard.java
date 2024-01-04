@@ -2,7 +2,9 @@ package com.fitness.spring_boot.domain.qna;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -12,6 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 @ToString
 @Getter
+@EntityListeners(value = {AuditingEntityListener.class})
 @Table(name = "qna_board")
 public class QNABoard {
     @Id
@@ -27,9 +30,7 @@ public class QNABoard {
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime writedate;        // 작성일
-    private Long readcnt;                   // 읽은 수
-    // 답글을 위한 변수
-    private Long root;
-    private Long step = 0L;
-    private Long indent = 0L;
+    private Long readcnt = 0L;              // 읽은 수
+
+    private boolean answer = false;         // 답변 여부
 }
