@@ -28,6 +28,9 @@ public class QNABoard {
     @Column(updatable = false)
     private LocalDateTime writedate;        // 작성일
     private Long readcnt;                   // 읽은 수
+
+    private boolean answer = false;         // 답변 여부
+
     // 답글을 위한 변수
     private Long root;
     private Long step = 0L;

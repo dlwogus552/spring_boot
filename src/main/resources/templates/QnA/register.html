@@ -36,16 +36,42 @@
                             </td>
                         </tr>
                         <tr>
-                            <th class="align-middle">제목</th>
+                            <th class="align-middle">내용</th>
                             <td>
-                                <textarea rows="10" placeholder="내용을 입력하세요" name="content" id="content"></textarea>
+                                <textarea rows="10" class="form-control" placeholder="내용을 입력하세요"
+                                          name="content" id="content" style="resize: none"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="align-middle">파일</th>
+                            <td>
+                                <div class="filebox">
+                                    <input class="upload-name" value="첨부파일" placeholder="첨부파일" readonly>
+                                    <label for="file">파일찾기</label>
+                                    <input type="file" id="file" multiple>
+                                </div>
                             </td>
                         </tr>
                     </form>
                 </table>
+            </div>
+            <div class="custom-file mb-3">
+                <input type="file" class="custom-file-input" id="customFile" name="filename" multiple>
+                <label class="custom-file-label" for="customFile">Choose file</label>
             </div>
 
         </div>
     </section>
     <!-- Elements section end -->
 </div>
+
+<script layout:fragment="script" th:inline="javascript">
+    $("#file").on('change',function(){
+        var fileName = $("#file").val().split("\\").pop();
+        $(".upload-name").val(fileName);
+    });
+    $(".custom-file-input").on("change", function() {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+</script>

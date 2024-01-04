@@ -8,6 +8,38 @@
 
 /* custom */
 
+.filebox .upload-name {
+	display: inline-block;
+	height: 40px;
+	padding: 0 10px;
+	vertical-align: middle;
+	border: 1px solid #dddddd;
+	width: 60%;
+	color: #999999;
+	border-radius: 5px 0 0 5px;
+}
+.filebox label {
+	display: inline-block;
+	padding: 10px 20px;
+	color: #fff;
+	vertical-align: middle;
+	background-color: #999999;
+	cursor: pointer;
+	height: 40px;
+	margin : 0;
+	position: relative;
+	left: -5px;
+	border-radius: 0 5px 5px 0;
+}
+.filebox input[type="file"] {
+	position: absolute;
+	width: 0;
+	height: 0;
+	padding: 0;
+	overflow: hidden;
+	border: 0;
+}
+
 /* foodInfo */
 
 #foodSearchResult::-webkit-scrollbar, #kcalCalculateResult::-webkit-scrollbar{
