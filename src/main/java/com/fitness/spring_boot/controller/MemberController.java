@@ -1,23 +1,23 @@
 package com.fitness.spring_boot.controller;
 
-import com.fitness.spring_boot.Service.MemberService;
+import com.fitness.spring_boot.Service.member.MemberService;
 import com.fitness.spring_boot.config.auth.PrincipalDetails;
 import com.fitness.spring_boot.entity.Member;
 import com.fitness.spring_boot.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.security.Principal;
+import java.io.IOException;
+
 
 @Controller
 @RequiredArgsConstructor
@@ -73,5 +73,14 @@ public class MemberController {
         return "redirect:/logout";
     }
 
+    // 프로필 사진 업로드 처리
+    @PostMapping("/uploadPhoto")
+    public String handleFileUpload(@RequestParam("profilePhoto") MultipartFile file, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        memberService.uploadProfilePhoto(principalDetails.getMember().getMno(), file);
+        return "redirect:/member/mypage";
+    }
+
 
 }
+
+
