@@ -20,26 +20,27 @@
             <div class="element">
                 <h2 class="el-title text-center">질문작성</h2>
                 <table class="table table-lg text-center mb-0 qna-table">
-                    <form action="/QnA/register" id="qnaForm" method="post" enctype="multipart/form-data">
+                    <form action="/QnA/modify" id="qnaForm" method="post" enctype="multipart/form-data">
+                        <input type="hidden"name="qnabno" th:value="${dto.qnabno}">
                         <tr>
                             <th class="align-middle qna-title">제목</th>
                             <td>
                                 <input type="text" id="title" name="title" class="form-control form-control"
-                                       placeholder="제목을 입력하세요.">
+                                       placeholder="제목을 입력하세요." th:value="${dto.title}">
                             </td>
                         </tr>
                         <tr>
                             <th class="align-middle qna-title">이름</th>
                             <td>
                                 <input type="text" id="writer" name="writer" class="form-control form-control w-50"
-                                       placeholder="이름을 입력하세요.">
+                                       placeholder="이름을 입력하세요." th:value="${dto.writer}" readonly>
                             </td>
                         </tr>
                         <tr>
                             <th class="align-middle qna-title">내용</th>
                             <td>
                                 <textarea rows="10" class="form-control" placeholder="내용을 입력하세요"
-                                          name="content" id="content" style="resize: none"></textarea>
+                                          name="content" id="content" style="resize: none">[[${dto.content}]]</textarea>
                             </td>
                         </tr>
                         <tr>
@@ -100,7 +101,7 @@
             }
         }
 
-        fetch('/QnA/register', {
+        fetch('/QnA/modify', {
             method: 'POST',
             body: formData // body 부분에 폼데이터 변수를 할당
         }).then((response) => {

@@ -15,13 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -54,6 +48,7 @@ public class QNABoardServiceImpl implements QNABoardService {
     public Long register(QNABoardDTO qnaBoardDTO) {
         QNABoard board = modelMapper.map(qnaBoardDTO, QNABoard.class);
         Long qnabno = repository.save(board).getQnabno();
+        qnaBoardDTO.setQnabno(qnabno);
         if(qnaBoardDTO.getFiles() != null && !qnaBoardDTO.getFiles().get(0).isEmpty()) {
             fileService.FileUpload(qnaBoardDTO);
         }

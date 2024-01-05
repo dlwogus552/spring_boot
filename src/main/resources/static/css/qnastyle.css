@@ -10,4 +10,40 @@
 .qna-list-link:hover {
     color: #0d0d0d;
 }
+.qna-view-con {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.qna-view-q {
+    border-top: 1px solid #0d0d0d;
+    border-bottom: 1px solid #0d0d0d;
+    width: 100%;
+}
+.qna-view-q-title {
+    padding: 2rem;
+}
+.qna-view-q-title-top {
+    margin-bottom: 1rem;
+}
+.qna-view-q-content {
+    padding: 3.5rem 2rem 3.5rem 2rem;
+    border-top: 1px solid #bbb;
+    font-size: 1.2rem;
+}
+.qna-view-q-file {
+    display: flex;
+    flex-direction: column;
+    /*align-items: end;*/
+    padding: 2rem;
+    font-size: 0.7rem;
+}
+.qna-view-q-file>.list-group {
+    width: 50%;
+}
+.qna-view-q-file>.list-group>a {
+    display: flex;
+    justify-content: space-between;
+}
 
