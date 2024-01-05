@@ -64,8 +64,8 @@ public class QNABoardController {
 
     @GetMapping("/remove")
     @Transactional
-    public String remove(Long bno) {
-        service.remove(bno);
+    public String remove(Long qnabno) {
+        service.remove(qnabno);
         return "redirect:/QnA/list";
     }
 }

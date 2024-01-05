@@ -32,6 +32,11 @@
                                     수정
                                 </button>
                             </a>
+                            <a th:href="|@{/QnA/remove(qnabno=${dto.qnabno})}|">
+                                <button class="btn btn-outline-danger ml-3">
+                                    삭제
+                                </button>
+                            </a>
                             <!-- <li sec:authorize="isAuthenticated()"><a href="/member/mypage" >My Page</a></li>-->
                             <a sec:authorize="hasAuthority('관리자')">
                                 <button class="btn btn-outline-success ml-3">
