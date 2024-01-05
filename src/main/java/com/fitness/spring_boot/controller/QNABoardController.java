@@ -26,9 +26,6 @@ public class QNABoardController {
     }
     @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public void QnABoardWrite(QNABoardDTO qnaBoardDTO) {
-        qnaBoardDTO.getFiles().forEach(multipartFile -> {
-            log.info("controller에서 : "+multipartFile.getOriginalFilename());
-        });
         Long qnabno = service.register(qnaBoardDTO);
         if(qnabno != null) {
             log.info("board 작성 됨 : "+qnabno);

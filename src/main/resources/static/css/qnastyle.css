@@ -1,0 +1,7 @@
+.qna-list-table td, .qna-list-table th {
+    border-left: none;
+    border-right: none;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+

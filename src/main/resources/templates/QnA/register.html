@@ -86,13 +86,16 @@
         formData.delete(fileFormName)
 
         var inputFile = $("input[name='files']");
-        console.log("인풋 파일 확인 : " + inputFile.length)
-        var files;
 
-        for (var i = 0; i < inputFile.length; i++) {
-            files = inputFile[i].files;
-            console.log("files 확인 : " + files[0].name)
-            formData.append("files", files[0]);
+        if (inputFile.val() !== "" && inputFile.val() !== null) { // 파일이 있으면
+            console.log("인풋 파일 확인 : " + inputFile.val())
+            var files;
+
+            for (var i = 0; i < inputFile.length; i++) {
+                files = inputFile[i].files;
+                console.log("files 확인 : " + files[0].name)
+                formData.append("files", files[0]);
+            }
         }
 
         fetch('/QnA/register', {

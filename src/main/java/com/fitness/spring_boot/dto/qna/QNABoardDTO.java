@@ -24,5 +24,6 @@ public class QNABoardDTO {
     private String writer;                  // 작성자
     private LocalDateTime writedate;        // 작성일
     private Long readcnt;                   // 읽은 수
+    private boolean answer;                 // 답변 여부
     public List<MultipartFile> files;
 }
