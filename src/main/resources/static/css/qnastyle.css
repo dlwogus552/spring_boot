@@ -4,4 +4,10 @@
     padding-top: 1rem;
     padding-bottom: 1rem;
 }
+.qna-list-link {
+    color: #0d0d0d;
+}
+.qna-list-link:hover {
+    color: #0d0d0d;
+}
 

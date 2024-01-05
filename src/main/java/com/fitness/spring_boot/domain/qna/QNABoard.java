@@ -31,7 +31,15 @@ public class QNABoard {
     @Column(updatable = false)
     private LocalDateTime writedate;        // 작성일
     @ColumnDefault("0")
-    private Long readcnt = 0L;              // 읽은 수
+    private int readcnt = 0;              // 읽은 수
     @ColumnDefault("0")
     private boolean answer = false;         // 답변 여부
+
+    public void updateReadcnt(){// 이런거 사소하긴 한데 카멜 케이스 지킬거면 똑바로 하는게 좋음
+        this.readcnt+=1;
+    }
+    public void change(String title, String content){
+        this.title=title;
+        this.content=content;
+    }
 }

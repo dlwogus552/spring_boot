@@ -53,21 +53,36 @@
                     </tr>
                     </thead>
                     <tbody th:with="link=${pageRequestDTO.getLink()}">
-                        <tr th:each="dto:${responseDTO.dtoList}">
-                            <th style="width: 12%">[[${dto.qnabno}]]</th>
-                            <td style="width: 30%">
-                                <a th:href="|@{/QnA/view(bno=${dto.qnabno})}&${link}|">[[${dto.title}]]</a>
-                            </td>
-                            <td style="width: 15%">[[${dto.writer}]]</td>
-                            <td style="width: 12%">[[${dto.readcnt}]]</td>
-                            <td style="width: 18%" th:text="${#temporals.format(dto.writedate, 'YYYY-MM-DD')}">
-                                [[${dto.writedate}]]
-                            </td>
-                            <td style="width: 13%">[[${dto.answer}]]</td>
-                        </tr>
-                        <tr th:if="${responseDTO.dtoList == null}">
-                            <td colspan="6">게시글이 없습니다.</td>
-                        </tr>
+                    <tr th:each="dto:${responseDTO.dtoList}">
+                        <th style="width: 12%" class="align-middle">[[${dto.qnabno}]]</th>
+                        <th style="width: 30%" class="align-middle text-left pl-3">
+                            <a th:href="|@{/QnA/view(bno=${dto.qnabno})}&${link}|" class="qna-list-link">[[${dto.title}]]</a>
+                        </th>
+                        <td style="width: 15%" class="align-middle">[[${dto.writer}]]</td>
+                        <td style="width: 12%" class="align-middle">[[${dto.readcnt}]]</td>
+                        <td style="width: 18%" class="align-middle"
+                            th:text="${#temporals.format(dto.writedate, 'YYYY-MM-DD')}">
+                            [[${dto.writedate}]]
+                        </td>
+                        <th style="width: 13%" class="align-middle">
+                            <div class="d-flex justify-content-center">
+                                <th:block th:if="${dto.answer == false}">
+                                    <div class="rounded-lg p-1 pl-2 pr-2 align-middle"
+                                         style="background-color: #eee">
+                                        답변대기
+                                    </div>
+                                </th:block>
+                                <th:block th:unless="${dto.answer == false}">
+                                    <div class="rounded-lg border border-danger p-1 align-middle">
+                                        답변완료
+                                    </div>
+                                </th:block>
+                            </div>
+                        </th>
+                    </tr>
+                    <tr th:if="${responseDTO.dtoList == null}">
+                        <td colspan="6">게시글이 없습니다.</td>
+                    </tr>
                     </tbody>
                     <tfoot>
                     <tr>
@@ -91,9 +106,6 @@
                     </tr>
                     </tfoot>
                 </table>
-                <div class="float-end">
-
-                </div>
             </div>
         </div>
     </section>

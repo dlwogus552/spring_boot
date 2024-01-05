@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,55 +54,35 @@ public class QNABoardServiceImpl implements QNABoardService {
     public Long register(QNABoardDTO qnaBoardDTO) {
         QNABoard board = modelMapper.map(qnaBoardDTO, QNABoard.class);
         Long qnabno = repository.save(board).getQnabno();
-        // 파일이 있을 경우
         if(qnaBoardDTO.getFiles() != null && !qnaBoardDTO.getFiles().get(0).isEmpty()) {
-            log.info("파일 확인 : " + qnaBoardDTO.getFiles());
-            final List<QNABoardFileDTO> list = new ArrayList<>();
-            File folder = new File(uploadPath+"\\qnafile");
-            if (!folder.exists()) {
-                try {
-                    folder.mkdirs();
-                    log.info("qnafile 폴더가 생성됨");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                log.info("qnafile 폴더가 이미 있음");
-            }
-            qnaBoardDTO.getFiles().forEach(multipartFile -> {
-                String oFilename = multipartFile.getOriginalFilename();
-                log.info("oFilename : " + oFilename);
-                String uuid = UUID.randomUUID().toString();
-                Path savePath = Paths.get(folder.getPath(), uuid + "_" + oFilename);
-                try {
-                    multipartFile.transferTo(savePath);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                QNABoardFileDTO fileDTO = QNABoardFileDTO.builder()
-                        .qnafno(qnabno)
-                        .filename(oFilename)
-                        .qnaBoard(board)
-                        .uuid(uuid)
-                        .build();
-                fileService.FileUpload(fileDTO);
-            });
+            fileService.FileUpload(qnaBoardDTO);
         }
         return qnabno;
     }
 
     @Override
     public Long modify(QNABoardDTO qnaBoardDTO) {
-        return null;
+        QNABoard board = repository.findById(qnaBoardDTO.getQnabno()).orElseThrow();
+        board.change(qnaBoardDTO.getTitle(), qnaBoardDTO.getContent());
+        return repository.save(board).getQnabno();
     }
 
     @Override
+    @Transactional
     public void remove(Long bno) {
-
+        List<QNABoardFileDTO> files = fileService.getFileList(bno);
+        if (!files.isEmpty() && files != null) {
+            fileService.FileDeleteAll(bno);
+        }
+        repository.deleteById(bno);
     }
 
     @Override
     public QNABoardDTO getBoard(Long bno) {
-        return null;
+        QNABoard result = repository.findById(bno).get();
+        result.updateReadcnt();
+        repository.save(result);
+        QNABoardDTO dto = modelMapper.map(result, QNABoardDTO.class);
+        return dto;
     }
 }
