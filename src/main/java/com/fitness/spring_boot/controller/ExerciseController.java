@@ -61,17 +61,16 @@ public class ExerciseController {
         exerciseService.remove(eno);
         return "redirect:/exercise/list";
     }
-
+    @Transactional
     @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String upload(@Valid ExerciseDTO exerciseDTO, BindingResult bindingResult, Model model) {
         if (exerciseDTO.getFiles() != null && !exerciseDTO.getFiles().get(0).isEmpty()) {
             exerciseService.register(exerciseDTO);
-            exerciseFileService.upload(exerciseDTO);
             return "redirect:/exercise/list";
         }
         if(bindingResult.hasErrors()) {
             bindingResult.getFieldErrors().forEach(error -> model.addAttribute(error.getObjectName(), error.getDefaultMessage()));
-            bindingResult.getFieldErrors().forEach(objectError -> log.info("error"+objectError.getRejectedValue().toString()));
+            bindingResult.getFieldErrors().forEach(objectError -> log.info(objectError+" error"));
             model.addAttribute("exerciseDTO",exerciseDTO);
             return "/exercise/register";
         }
@@ -80,7 +79,7 @@ public class ExerciseController {
 
     @GetMapping("/display/{fileName}")
     public ResponseEntity<Resource> display(@PathVariable("fileName") String fileName) {
-        Resource resource = new FileSystemResource(uploadPath + File.separator + fileName);
+        Resource resource = new FileSystemResource(uploadPath+"\\exercise" + File.separator + fileName);
         String resourceName = resource.getFilename();
         HttpHeaders headers = new HttpHeaders();
         if (fileName.isEmpty()) {
@@ -97,6 +96,7 @@ public class ExerciseController {
     @Transactional
     @PostMapping(value = "/modify", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String modify(PageRequestDTO pageRequestDTO, ExerciseDTO exerciseDTO) {
+        log.info("modify"+exerciseDTO);
         exerciseService.modify(exerciseDTO);
         if (exerciseDTO.getFiles() != null && !exerciseDTO.getFiles().get(0).isEmpty()) {
             exerciseFileService.deleteAll(exerciseDTO.getEno());

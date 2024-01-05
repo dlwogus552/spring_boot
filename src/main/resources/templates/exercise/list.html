@@ -49,11 +49,11 @@
                 <div class="container" >
                     <div class="row" >
                         <!-- Gallery Item 1 -->
-                        <div class="col-md-4 mb-4" th:each="dto:${responseDTO.dtoList}" th:if="${responseDTO.dtoList.size()>0}">
-                            <div class="card gallery-card">
-                                <a style="text-align: center" th:href="|@{/exercise/view(eno=${dto.eno})}&${pageRequestDTO.getLink()}|">
-                                    <img th:each="fileDTO:${fileDTOList}" th:if="${fileDTO.image && fileDTO.thumbnail && fileDTO.exercise.eno == dto.eno} "th:src="|/exercise/display/${fileDTO.getLink(dto.eno)}|" class="card-img-top" style="object-fit:scale-down; width: 188px; height: 188px;">
-                                    <video th:each="fileDTO:${fileDTOList}" th:if="${fileDTO.thumbnail && fileDTO.exercise.eno == dto.eno && !fileDTO.image}" preload="metadata" th:src="|/exercise/display/${fileDTO.getLink(dto.eno)}|" class="card-img-top" style="object-fit:scale-down; width: 188px; height: 188px;"></video>
+                        <div class="col-md-3 mb-4" th:each="dto:${responseDTO.dtoList}" th:if="${responseDTO.dtoList.size()>0}">
+                            <div class="card gallery-card text-center">
+                                <a th:href="|@{/exercise/view(eno=${dto.eno})}&${pageRequestDTO.getLink()}|">
+                                    <img th:each="fileDTO:${fileDTOList}" th:if="${fileDTO.image && fileDTO.thumbnail && fileDTO.exercise.eno == dto.eno} "th:src="|/exercise/display/${fileDTO.getLink(dto.eno)}|" class="card-img-top thumb-image">
+                                    <video th:each="fileDTO:${fileDTOList}" th:if="${fileDTO.thumbnail && fileDTO.exercise.eno == dto.eno && !fileDTO.image}" preload="metadata" th:src="|/exercise/display/${fileDTO.getLink(dto.eno)}|" class="card-img-top thumb-image"></video>
                                     <div class="card-body">
                                         <h5 class="card-title" style="margin-bottom: 0px; text-align: left">[[${dto.title}]]</h5>
                                         <p class="card-text" style="text-align: right">조회수 : [[${dto.visitcount}]]</p>

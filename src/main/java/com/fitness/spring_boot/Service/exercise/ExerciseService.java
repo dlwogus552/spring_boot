@@ -7,7 +7,7 @@ import com.fitness.spring_boot.dto.PageResponseDTO;
 public interface ExerciseService {
     void register(ExerciseDTO exerciseDTO);
     PageResponseDTO<ExerciseDTO> getList(PageRequestDTO pageRequestDTO);
-    void modify(ExerciseDTO exerciseDTO);
+    Long modify(ExerciseDTO exerciseDTO);
     void remove(Long eno);
     ExerciseDTO getBoard(Long eno);
 
