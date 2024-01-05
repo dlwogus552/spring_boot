@@ -54,9 +54,9 @@
                                 <a th:href="|@{/exercise/view(eno=${dto.eno})}&${pageRequestDTO.getLink()}|">
                                     <img th:each="fileDTO:${fileDTOList}" th:if="${fileDTO.image && fileDTO.thumbnail && fileDTO.exercise.eno == dto.eno} "th:src="|/exercise/display/${fileDTO.getLink(dto.eno)}|" class="card-img-top thumb-image">
                                     <video th:each="fileDTO:${fileDTOList}" th:if="${fileDTO.thumbnail && fileDTO.exercise.eno == dto.eno && !fileDTO.image}" preload="metadata" th:src="|/exercise/display/${fileDTO.getLink(dto.eno)}|" class="card-img-top thumb-image"></video>
-                                    <div class="card-body">
-                                        <h5 class="card-title" style="margin-bottom: 0px; text-align: left">[[${dto.title}]]</h5>
-                                        <p class="card-text" style="text-align: right">조회수 : [[${dto.visitcount}]]</p>
+                                    <div class="card-body" id="listCardBody">
+                                        <h5 class="card-title" id="listTitle">[[${dto.title}]]</h5>
+                                        <p class="card-text" id="visitCount">조회수 : [[${dto.visitcount}]]</p>
                                     </div>
                                 </a>
                             </div>

@@ -52,7 +52,7 @@ public class ExerciseController {
     }
 
     @GetMapping("/register")
-    public void register(ExerciseDTO exerciseDTO) {}
+    public void register(String filesError,ExerciseDTO exerciseDTO) {}
 
     @GetMapping("/remove")
     @Transactional
@@ -64,15 +64,18 @@ public class ExerciseController {
     @Transactional
     @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String upload(@Valid ExerciseDTO exerciseDTO, BindingResult bindingResult, Model model) {
+        if(bindingResult.hasErrors()) {
+            bindingResult.getFieldErrors().forEach(error -> model.addAttribute(error.getField()+"Error", error.getDefaultMessage()));
+            bindingResult.getFieldErrors().forEach(objectError -> log.info(objectError.getField()+" error"));
+            if(exerciseDTO.getFiles() == null || exerciseDTO.getFiles().get(0).isEmpty()){
+                model.addAttribute("filesError","파일을 첨부해주세요");
+            }
+            model.addAttribute("exerciseDTO",exerciseDTO);
+            return "/exercise/register";
+        }
         if (exerciseDTO.getFiles() != null && !exerciseDTO.getFiles().get(0).isEmpty()) {
             exerciseService.register(exerciseDTO);
             return "redirect:/exercise/list";
-        }
-        if(bindingResult.hasErrors()) {
-            bindingResult.getFieldErrors().forEach(error -> model.addAttribute(error.getObjectName(), error.getDefaultMessage()));
-            bindingResult.getFieldErrors().forEach(objectError -> log.info(objectError+" error"));
-            model.addAttribute("exerciseDTO",exerciseDTO);
-            return "/exercise/register";
         }
         return "/exercise/register";
     }
