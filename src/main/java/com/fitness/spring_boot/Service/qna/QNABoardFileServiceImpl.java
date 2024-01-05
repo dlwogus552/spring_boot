@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @Service
 @Log4j2
 @RequiredArgsConstructor
-public class QNABoardFileServiceImpl implements QNABoardFileService{
+public class QNABoardFileServiceImpl implements QNABoardFileService {
     private final QNABoardFileRepository repository;
     private final ModelMapper modelMapper;
 
@@ -33,37 +33,37 @@ public class QNABoardFileServiceImpl implements QNABoardFileService{
     @Override
     public void FileUpload(QNABoardDTO qnaBoardDTO) {
         // 파일이 있을 경우
-
-            log.info("파일 확인 : " + qnaBoardDTO.getFiles());
-            File folder = new File(uploadPath+"\\qnafile");
-            if (!folder.exists()) {
-                try {
-                    folder.mkdirs();
-                    log.info("qnafile 폴더가 생성됨");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                log.info("qnafile 폴더가 이미 있음");
+        log.info("파일 확인 : " + qnaBoardDTO.getFiles());
+        File folder = new File(uploadPath + "\\qnafile");
+        if (!folder.exists()) {
+            try {
+                folder.mkdirs();
+                log.info("qnafile 폴더가 생성됨");
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            qnaBoardDTO.getFiles().forEach(multipartFile -> {
-                String oFilename = multipartFile.getOriginalFilename();
-                log.info("oFilename : " + oFilename);
-                String uuid = UUID.randomUUID().toString();
-                Path savePath = Paths.get(folder.getPath(), uuid + "_" + oFilename);
-                try {
-                    multipartFile.transferTo(savePath);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        } else {
+            log.info("qnafile 폴더가 이미 있음");
+        }
+        qnaBoardDTO.getFiles().forEach(multipartFile -> {
+            String oFilename = multipartFile.getOriginalFilename();
+            log.info("oFilename : " + oFilename);
+            String uuid = UUID.randomUUID().toString();
+            Path savePath = Paths.get(folder.getPath(), uuid + "_" + oFilename);
+            try {
+                multipartFile.transferTo(savePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-                QNABoardFile qnaBoardFile = QNABoardFile.builder()
-                        .filename(oFilename)
-                        .uuid(uuid)
-                        .qnaBoard(modelMapper.map(qnaBoardDTO, QNABoard.class))
-                        .build();
-                repository.save(qnaBoardFile);
-            });
+            QNABoardFile qnaBoardFile = QNABoardFile.builder()
+                    .filename(oFilename)
+                    .uuid(uuid)
+                    .qnaBoard(modelMapper.map(qnaBoardDTO, QNABoard.class))
+                    .build();
+            log.info("qnaBoardFile : " + qnaBoardFile);
+            repository.save(qnaBoardFile);
+        });
 
     }
 
@@ -92,7 +92,7 @@ public class QNABoardFileServiceImpl implements QNABoardFileService{
         List<Long> fnoList = new ArrayList<>();
         dtoList.forEach(dto -> {
             fnoList.add(dto.getQnafno());
-            File file = new File(uploadPath + "\\qnafile", dto.getUuid()+"_"+dto.getFilename());
+            File file = new File(uploadPath + "\\qnafile", dto.getUuid() + "_" + dto.getFilename());
             file.delete();
         });
         repository.deleteAllById(fnoList);

@@ -56,14 +56,12 @@
                     <tr th:each="dto:${responseDTO.dtoList}">
                         <th style="width: 12%" class="align-middle">[[${dto.qnabno}]]</th>
                         <th style="width: 30%" class="align-middle text-left pl-3">
-                            <a th:href="|@{/QnA/view(bno=${dto.qnabno})}&${link}|" class="qna-list-link">[[${dto.title}]]</a>
+                            <a th:href="|@{/QnA/view(qnabno=${dto.qnabno})}&${link}|" class="qna-list-link">[[${dto.title}]]</a>
                         </th>
                         <td style="width: 15%" class="align-middle">[[${dto.writer}]]</td>
                         <td style="width: 12%" class="align-middle">[[${dto.readcnt}]]</td>
                         <td style="width: 18%" class="align-middle"
-                            th:text="${#temporals.format(dto.writedate, 'YYYY-MM-DD')}">
-                            [[${dto.writedate}]]
-                        </td>
+                            th:text="${#temporals.format(dto.writedate, 'YYYY-MM-DD')}"></td>
                         <th style="width: 13%" class="align-middle">
                             <div class="d-flex justify-content-center">
                                 <th:block th:if="${dto.answer == false}">
