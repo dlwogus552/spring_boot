@@ -76,6 +76,8 @@ public class ExerciseController {
         if (exerciseDTO.getFiles() != null && !exerciseDTO.getFiles().get(0).isEmpty()) {
             exerciseService.register(exerciseDTO);
             return "redirect:/exercise/list";
+        }else{
+            model.addAttribute("filesError","파일을 첨부해주세요");
         }
         return "/exercise/register";
     }

@@ -6,7 +6,7 @@
 
 <div layout:fragment="title">
     <!-- Page top section -->
-    <section class="page-top-section set-bg" data-setbg="/img/header-bg/5.jpg">
+    <section class="page-top-section set-bg" data-setbg="/img/header-bg/4.jpg">
         <div class="container">
             <h2>Exercise View</h2>
         </div>
@@ -21,25 +21,32 @@
                 <div id="gallery-post" class="card mb-3">
                     <div class="card-header">
                         <h5 class="card-title" id="post-title" style="font-size: 30px">[[${exerciseDTO.title}]]</h5>
-                        <p class="card-text" style="font-size: 15px">운동부위 : [[${exerciseDTO.changePart(exerciseDTO.part)}]]</p>
+                        <p class="card-text" style="font-size: 15px">운동부위 :
+                            [[${exerciseDTO.changePart(exerciseDTO.part)}]]</p>
                     </div>
                     <div class="card-body" style="text-align: center">
-                        <p class="card-text" style="color : black; font-size: 20px" id="post-content">[[${exerciseDTO.content}]]</p>
+                        <p class="card-text" style="color : black; font-size: 20px" id="post-content">
+                            [[${exerciseDTO.content}]]</p>
                         <div th:each="fileDTO:${fileDTOList}">
-                            <img class="view-image" th:if="${fileDTO.image}" th:src="|/exercise/display/${fileDTO.getSaveFileName(fileDTO.filename,fileDTO.uuid)}|" >
-                            <video class="view-image" th:if="${!fileDTO.image}" controls preload="metadata" th:src="|/exercise/display/${fileDTO.getSaveFileName(fileDTO.filename,fileDTO.uuid)}|+'#t=0.5'">
-                                <source  th:src="|/exercise/display/${fileDTO.getSaveFileName(fileDTO.filename,fileDTO.uuid)}|">
+                            <img class="view-image" th:if="${fileDTO.image}"
+                                 th:src="|/exercise/display/${fileDTO.getSaveFileName(fileDTO.filename,fileDTO.uuid)}|">
+                            <video class="view-image" th:if="${!fileDTO.image}" controls preload="metadata"
+                                   th:src="|/exercise/display/${fileDTO.getSaveFileName(fileDTO.filename,fileDTO.uuid)}|+'#t=0.5'">
+                                <source th:src="|/exercise/display/${fileDTO.getSaveFileName(fileDTO.filename,fileDTO.uuid)}|">
                             </video>
                         </div>
                     </div>
                     <div class="card-footer" style="text-align: right">
-                        <p style="font-size: 15px;" class="text-muted" id="post-details">게시일: [[${exerciseDTO.localDateFormat()}]] | 조회수 : [[${exerciseDTO.visitcount}]]</p>
+                        <p style="font-size: 15px;" class="text-muted" id="post-details">게시일:
+                            [[${exerciseDTO.localDateFormat()}]] | 조회수 : [[${exerciseDTO.visitcount}]]</p>
                     </div>
                 </div>
 
                 <div align="right" th:with="link=${pageRequestDTO.getLink()}">
-                    <a th:href="|@{/exercise/modify(eno=${exerciseDTO.eno})}&${link}|" class="btn btn-primary">수정하기</a>
-                    <a th:href="|@{/exercise/remove(eno=${exerciseDTO.eno})}|" class="btn btn-danger">삭제하기</a>
+                    <a sec:authorize="hasAuthority('관리자')"
+                       th:href="|@{/exercise/modify(eno=${exerciseDTO.eno})}&${link}|" class="btn btn-primary">수정하기</a>
+                    <a sec:authorize="hasAuthority('관리자')" th:href="|@{/exercise/remove(eno=${exerciseDTO.eno})}|"
+                       class="btn btn-danger">삭제하기</a>
                     <a th:href="|@{/exercise/list}?${link}|" type="button" class="btn btn-secondary">뒤로가기</a>
                 </div>
             </div>
@@ -47,10 +54,10 @@
     </section>
 </div>
 <script layout:fragment="script" th:inline="javascript">
-    document.querySelector('.btn-secondary').addEventListener('click',function (e){
+    document.querySelector('.btn-secondary').addEventListener('click', function (e) {
         console.log("클릭")
         e.preventDefault();
-        const link=[[${pageRequestDTO.getLink()}]]
-        self.location=`/exercise/list?${link}`
+        const link = [[${pageRequestDTO.getLink()}]]
+        self.location = `/exercise/list?${link}`
     })
 </script>

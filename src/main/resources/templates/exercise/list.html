@@ -6,7 +6,7 @@
 
 <div layout:fragment="title">
     <!-- Page top section -->
-    <section class="page-top-section set-bg" data-setbg="/img/header-bg/5.jpg">
+    <section class="page-top-section set-bg" data-setbg="/img/header-bg/4.jpg">
         <div class="container">
             <h2>Exercise List</h2>
         </div>
@@ -36,7 +36,8 @@
                                 </select>
                             </div>
                             <div class="input-group mb-3">
-                                <input type="text" name="keyword" class="form-control" placeholder="Search Title" th:value="${pageRequestDTO.keyword}">
+                                <input type="text" name="keyword" class="form-control" placeholder="Search Title"
+                                       th:value="${pageRequestDTO.keyword}">
                                 <div class="input-group-append">
                                     <button class="btn btn-success" type="submit"><i
                                             class="fa-solid fa-magnifying-glass"></i></button>
@@ -46,17 +47,24 @@
                     </form>
                 </div>
                 <!--갤러리 게시판 목록-->
-                <div class="container" >
-                    <div class="row" >
+                <div class="container">
+                    <div class="row">
                         <!-- Gallery Item 1 -->
-                        <div class="col-md-3 mb-4" th:each="dto:${responseDTO.dtoList}" th:if="${responseDTO.dtoList.size()>0}">
+                        <div class="col-md-3 mb-4" th:each="dto:${responseDTO.dtoList}"
+                             th:if="${responseDTO.dtoList.size()>0}">
                             <div class="card gallery-card text-center">
                                 <a th:href="|@{/exercise/view(eno=${dto.eno})}&${pageRequestDTO.getLink()}|">
-                                    <img th:each="fileDTO:${fileDTOList}" th:if="${fileDTO.image && fileDTO.thumbnail && fileDTO.exercise.eno == dto.eno} "th:src="|/exercise/display/${fileDTO.getLink(dto.eno)}|" class="card-img-top thumb-image">
-                                    <video th:each="fileDTO:${fileDTOList}" th:if="${fileDTO.thumbnail && fileDTO.exercise.eno == dto.eno && !fileDTO.image}" preload="metadata" th:src="|/exercise/display/${fileDTO.getLink(dto.eno)}|" class="card-img-top thumb-image"></video>
+                                    <img th:each="fileDTO:${fileDTOList}"
+                                         th:if="${fileDTO.image && fileDTO.thumbnail && fileDTO.exercise.eno == dto.eno} "
+                                         th:src="|/exercise/display/${fileDTO.getLink(dto.eno)}|"
+                                         class="card-img-top thumb-image">
+                                    <video th:each="fileDTO:${fileDTOList}"
+                                           th:if="${fileDTO.thumbnail && fileDTO.exercise.eno == dto.eno && !fileDTO.image}"
+                                           preload="metadata" th:src="|/exercise/display/${fileDTO.getLink(dto.eno)}|"
+                                           class="card-img-top thumb-image"></video>
                                     <div class="card-body" id="listCardBody">
                                         <h5 class="card-title" id="listTitle">[[${dto.title}]]</h5>
-                                        <p class="card-text" id="visitCount">조회수 : [[${dto.visitcount}]]</p>
+                                        <p class="card-text" id="visitCount"><i class="fa-solid fa-eye"></i> [[${dto.visitcount}]]</p>
                                     </div>
                                 </a>
                             </div>
@@ -73,7 +81,8 @@
                                     <a class="page-link" th:data-num="${responseDTO.start -1}">Prev</a>
                                 </li>
                                 <th:block th:each="i:${#numbers.sequence(responseDTO.start, responseDTO.end)}">
-                                    <li th:class="${responseDTO.page == i} ? 'page-item active' : 'page-item'" th:if="${i!=0}">
+                                    <li th:class="${responseDTO.page == i} ? 'page-item active' : 'page-item'"
+                                        th:if="${i!=0}">
                                         <a class="page-link" th:data-num="${i}">[[${i}]]</a>
                                     </li>
                                 </th:block>
@@ -85,7 +94,7 @@
                     </div>
                     <form action="/exercise/register" method="get">
                         <div class="float-end" style="text-align: right">
-                            <button class="btn btn-primary" type="submit">글쓰기</button>
+                            <button sec:authorize="hasAuthority('관리자')" class="btn btn-primary" type="submit">글쓰기</button>
                         </div>
                     </form>
                 </div>

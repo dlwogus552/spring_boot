@@ -31,8 +31,10 @@ public class SecurityConfig {
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
                         .requestMatchers("/","/member/**","/sinup","/index").permitAll()
                         .requestMatchers("/assets/**", "/img/**").permitAll()
-                        .requestMatchers("/**").permitAll()
                         .requestMatchers("/copy").permitAll() // 테스트를 위한 것
+                        .requestMatchers("/exercise/view").hasAnyAuthority("관리자","VIP")
+                        .requestMatchers("/exercise/modify","/exercise/register").hasAuthority("관리자")
+                        .requestMatchers("/**").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("관리자")
                         .requestMatchers("/VIP/**").hasAuthority("VIP")
                         .anyRequest().authenticated()
