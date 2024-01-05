@@ -35,7 +35,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="currentFile" class="form-label">현재파일</label>
-                        <div class="card" id="currentFile" style="padding: 3px">
+                        <div class="card" id="currentFile">
                             <p class="card-text" th:each="fileDTO:${fileDTOList}">[[${fileDTO.filename}]]</p>
                         </div>
                     </div>

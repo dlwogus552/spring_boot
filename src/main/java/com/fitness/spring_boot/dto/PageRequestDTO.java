@@ -19,7 +19,7 @@ public class PageRequestDTO {
     @Builder.Default
     private int page=1;
     @Builder.Default
-    private int size=9;
+    private int size=12;
     private String type; //종류 : b,c,s,a,f,h
     private String keyword;
     private String link;

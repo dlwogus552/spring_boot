@@ -39,10 +39,8 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Override
     public void register(ExerciseDTO exerciseDTO) {
         Exercise exercise = modelMapper.map(exerciseDTO, Exercise.class);
-        log.info("eno 넣기 전"+exerciseDTO);
         Long eno = exerciseRepository.save(exercise).getEno();
         exerciseDTO.setEno(eno);
-        log.info("eno 넣은 후"+exerciseDTO);
         exerciseFileService.upload(exerciseDTO);
     }
 
