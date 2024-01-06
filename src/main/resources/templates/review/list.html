@@ -16,19 +16,97 @@
 
 <html>
 <div layout:fragment="content">
-    <section class="elements-section el-title align-items-center">
+    <section class="elements-section">
         <div class="container">
             <div class="element">
-                <h2 class="el-title">리뷰 게시판</h2>
-                <div class="container mb-1">
-                    <form action="/review/list" method="get">
-
-                    </form>
-                </div>
-
+                <h2 class="el-title text-center">목록</h2>
+                <table class="table table-lg text-center mb-0 qna-table qna-list-table">
+                    <thead>
+                    <tr>
+                        <td colspan="6">
+                            <div class="col d-flex justify-content-between">
+                                <form action="/QnA/list" method="get" class="w-50">
+                                    <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
+                                    <div class="d-flex">
+                                        <select name="type" class="form-control mr-3" style="width: 100px">
+                                            <option value="title" style="width: 100px"
+                                                    th:selected="${pageRequestDTO.type=='title'}">제목
+                                            </option>
+                                            <option value="writer" style="width: 100px"
+                                                    th:selected="${pageRequestDTO.type=='writer'}">작성자
+                                            </option>
+                                        </select>
+                                        <div class="input-group">
+                                            <input type="text" name="keyword" th:value="${pageRequestDTO.keyword}"
+                                                   class="form-control me-2">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary searchBtn" type="submit">Search
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <button class="btn btn-outline-dark" onclick="location.href='/QnA/register'">
+                                    글쓰기
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody th:with="link=${pageRequestDTO.getLink()}">
+                    <tr th:each="dto:${responseDTO.dtoList}">
+                        <th style="width: 12%" class="align-middle">[[${dto.rno}]]</th>
+                        <th style="width: 30%" class="align-middle text-left pl-3">
+<!--                            <a th:href="|@{/QnA/view(qnabno=${dto.qnabno})}&${link}|" class="qna-list-link">[[${dto.title}]]</a>-->
+                        </th>
+                        <td style="width: 15%" class="align-middle">[[${dto.writer}]]</td>
+                        <td style="width: 12%" class="align-middle">[[${dto.readcnt}]]</td>
+                        <td style="width: 18%" class="align-middle"
+                            th:text="${#temporals.format(dto.writedate, 'YYYY-MM-DD')}"></td>
+                        <th style="width: 13%" class="align-middle">
+                            <div class="d-flex justify-content-center">
+                                <th:block th:if="${dto.answer == false}">
+                                    <div class="rounded-lg p-1 pl-2 pr-2 align-middle"
+                                         style="background-color: #eee">
+                                        답변대기
+                                    </div>
+                                </th:block>
+                                <th:block th:unless="${dto.answer == false}">
+                                    <div class="rounded-lg border border-danger p-1 align-middle">
+                                        답변완료
+                                    </div>
+                                </th:block>
+                            </div>
+                        </th>
+                    </tr>
+                    <tr th:if="${responseDTO.dtoList == null}">
+                        <td colspan="6">게시글이 없습니다.</td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="6">
+                            <div class="d-flex justify-content-center">
+                                <ul class="pagination flex-wrap">
+                                    <li class="page-item" th:if="${responseDTO.prev}">
+                                        <a class="page-link" th:data-num="${responseDTO.start -1}">Prev</a>
+                                    </li>
+                                    <th:block th:each="i : ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                                        <li th:class="${responseDTO.page == i} ? 'active page-item' : 'page-item' ">
+                                            <a class="page-link" th:data-num="${i}">[[${i}]]</a>
+                                        </li>
+                                    </th:block>
+                                    <li class="page-item" th:if="${responseDTO.next}">
+                                        <a class="page-link" th:data-num="${responseDTO.end +1}">Next</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
             </div>
         </div>
-
     </section>
 </div>
 </html>

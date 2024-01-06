@@ -3,6 +3,8 @@ package com.fitness.spring_boot.domain.review;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -12,32 +14,36 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReviewBoard {
+public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long rno;
     private String title;
     @Lob
     private String content;
-    @Column(name = "postdate", updatable = false)
     private String writer;
-    private String fileimage;
     @ColumnDefault("0")
-    private int bestcount;
+    @Column(name="bestcount")
+    private int bestCount;
     @ColumnDefault("0")
-    private int visitcount;
+    @Column(name="visitcount")
+    private int visitCount;
+    @CreatedDate
     @Column(name = "regdate", updatable = false)
     private LocalDateTime regDate;
-    public void changeReview(String title, String content, String fileimage){
+    @LastModifiedDate
+    @Column(name = "moddate")
+    private LocalDateTime modDate;
+
+    public void change(String title, String content){
         this.title = title;
         this.content = content;
-        this.fileimage = fileimage;
     }
 
     public void updateBestcount(){
-        this.bestcount+=1;
+        this.bestCount+=1;
     }
     public void updateVisitcount(){
-        this.visitcount+=1;
+        this.visitCount+=1;
     }
 }

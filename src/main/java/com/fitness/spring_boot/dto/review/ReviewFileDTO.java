@@ -1,5 +1,9 @@
 package com.fitness.spring_boot.dto.review;
 
+import com.fitness.spring_boot.domain.review.Review;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,5 +14,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewFileDTO {
-    private Long rno;
+    private Long rfno;
+    private String uuid;
+    private String filename;
+    private Review review;
+
+    public String getLink(){
+        return uuid+"_"+filename;
+    }
+
 }
