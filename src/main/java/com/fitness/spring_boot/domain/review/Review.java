@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(value = {AuditingEntityListener.class})
+@ToString
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,9 +31,6 @@ public class Review {
     @ColumnDefault("0")
     @Column(name="visitcount")
     private int visitCount;
-    @ColumnDefault("0")
-    @Column(name="westcount")
-    private int westCount;
     @CreatedDate
     @Column(name = "regdate", updatable = false)
     private LocalDateTime regDate;
@@ -45,12 +43,6 @@ public class Review {
         this.content = content;
     }
 
-    public void updateBestCount(){
-        this.bestCount+=1;
-    }
-    public void updateWestCount(){
-        this.westCount+=1;
-    }
     public void updateVisitCount(){
         this.visitCount+=1;
     }

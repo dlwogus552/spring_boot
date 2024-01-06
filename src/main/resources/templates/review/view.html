@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic.html}"
+      lang="en">
+
+
+<div layout:fragment="title">
+    <!-- Page top section -->
+    <section class="page-top-section set-bg" data-setbg="/img/header-bg/5.jpg">
+        <div class="container">
+            <h2>리뷰 게시판</h2>
+        </div>
+    </section>
+    <!-- Page top section end -->
+</div>
+<div layout:fragment="content">
+    <section class="elements-section">
+        <div class="container">
+            <div class="element">
+                <div class="review-view-con">
+                    <!-- 버튼부 -->
+                    <div class="d-flex justify-content-end mb-3 w-100">
+                        <button class="btn btn-outline-dark" onclick="location.href='/review/list'">
+                            목록
+                        </button>
+                        <th:block th:if="${reviewDTO.writer == userId}">
+                            <a th:href="|@{/review/modify(rno=${dto.rno})}&${pageRequestDTO.getLink()}|">
+                                <button class="btn btn-outline-dark ml-3">
+                                    수정
+                                </button>
+                            </a>
+                            <a th:href="|@{/review/remove(rno=${dto.rno})}|">
+                                <button class="btn btn-outline-danger ml-3">
+                                    삭제
+                                </button>
+                            </a>
+                        </th:block>
+                    </div>
+                    <div class="qna-view-q">
+                        <!-- 상단부 -->
+                        <div class="qna-view-q-title">
+                            <div class="d-flex justify-content-between review-view-q-title-top">
+                                <div>
+                                    <h3>[[${reviewDTO.title}]]</h3>
+                                </div>
+                                <div>
+                                    <span th:text="'작성 '+${#temporals.format(reviewDTO.regDate, 'YYYY-MM-DD')}"></span>
+                                    <span th:if="${reviewDTO.regDate < reviewDTO.modDate} "th:text="'수정 '+${#temporals.format(reviewDTO.modDate, 'YYYY-MM-DD')}"></span>
+                                    <span class="ml-3">작성자 [[${reviewDTO.writer}]]</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="qna-view-q-content">
+                            [[${reviewDTO.content}]]
+                        </div>
+                        <div class="qna-view-q-file">
+                            <div class="list-group">
+                                <th:block th:each="file:${fileDTOList}">
+                                    <a href="#" class="list-group-item list-group-item-action">
+                                        <span>[[${file.filename}]]</span>
+                                        <span><i class="fa-solid fa-link"></i></span>
+                                    </a>
+                                </th:block>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Reply 영역-->
+                    <div class="reply-list">
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Elements section end -->
+</div>
+<script layout:fragment="script" th:inline="javascript">
+
+</script>

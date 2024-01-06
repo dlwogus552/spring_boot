@@ -21,6 +21,7 @@
                 <h2 class="el-title text-center">리뷰작성</h2>
                 <table class="table table-lg text-center mb-0 qna-table">
                     <form action="/review/register" id="reviewForm" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="writer" th:value="${userId}">
                         <tr>
                             <th class="align-middle qna-title">제목</th>
                             <td>
@@ -58,7 +59,7 @@
                                 <button type="button" id="submitBtn" class="btn btn-outline-dark pl-5 pr-5">
                                     작성
                                 </button>
-                                <button type="button" class="btn btn-outline-dark pl-5 pr-5" onclick="location.href='/QnA/list'">
+                                <button type="button" class="btn btn-outline-dark pl-5 pr-5" onclick="location.href='/review/list'">
                                     목록
                                 </button>
                             </td>
@@ -99,10 +100,7 @@
             // response.json()
             console.log("response : " + response)
             location.href= "/review/list";
-        }).catch(e =>{
-            alert("Error");
-            location.href="/review/register";
-        });
+        })
     })
 
     // 파일 선택

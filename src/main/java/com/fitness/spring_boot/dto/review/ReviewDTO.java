@@ -22,7 +22,6 @@ public class ReviewDTO {
     private String content;
     private String writer;
     private int bestCount;
-    private int westCount;
     private int visitCount;
     private LocalDateTime regDate;
     private LocalDateTime modDate;

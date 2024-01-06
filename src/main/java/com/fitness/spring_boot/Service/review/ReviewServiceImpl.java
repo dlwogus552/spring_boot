@@ -63,8 +63,10 @@ public class ReviewServiceImpl implements ReviewService{
     public ReviewDTO getBoard(Long rno) {
         Review result = reviewRepository.findById(rno).get();
         result.updateVisitCount();
+        log.info("get Board"+result);
         reviewRepository.save(result);
         ReviewDTO reviewDTO = modelMapper.map(result, ReviewDTO.class);
         return reviewDTO;
     }
+
 }
