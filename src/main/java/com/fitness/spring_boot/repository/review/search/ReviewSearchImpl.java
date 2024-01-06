@@ -13,17 +13,16 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import java.util.List;
 
 public class ReviewSearchImpl extends QuerydslRepositorySupport implements ReviewSearch{
-    public ReviewSearchImpl(Class<?> domainClass) {
-        super(domainClass);
+    public ReviewSearchImpl() {
+        super(Review.class);
     }
 
     @Override
-    public Page<Review> searchAll(String[] types, String keyword, Pageable pageable) {
+    public Page<Review> searchAll(String type, String keyword, Pageable pageable) {
         QReview review = QReview.review;
         JPQLQuery<Review> query = this.from(review);
-        if(types != null && types.length>0 && keyword !=null){
+        if(type != null && keyword !=null){
             BooleanBuilder booleanBuilder = new BooleanBuilder();
-            for(String type:types) {
                 switch (type){
                     case "t":
                     booleanBuilder.or(review.title.contains(keyword));
@@ -34,7 +33,6 @@ public class ReviewSearchImpl extends QuerydslRepositorySupport implements Revie
                     case "w":
                         booleanBuilder.or(review.title.contains(keyword));
                 }
-            }//end for
             query.where(new Predicate[]{booleanBuilder});
         }//end if
         query.where(review.rno.gt(0L));

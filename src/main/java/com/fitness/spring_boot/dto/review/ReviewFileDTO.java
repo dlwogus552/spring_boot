@@ -1,9 +1,6 @@
 package com.fitness.spring_boot.dto.review;
 
 import com.fitness.spring_boot.domain.review.Review;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

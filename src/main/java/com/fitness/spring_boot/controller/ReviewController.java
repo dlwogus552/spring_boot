@@ -4,13 +4,17 @@ import com.fitness.spring_boot.Service.review.ReviewFileService;
 import com.fitness.spring_boot.Service.review.ReviewService;
 import com.fitness.spring_boot.dto.PageRequestDTO;
 import com.fitness.spring_boot.dto.PageResponseDTO;
-import com.fitness.spring_boot.dto.exercise.ExerciseFileDTO;
 import com.fitness.spring_boot.dto.review.ReviewDTO;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -30,12 +34,16 @@ public class ReviewController {
     public void reviewcontent() {
     }
 
-    @GetMapping("/modify")
-    public void reviewmodify() {
+    @GetMapping({"/view","/modify"})
+    public void reviewModify() {
     }
 
-    @GetMapping("/write")
-    public void reviewwrite() {
+    @GetMapping("/register")
+    public void reviewRegister() {
+    }
+    @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void reviewRegisterPro(ReviewDTO reviewDTO){
+        reviewService.register(reviewDTO);
     }
 
 

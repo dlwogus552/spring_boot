@@ -5,6 +5,5 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface ReviewSearch {
-    Page<Review> searchAll(String[] types, String keyword, Pageable pageable);
-
+    Page<Review> searchAll(String type, String keyword, Pageable pageable);
 }

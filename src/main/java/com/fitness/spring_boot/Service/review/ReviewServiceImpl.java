@@ -1,13 +1,9 @@
 package com.fitness.spring_boot.Service.review;
 
-import com.fitness.spring_boot.Service.exercise.ExerciseFileService;
-import com.fitness.spring_boot.domain.exercise.Exercise;
 import com.fitness.spring_boot.domain.review.Review;
 import com.fitness.spring_boot.dto.PageRequestDTO;
 import com.fitness.spring_boot.dto.PageResponseDTO;
-import com.fitness.spring_boot.dto.exercise.ExerciseDTO;
 import com.fitness.spring_boot.dto.review.ReviewDTO;
-import com.fitness.spring_boot.repository.exercise.ExerciseRepository;
 import com.fitness.spring_boot.repository.review.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -30,13 +26,15 @@ public class ReviewServiceImpl implements ReviewService{
     public void register(ReviewDTO reviewDTO) {
         Review review = modelMapper.map(reviewDTO, Review.class);
         Long rno = reviewRepository.save(review).getRno();
-        reviewDTO.setRno(rno);
-        reviewFileService.upload(reviewDTO);
+        if(reviewDTO.getFiles() !=null && !reviewDTO.getFiles().get(0).isEmpty()) {
+            reviewDTO.setRno(rno);
+            reviewFileService.upload(reviewDTO);
+        }
     }
 
     @Override
     public PageResponseDTO<ReviewDTO> getList(PageRequestDTO pageRequestDTO) {
-        String[] type = pageRequestDTO.getType().split("");
+        String type = pageRequestDTO.getType();
         String keyword = pageRequestDTO.getKeyword();
         Pageable pageable = pageRequestDTO.getPageable("rno");
         Page<Review> result = reviewRepository.searchAll(type, keyword, pageable);
@@ -64,7 +62,7 @@ public class ReviewServiceImpl implements ReviewService{
     @Override
     public ReviewDTO getBoard(Long rno) {
         Review result = reviewRepository.findById(rno).get();
-        result.updateVisitcount();
+        result.updateVisitCount();
         reviewRepository.save(result);
         ReviewDTO reviewDTO = modelMapper.map(result, ReviewDTO.class);
         return reviewDTO;

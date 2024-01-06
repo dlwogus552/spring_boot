@@ -1,10 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic.html}"
+      lang="en">
 
-</body>
-</html>
+
+<div layout:fragment="title">
+    <!-- Page top section -->
+    <section class="page-top-section set-bg" data-setbg="/img/header-bg/5.jpg">
+        <div class="container">
+            <h2>리뷰 게시판</h2>
+        </div>
+    </section>
+    <!-- Page top section end -->
+</div>
+<div layout:fragment="content">
+    <section class="elements-section">
+        <div class="container">
+            <div class="element">
+                <h2 class="el-title text-center">리뷰작성</h2>
+                <table class="table table-lg text-center mb-0 qna-table">
+                    <form action="/review/register" id="reviewForm" method="post" enctype="multipart/form-data">
+                        <tr>
+                            <th class="align-middle qna-title">제목</th>
+                            <td>
+                                <input type="text" id="title" name="title" class="form-control form-control"
+                                       placeholder="제목을 입력하세요.">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="align-middle qna-title">내용</th>
+                            <td>
+                                <textarea rows="10" class="form-control" placeholder="내용을 입력하세요"
+                                          name="content" id="content" style="resize: none"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="align-middle qna-title">파일</th>
+                            <td>
+                                <div class="file_list">
+                                    <div>
+                                        <div class="file_input filebox text-left">
+                                            <input class="upload-name" value="첨부파일" placeholder="첨부파일" readonly>
+                                            <label>파일찾기
+                                                <input type="file" name="files" onchange="selectFile(this)">
+                                            </label>
+                                            <button type="button" class="btn btn-outline-info" onclick="addFile()">
+                                                <i class="fa-solid fa-circle-plus" style="color: #33b5e5;"></i> 추가
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <button type="button" id="submitBtn" class="btn btn-outline-dark pl-5 pr-5">
+                                    작성
+                                </button>
+                                <button type="button" class="btn btn-outline-dark pl-5 pr-5" onclick="location.href='/QnA/list'">
+                                    목록
+                                </button>
+                            </td>
+                        </tr>
+                    </form>
+                </table>
+            </div>
+        </div>
+    </section>
+    <!-- Elements section end -->
+</div>

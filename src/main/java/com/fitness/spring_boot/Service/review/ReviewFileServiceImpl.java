@@ -1,17 +1,12 @@
 package com.fitness.spring_boot.Service.review;
 
-import com.fitness.spring_boot.domain.exercise.Exercise;
-import com.fitness.spring_boot.domain.exercise.ExerciseFile;
 import com.fitness.spring_boot.domain.review.Review;
 import com.fitness.spring_boot.domain.review.ReviewFile;
-import com.fitness.spring_boot.dto.exercise.ExerciseFileDTO;
 import com.fitness.spring_boot.dto.review.ReviewDTO;
 import com.fitness.spring_boot.dto.review.ReviewFileDTO;
-import com.fitness.spring_boot.repository.exercise.ExerciseFileUploadRepository;
 import com.fitness.spring_boot.repository.review.ReviewFileRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import net.coobird.thumbnailator.Thumbnailator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -19,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;

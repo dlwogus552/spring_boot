@@ -1,6 +1,5 @@
 package com.fitness.spring_boot.Service.review;
 
-import com.fitness.spring_boot.domain.review.ReviewFile;
 import com.fitness.spring_boot.dto.review.ReviewDTO;
 import com.fitness.spring_boot.dto.review.ReviewFileDTO;
 

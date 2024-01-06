@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import java.io.File;
@@ -64,22 +65,15 @@ public class ExerciseController {
     @Transactional
     @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String upload(@Valid ExerciseDTO exerciseDTO, BindingResult bindingResult, Model model) {
-        if(bindingResult.hasErrors()) {
+        if(bindingResult.hasErrors() || (exerciseDTO.getFiles() == null || exerciseDTO.getFiles().get(0).isEmpty())) {
             bindingResult.getFieldErrors().forEach(error -> model.addAttribute(error.getField()+"Error", error.getDefaultMessage()));
             bindingResult.getFieldErrors().forEach(objectError -> log.info(objectError.getField()+" error"));
-            if(exerciseDTO.getFiles() == null || exerciseDTO.getFiles().get(0).isEmpty()){
-                model.addAttribute("filesError","파일을 첨부해주세요");
-            }
+            model.addAttribute("filesError","파일을 첨부해주세요");
             model.addAttribute("exerciseDTO",exerciseDTO);
             return "/exercise/register";
         }
-        if (exerciseDTO.getFiles() != null && !exerciseDTO.getFiles().get(0).isEmpty()) {
-            exerciseService.register(exerciseDTO);
-            return "redirect:/exercise/list";
-        }else{
-            model.addAttribute("filesError","파일을 첨부해주세요");
-        }
-        return "/exercise/register";
+        exerciseService.register(exerciseDTO);
+        return "redirect:/exercise/list";
     }
 
     @GetMapping("/display/{fileName}")
