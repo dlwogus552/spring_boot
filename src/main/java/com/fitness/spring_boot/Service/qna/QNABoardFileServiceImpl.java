@@ -9,10 +9,20 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -68,8 +78,10 @@ public class QNABoardFileServiceImpl implements QNABoardFileService {
     }
 
     @Override
-    public QNABoardFileDTO getFile(Long qnabno) {
-        return null;
+    public QNABoardFileDTO getFile(Long qnafno) {
+        QNABoardFile result = repository.findById(qnafno).get();
+        QNABoardFileDTO dto = modelMapper.map(result, QNABoardFileDTO.class);
+        return dto;
     }
 
     @Override
@@ -96,5 +108,25 @@ public class QNABoardFileServiceImpl implements QNABoardFileService {
             file.delete();
         });
         repository.deleteAllById(fnoList);
+    }
+
+    @Override
+    public ResponseEntity<Object> fileDownload(String fileName) {
+        try {
+            Path filePath = Paths.get(fileName);
+            Resource resource = new InputStreamResource(Files.newInputStream(filePath));
+
+            File file = new File(fileName);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentDisposition(ContentDisposition.builder("attachment")
+                    .filename(file.getName())
+                    .build());
+
+            return new ResponseEntity<Object>(resource,headers, HttpStatus.OK);
+        } catch (Exception e) {
+            log.info("fileserviceimple error msg : " + e.getMessage());
+            return new ResponseEntity<Object>(null, HttpStatus.CONFLICT);
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.fitness.spring_boot.Service.qna;
 import com.fitness.spring_boot.domain.qna.QNABoard;
 import com.fitness.spring_boot.dto.PageRequestDTO;
 import com.fitness.spring_boot.dto.PageResponseDTO;
+import com.fitness.spring_boot.dto.qna.QNAAnswerDTO;
 import com.fitness.spring_boot.dto.qna.QNABoardDTO;
 import com.fitness.spring_boot.dto.qna.QNABoardFileDTO;
 import com.fitness.spring_boot.repository.qna.QNABoardRepository;
@@ -10,11 +11,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 
 @Service
@@ -23,6 +27,7 @@ import java.util.List;
 public class QNABoardServiceImpl implements QNABoardService {
     private final QNABoardFileService fileService;
     private final QNABoardRepository repository;
+    private final QNAAnswerService answerService;
     private final ModelMapper modelMapper;
 
     @Value("${com.fitness.spring_boot.upload.path}")
@@ -69,6 +74,10 @@ public class QNABoardServiceImpl implements QNABoardService {
         if (!files.isEmpty() && files != null) {
             fileService.FileDeleteAll(bno);
         }
+        QNAAnswerDTO answer = answerService.getAnswer(bno);
+        if (answer != null) {
+            answerService.remove(answer.getQnaano());
+        }
         repository.deleteById(bno);
     }
 
@@ -80,4 +89,6 @@ public class QNABoardServiceImpl implements QNABoardService {
         QNABoardDTO dto = modelMapper.map(result, QNABoardDTO.class);
         return dto;
     }
+
+
 }

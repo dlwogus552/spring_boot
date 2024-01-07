@@ -21,7 +21,7 @@
     border-bottom: 1px solid #0d0d0d;
     width: 100%;
 }
-.qna-view-q-title {
+.qna-view-q-title, .qna-view-a-title {
     padding: 2rem;
 }
 .qna-view-q-title-top {
@@ -45,5 +45,10 @@
 .qna-view-q-file>.list-group>a {
     display: flex;
     justify-content: space-between;
+}
+.qna-view-a {
+    width: 100%;
+    border-bottom: 1px solid #0d0d0d;
+    background-color: #fafafa;
 }
 
