@@ -69,4 +69,12 @@ public class ReviewServiceImpl implements ReviewService{
         return reviewDTO;
     }
 
+    @Override
+    public int updateCount(ReviewDTO reviewDTO, boolean b) {
+        Review review = reviewRepository.findById(reviewDTO.getRno()).orElseThrow();
+        int i = (b == true) ? 1 : -1;
+        review.updateBestCount(i);
+        return reviewRepository.save(review).getBestCount();
+    }
+
 }

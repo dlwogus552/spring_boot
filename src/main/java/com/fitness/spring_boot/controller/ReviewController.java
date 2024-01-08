@@ -1,5 +1,6 @@
 package com.fitness.spring_boot.controller;
 
+import com.fitness.spring_boot.Service.review.ReactionService;
 import com.fitness.spring_boot.Service.review.ReviewFileService;
 import com.fitness.spring_boot.Service.review.ReviewService;
 import com.fitness.spring_boot.dto.PageRequestDTO;
@@ -29,6 +30,7 @@ import java.util.List;
 public class ReviewController {
     private final ReviewFileService reviewFileService;
     private final ReviewService reviewService;
+    private final ReactionService reactionService;
     @GetMapping("/list")
     public void reviewlist(PageRequestDTO pageRequestDTO, Model model) {
         PageResponseDTO<ReviewDTO> responseDTO = reviewService.getList(pageRequestDTO);
@@ -37,6 +39,8 @@ public class ReviewController {
 
     @GetMapping({"/view","/modify"})
     public void reviewModify(PageRequestDTO PageRequestDTO, Long rno, Model model) {
+        model.addAttribute("best",reactionService.getBest(rno));
+        log.info(reactionService.getBest(rno));
         model.addAttribute("reviewDTO", reviewService.getBoard(rno));
         model.addAttribute("fileDTOList", reviewFileService.getList(rno));
     }

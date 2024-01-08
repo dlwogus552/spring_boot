@@ -17,6 +17,16 @@ async function getList({rno,page,size,goLast}){
 }
 
 async function deleteReply(rrno){
-    const response = await  axios.delete(`/replies/${rrno}`,rrno)
+    const response = await axios.delete(`/replies/${rrno}`,rrno)
+    return response.data
+}
+
+async function best(rno){
+    const response = await axios.get(`/reaction/${rno}`,rno)
+    return response.data
+}
+async function worst(rno){
+    console.log("worst 안")
+    const response = await axios.delete(`/reaction/${rno}`,rno)
     return response.data
 }
