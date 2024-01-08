@@ -16,5 +16,4 @@ public interface QNABoardFileService {
 
     void FileDelete(Long qnafno);
     void FileDeleteAll(Long qnafno);
-    ResponseEntity<Object> fileDownload(String fileName);
 }

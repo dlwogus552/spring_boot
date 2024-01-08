@@ -110,23 +110,4 @@ public class QNABoardFileServiceImpl implements QNABoardFileService {
         repository.deleteAllById(fnoList);
     }
 
-    @Override
-    public ResponseEntity<Object> fileDownload(String fileName) {
-        try {
-            Path filePath = Paths.get(fileName);
-            Resource resource = new InputStreamResource(Files.newInputStream(filePath));
-
-            File file = new File(fileName);
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentDisposition(ContentDisposition.builder("attachment")
-                    .filename(file.getName())
-                    .build());
-
-            return new ResponseEntity<Object>(resource,headers, HttpStatus.OK);
-        } catch (Exception e) {
-            log.info("fileserviceimple error msg : " + e.getMessage());
-            return new ResponseEntity<Object>(null, HttpStatus.CONFLICT);
-        }
-    }
 }

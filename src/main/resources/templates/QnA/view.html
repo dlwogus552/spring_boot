@@ -76,7 +76,7 @@
                         <div class="qna-view-q-file">
                             <div class="list-group">
                                 <th:block th:each="file:${fileList}">
-                                    <a th:href="|@{/QnA/download/{qnafno}(qnafno=${file.qnafno})}|" class="list-group-item list-group-item-action">
+                                    <a th:href="|@{/QnA/download/{filename}(filename=${file.uuid+'_'+file.filename})}|" class="list-group-item list-group-item-action">
                                         <span>[[${file.filename}]]</span>
                                         <span><i class="fa-solid fa-link"></i></span>
                                     </a>

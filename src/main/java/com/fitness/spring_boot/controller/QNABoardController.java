@@ -11,8 +11,10 @@ import com.fitness.spring_boot.dto.qna.QNABoardFileDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -87,18 +89,37 @@ public class QNABoardController {
         return "redirect:/QnA/list";
     }
 
-    @GetMapping("/download/{qnafno}")
+    @GetMapping(value = "/download/{filename}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
-    public ResponseEntity<Object> downloadFile(@PathVariable Long qnafno) {
-        QNABoardFileDTO fileDTO = fileService.getFile(qnafno);
-        String filePath = uploadPath + "\\qnafile\\";
-        File file = new File(filePath + fileDTO.getUuid() + "_" + fileDTO.getFilename());
-        if (file.exists()) {
-            filePath = filePath + fileDTO.getUuid() + "_" + fileDTO.getFilename();
-            log.info("filePath : "+filePath);
-            return fileService.fileDownload(filePath);
-        } else {
-            return null;
+    public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String userAgent
+            , @PathVariable("filename") String filename) {
+        log.info("download file: " + filename);
+        Resource resource = new FileSystemResource(uploadPath+"\\qnafile\\"+filename);
+        if (resource.exists() == false) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        log.info("resource: " + resource);
+        String resourceName = resource.getFilename();
+        String resourceOriginalName = resourceName.substring(resourceName.lastIndexOf("_") + 1);
+        HttpHeaders headers = new HttpHeaders();
+        try {
+            String downloadName = null;
+            // 한글 파일이름 처리
+            if (userAgent.contains("Trident")) {
+                log.info("IE browser");
+                downloadName = URLEncoder.encode(resourceOriginalName, "UTF-8")
+                        .replaceAll("\\+", " ");
+            } else if (userAgent.contains("Edge")) {
+                log.info("Edge browser");
+                downloadName = URLEncoder.encode(resourceOriginalName, "UTF-8");
+            } else {
+                log.info("Chrome browser");
+                downloadName = new String(resourceOriginalName.getBytes("UTF-8"), "ISO-8859-1");
+            }
+            headers.add("Content-Disposition", "attachment; filename=" + downloadName);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
     }
 }
