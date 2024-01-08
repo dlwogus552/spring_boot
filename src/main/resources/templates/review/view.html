@@ -24,13 +24,13 @@
                         <button class="btn btn-outline-dark" onclick="location.href='/review/list'">
                             목록
                         </button>
-                        <th:block th:if="${reviewDTO.writer == userId}">
-                            <a th:href="|@{/review/modify(rno=${dto.rno})}&${pageRequestDTO.getLink()}|">
+                        <th:block th:if="${reviewDTO.writer == #authentication.name}">
+                            <a th:href="|@{/review/modify(rno=${reviewDTO.rno})}&${pageRequestDTO.getLink()}|">
                                 <button class="btn btn-outline-dark ml-3">
                                     수정
                                 </button>
                             </a>
-                            <a th:href="|@{/review/remove(rno=${dto.rno})}|">
+                            <a th:href="|@{/review/remove(rno=${reviewDTO.rno})}|">
                                 <button class="btn btn-outline-danger ml-3">
                                     삭제
                                 </button>
@@ -66,10 +66,30 @@
                         </div>
                     </div>
                     <!--Reply 영역-->
-                    <div class="reply-list">
+                    <div class="comments-container">
+                        <div class="comment-input mt-4">
+                            <textarea rows="2" class="form-control reply-text" placeholder="댓글을 입력하세요."
+                                      name="replyContent" id="replyContent" style="resize: none"></textarea>
+                            <button type="button" id="submitBtn" class="btn btn-outline-dark pl-5 pr-5">
+                                작성
+                            </button>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <div class="my-4">
+                                    <ul class="list-group replyList">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
 
+                        <div class="row mt=3">
+                            <div class="col">
+                                <ul class="pagination replyPaging">
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -77,5 +97,91 @@
     <!-- Elements section end -->
 </div>
 <script layout:fragment="script" th:inline="javascript">
+    const rno = [[${reviewDTO.rno}]]
+    const writer = [[${#authentication.name}]]
+    const content = $('#replyContent').value
 
+    // 출력
+    function print(replyDTOList){
+        let str = '';
+        if(replyDTOList && replyDTOList.lenth>0){
+            for(const dto of replyDTOList){
+                str += `<li class="list-group-item d-flex replItem">
+                      <span class="col-2">${dto.rrno}</span>
+                      <span class="col-6">${dto.content}</span>
+                      <span class="col-2">${dto.writer}</span>
+                      <span class="col-2">${dto.regDate} </span>
+                    </li>`
+            }
+        }
+        $('.replyList').innerHTML = str;
+    }
+
+    function printPages(data){
+        let pagStr = '';
+        if(data.prev) {
+            pageStr +=`<li class="page-item"><a class="page-link" data-page="${data.start-1}">PREV</a></li>`
+        }
+
+        for(let i = data.start; i <= data.end; i++){
+            pageStr +=`<li class="page-item ${i == data.page?"active":""} "><a class="page-link" data-page="${i}">${i}</a></li>`
+        }
+
+        if(data.next) {
+            pageStr +=`<li class="page-item"><a class="page-link" data-page="${data.end +1}">NEXT</a></li>`
+        }
+        $('.replyPaging').innerHTML = pageStr
+    }
+
+    function printReplies(page,size,goLast) {
+
+        getList({rno, page, size, goLast}).then(
+            data => {
+                printList(data.dtoList) //목록 처리
+                printPages(data) //페이지 처리
+            }
+        ).catch(e => {
+            console.error(e)
+        })
+    }
+    printReplies(0,10, true)
+
+
+    $("#submitBtn").click(function (e){
+        const replyObj = {
+            rno:rno,
+            content : content,
+            writer : writer
+        }
+        addReply(replyObj).then(result =>{
+            alert(result)
+            printReplies(0,10,true)
+        }).catch(e=>{
+            alert("Error")
+        })
+    })
+    $('.replyPaging').click(function (e){
+
+        e.preventDefault()
+        e.stopPropagation()
+
+        const target = e.target
+
+        if(!target || target.tagName != 'A'){
+            return
+        }
+
+        const pageNum = target.getAttribute("data-page")
+        page = pageNum
+        printReplies(page, size)
+
+    },false)
+    $('.removeBtn').click(function (e){
+        deleteReply(rno).then(result=>{
+            alert(result)
+            page = 1
+        }).catch(e=>{
+            alert("Error")
+        })
+    },false)
 </script>

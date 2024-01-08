@@ -7,6 +7,16 @@
 
 
 /* custom */
+/*review */
+.reply-text{
+	display: inline-block;
+	width: 87%;
+	row:1;
+}
+.comment-input{
+	display: flex;
+	justify-content: space-between;
+}
 /* Exercise */
 .view-image{
 	max-width: 80%;
