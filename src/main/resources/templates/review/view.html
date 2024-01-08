@@ -227,7 +227,11 @@
         }
         document.querySelector('.reactionBtn').innerHTML = str
     }
-    printReactionBtn(bestStat)
+    if(bestStat){
+        printReactionBtn('true')
+    }else{
+        printReactionBtn('false')
+    }
     //좋아요
     function bestReaction(rno){
         best(rno).then(result=>{
