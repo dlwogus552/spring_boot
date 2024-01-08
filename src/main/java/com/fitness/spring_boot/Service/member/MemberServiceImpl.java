@@ -1,17 +1,26 @@
-package com.fitness.spring_boot.Service;
+package com.fitness.spring_boot.Service.member;
 
+import com.fitness.spring_boot.Service.MemberService;
 import com.fitness.spring_boot.entity.Member;
 import com.fitness.spring_boot.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class MemberServiceImpl implements MemberService{
+@Log4j2
+public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     @Override
     public List<Member> list() {
@@ -39,6 +48,10 @@ public class MemberServiceImpl implements MemberService{
     }
 
 
+    @Override
+    public Member findBymId(String mname) {
+        return memberRepository.findBymId(mname);
+    }
 
 
 }

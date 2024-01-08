@@ -6,12 +6,6 @@
 <div layout:fragment="content">
     <div class="container">
     <h2> My Page </h2>
-<!--        <form action="/member/mypage" method="post">-->
-            <div class="form-group mt-3">
-                <img src="/img/NoProfilePhoto.png" alt="">
-                <input type="button" value="프로필 수정" class="modifyPhoto">
-            </div>
-
             <div class="form-group mt-3">
                 <label for="mno"> 회원번호 </label>
                 <input type="text" class="form-control" name="mno" id="mno" th:value="${member.mno}" readonly>
@@ -114,41 +108,6 @@
         document.getElementById('phone').value = newPhoneValue;
     }
 
-
-
-    // 연락처 수정
-    // function updatePhone() {
-    //     // 새로운 연락처 값을 가져와서 처리하는 로직 추가
-    //     var newPhoneValue = document.getElementById('newPhone').value;
-    //     // AJAX를 사용하여 서버로 새로운 연락처를 전송
-    //     var xhr = new XMLHttpRequest();
-    //     xhr.onreadystatechange = function() {
-    //         if (xhr.readyState === XMLHttpRequest.DONE) {
-    //             if (xhr.status === 200) {
-    //                 // 성공적으로 서버에서 응답을 받았을 때 처리
-    //                 console.log('연락처 수정 성공!');
-    //                 // 모달 닫기
-    //                 closePhoneModal();
-    //             } else {
-    //                 // 서버에서 오류 응답을 받았을 때 처리
-    //                 console.error('연락처 수정 실패:', xhr.status);
-    //             }
-    //         }
-    //     };
-    //
-    //     // 서버로 전송할 데이터 설정
-    //     var data = "newPhone=" + encodeURIComponent(newPhoneValue);
-    //
-    //     // POST 방식으로 서버에 요청
-    //     xhr.open("POST", "/member/updatePhone", true);
-    //     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    //     xhr.send(data);
-    //
-    //     // 예시로 console에 출력
-    //     console.log('새로운 연락처:', newPhoneValue);
-    //
-    //     // 모달 닫기
-    //     closePhoneModal();
 
 </script>
 
