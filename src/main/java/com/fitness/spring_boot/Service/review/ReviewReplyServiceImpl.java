@@ -10,6 +10,7 @@ import com.fitness.spring_boot.repository.review.Custom.ReviewReplyCustomReposit
 import com.fitness.spring_boot.repository.review.ReviewReplyRepository;
 import com.fitness.spring_boot.repository.review.ReviewRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Log4j2
 public class ReviewReplyServiceImpl implements ReviewReplyService{
     private final ReviewReplyCustomRepository reviewReplyCustomRepository;
     private final ReviewReplyRepository reviewReplyRepository;
@@ -33,8 +34,9 @@ public class ReviewReplyServiceImpl implements ReviewReplyService{
     @Override
     public void create(ReviewReplyRequestDTO reviewReplyRequestDTO) {
         ReviewReply reviewReply = new ReviewReply(reviewReplyRequestDTO);
-
+        log.info(reviewReply);
         Optional<Review> result = reviewRepository.findById(reviewReplyRequestDTO.getRno());
+        log.info(result);
         if(result != null){
             Review review = result.get();
             reviewReply.setReview(review);
@@ -46,10 +48,10 @@ public class ReviewReplyServiceImpl implements ReviewReplyService{
                 parent.get().setChild(reviewReply);
                 reviewReplyCustomRepository.updateLeftRight(reviewReply);
                 reviewReplyRepository.save(reviewReply);
-            }else{
-                reviewReplyRepository.save(reviewReply);
-                reviewReply.setRootId(reviewReply);
             }
+        }else{
+            reviewReplyRepository.save(reviewReply);
+            reviewReply.setRootId(reviewReply);
         }
     }
 
@@ -60,14 +62,16 @@ public class ReviewReplyServiceImpl implements ReviewReplyService{
             reviewRepository.deleteById(rrno);
         }
     }
-
+//    public List<ReviewReplyResponseDTO> getList(Long rno) {
+//        return reviewReplyCustomRepository.findReviewReplyByRno(rno);
+//    }
     @Override
     public PageResponseDTO<ReviewReplyResponseDTO> findAll(Long rno, PageRequestDTO pageRequestDTO) {
         reviewReplyCustomRepository.findReviewReplyByRno(rno);
         Pageable pageable= PageRequest.of(
                 pageRequestDTO.getPage()<=0 ? 0: pageRequestDTO.getPage() -1,
                 pageRequestDTO.getSize(), Sort.by("rrno").ascending());
-        Page<ReviewReply> result = reviewReplyRepository.listOfBoard(rno, pageable);
+        Page<ReviewReply> result = reviewReplyRepository.listOfReview(rno, pageable);
         List<ReviewReplyResponseDTO> dtoList = result.getContent().stream().map(reply -> modelMapper.map(reply,ReviewReplyResponseDTO.class)).collect(Collectors.toList());
         return PageResponseDTO.<ReviewReplyResponseDTO>withAll()
                 .pageRequestDTO(pageRequestDTO)

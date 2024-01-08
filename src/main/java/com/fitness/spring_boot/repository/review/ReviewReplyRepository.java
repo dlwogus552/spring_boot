@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface ReviewReplyRepository extends JpaRepository<ReviewReply, Long> {
     @Query("select r from ReviewReply r where r.review.rno=:rno")
-    Page<ReviewReply> listOfBoard(Long rno, Pageable pageable);
+    Page<ReviewReply> listOfReview(Long rno, Pageable pageable);
 }

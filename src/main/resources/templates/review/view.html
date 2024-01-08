@@ -76,7 +76,7 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-12">
-                                <div class="my-4">
+                                <div>
                                     <ul class="list-group replyList">
                                     </ul>
                                 </div>
@@ -96,29 +96,43 @@
     </section>
     <!-- Elements section end -->
 </div>
+
 <script layout:fragment="script" th:inline="javascript">
     const rno = [[${reviewDTO.rno}]]
     const writer = [[${#authentication.name}]]
-    const content = $('#replyContent').value
+    const content = $('#replyContent')
+    const replyList = document.querySelector('.replyList')
 
     // 출력
-    function print(replyDTOList){
+    function printList(dtoList){
         let str = '';
-        if(replyDTOList && replyDTOList.lenth>0){
-            for(const dto of replyDTOList){
+        const TIME_ZONE = 9 * 60 * 60 * 1000; // 9시간
+
+
+        console.log(dtoList && dtoList.length>0)
+        if(dtoList && dtoList.length>0){
+            console.log("1")
+            for(const dto of dtoList){
+                const date = new Date(dto.regDate);
+                var regDate = new Date(date.getTime() + TIME_ZONE).toISOString().replace('T', ' ').slice(0, -5)
+
                 str += `<li class="list-group-item d-flex replItem">
-                      <span class="col-2">${dto.rrno}</span>
-                      <span class="col-6">${dto.content}</span>
-                      <span class="col-2">${dto.writer}</span>
-                      <span class="col-2">${dto.regDate} </span>
+                      <span class="col-1 text-center">${dto.rrno}</span>
+                      <span class="col-5" text-center>${dto.content}</span>
+                      <span class="col-2 text-center">${dto.writer}</span>
+                      <span class="col-3 text-center">${regDate} </span>
+                      <span class="col-1">
+<!--                        <button class="btn btn-outline-dark mb-1">답글</button>-->
+                        <button class="btn btn-outline-dark removeBtn">삭제</button>
+                      </span>
                     </li>`
             }
         }
-        $('.replyList').innerHTML = str;
+        replyList.innerHTML = str;
     }
 
     function printPages(data){
-        let pagStr = '';
+        let pageStr = '';
         if(data.prev) {
             pageStr +=`<li class="page-item"><a class="page-link" data-page="${data.start-1}">PREV</a></li>`
         }
@@ -134,8 +148,10 @@
     }
 
     function printReplies(page,size,goLast) {
+    // function printReplies() {
 
         getList({rno, page, size, goLast}).then(
+        // getList(rno).then(
             data => {
                 printList(data.dtoList) //목록 처리
                 printPages(data) //페이지 처리
@@ -145,17 +161,20 @@
         })
     }
     printReplies(0,10, true)
+    // printReplies()
 
 
     $("#submitBtn").click(function (e){
         const replyObj = {
             rno:rno,
-            content : content,
+            content : content.val(),
             writer : writer
         }
         addReply(replyObj).then(result =>{
             alert(result)
             printReplies(0,10,true)
+            // printReplies()
+            content.innerHTML='';
         }).catch(e=>{
             alert("Error")
         })
@@ -176,7 +195,8 @@
         printReplies(page, size)
 
     },false)
-    $('.removeBtn').click(function (e){
+    const removeBtn = document.querySelector('.removeBtn')
+    removeBtn.addEventListener('click',function (e){
         deleteReply(rno).then(result=>{
             alert(result)
             page = 1

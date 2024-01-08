@@ -1,9 +1,11 @@
 package com.fitness.spring_boot.domain.review;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fitness.spring_boot.dto.review.ReviewReplyRequestDTO;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@EntityListeners(value = {AuditingEntityListener.class})
 @ToString(exclude = "reviewboard")
 public class ReviewReply {
     @Id

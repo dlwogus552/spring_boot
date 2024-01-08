@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewReplyRequestDTO {
-    private Long id;
+    private Long rrno;
     @NotBlank
     private String content;
     private String writer;
