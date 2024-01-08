@@ -9,5 +9,6 @@ public interface MemberService {
     public Member findById(Long mno);
     public void update(Member member);
     public void delete(Long mno);
+    public Member findBymId(String mname);
 
 }
