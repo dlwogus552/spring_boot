@@ -1,33 +1,49 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layout/basic.html}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+
+<div layout:fragment="title">
+    <!-- Page top section -->
+    <section class="page-top-section set-bg" data-setbg="/img/header-bg/5.jpg">
+        <div class="container">
+            <h2>Login</h2>
+        </div>
+    </section>
+    <!-- Page top section end -->
+</div>
 
 <div layout:fragment="content">
-    <div class="container">
-    <h2> Log in </h2>
-        <form action="/loginProcess" method="post">
-<!--        입력칸 길이 줄여야함 지금 너무 긴 상태;;; -->
-            <div>
-                <label for="mId">ID</label>
-                <input type="text" class="form-control" id="mId" name="mId" width="10px">
+    <section class="elements-section">
+        <div class="container">
+            <div class="element">
+                <div class="card" style="width: 30rem; margin: 0 auto">
+                    <div class="card-body">
+                        <h2 class="card-title">로그인</h2>
+                        <form action="/loginProcess" method="post">
+                            <div>
+                                <label for="mId">ID</label>
+                                <input type="text" class="form-control" id="mId" name="mId" width="10px">
+                            </div>
+                            <div class="mt-3">
+                                <label for="pass">Password</label>
+                                <input type="password" class="form-control" id="pass" name="pass">
+                            </div>
+                            <div class="form-group mt-3">
+                                <button type="submit" class="btn btn-primary" id="loginBtn">Log In</button>
+                                <button type="button" class="btn btn-secondary" id="joinBtn">Join</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div>
-                <label for="pass">Password</label>
-                <input type="password" class="form-control" id="pass" name="pass">
-            </div>
-            <div class="form-group mt-3">
-                <button type="submit" class="btn-btn-primary">Log In</button>
-                <button type="button" class="btn-btn-secondary">Join</button>
-            </div>
-        </form>
-    </div>
+        </div>
+    </section>
 </div>
 
 <script layout:fragment="script" th:inline="javascript">
-    document.querySelector(".btn-btn-secondary").addEventListener("click",function (e){
+    document.querySelector("#joinBtn").addEventListener("click", function (e) {
         e.preventDefault()
-        self.location="/member/join"
-
-    })
+        self.location = "/member/join"
+    });
 </script>

@@ -26,16 +26,18 @@
                         <button class="btn btn-outline-dark" onclick="location.href='/QnA/list'">
                             목록
                         </button>
+                        <th:block sec:authorize="isAuthenticated()" th:if="${#authentication.name == dto.writer}">
+                            <a th:href="|@{/QnA/remove(qnabno=${dto.qnabno})}|">
+                                <button class="btn btn-outline-danger ml-3">
+                                    삭제
+                                </button>
+                            </a>
+                        </th:block>
                         <th:block th:if="${dto.answer == false}">
                             <th:block sec:authorize="isAuthenticated()" th:if="${#authentication.name == dto.writer}">
                                 <a th:href="|@{/QnA/modify(qnabno=${dto.qnabno})}&${pageRequestDTO.getLink()}|">
                                     <button class="btn btn-outline-dark ml-3">
                                         수정
-                                    </button>
-                                </a>
-                                <a th:href="|@{/QnA/remove(qnabno=${dto.qnabno})}|">
-                                    <button class="btn btn-outline-danger ml-3">
-                                        삭제
                                     </button>
                                 </a>
                             </th:block>
