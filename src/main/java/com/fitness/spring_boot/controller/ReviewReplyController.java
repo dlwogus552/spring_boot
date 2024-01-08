@@ -1,12 +1,10 @@
 package com.fitness.spring_boot.controller;
 
 import com.fitness.spring_boot.Service.review.ReviewReplyService;
-import com.fitness.spring_boot.domain.review.ReviewReply;
 import com.fitness.spring_boot.dto.PageRequestDTO;
 import com.fitness.spring_boot.dto.PageResponseDTO;
 import com.fitness.spring_boot.dto.review.ReviewReplyRequestDTO;
 import com.fitness.spring_boot.dto.review.ReviewReplyResponseDTO;
-import com.fitness.spring_boot.repository.review.ReviewReplyRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -15,18 +13,21 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @Log4j2
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/replies")
-public class ReviewReplController {
+public class ReviewReplyController {
     private final ReviewReplyService reviewReplyService;
     @GetMapping("/list/{rno}")
     public PageResponseDTO<ReviewReplyResponseDTO> getList(@PathVariable Long rno, PageRequestDTO pageRequestDTO){
+//    public List<ReviewReplyResponseDTO> getList(@PathVariable Long rno, PageRequestDTO pageRequestDTO){
         PageResponseDTO<ReviewReplyResponseDTO> responseDTO = reviewReplyService.findAll(rno, pageRequestDTO);
+//        List<ReviewReplyResponseDTO> responseDTO = reviewReplyService.getList(rno);
+        log.info(responseDTO.getDtoList());
+        log.info(responseDTO);
         return responseDTO;
     }
     @PostMapping(value = "/",consumes = MediaType.APPLICATION_JSON_VALUE)

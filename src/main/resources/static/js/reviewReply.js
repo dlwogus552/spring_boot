@@ -4,18 +4,19 @@ async function addReply(replyObj){
 }
 
 
-async function getList({bno,page,size,goLast}){
-    const result = await axios.get(`/replies/list/${bno}`,{params:{page,size}})
-
+async function getList({rno,page,size,goLast}){
+// async function getList(rno){
+    const result = await axios.get(`/replies/list/${rno}`,{params:{page,size}})
+    // const result = await axios.get(`/replies/list/${rno}`,rno)
     if(goLast){
         const total = result.data.total
         const lastPage = parseInt(Math.ceil(total/size))
-        return getList({bno:bno, page:lastPage,size:size})
+        return getList({rno:rno, page:lastPage,size:size})
     }
     return  result.data
 }
 
-async function deleteReply(rno){
-    const response = await  axios.delete(`/replies/${rno}`,rno)
+async function deleteReply(rrno){
+    const response = await  axios.delete(`/replies/${rrno}`,rrno)
     return response.data
 }

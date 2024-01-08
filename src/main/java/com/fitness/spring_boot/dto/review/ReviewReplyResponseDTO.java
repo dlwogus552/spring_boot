@@ -2,12 +2,16 @@ package com.fitness.spring_boot.dto.review;
 
 import com.fitness.spring_boot.domain.review.ReviewReply;
 import com.querydsl.core.annotations.QueryProjection;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ReviewReplyResponseDTO {
-    private Long id;
+    private Long rrno;
     private String content;
     private String writer;
     private Long rno;
@@ -17,7 +21,7 @@ public class ReviewReplyResponseDTO {
 
     @QueryProjection
     public ReviewReplyResponseDTO(ReviewReply ReviewReply){
-        this.id=ReviewReply.getRrno();
+        this.rrno=ReviewReply.getRrno();
         this.content = ReviewReply.getContent();
         this.writer = ReviewReply.getWriter();
         this.rno = ReviewReply.getReview().getRno();
