@@ -54,6 +54,12 @@ public class Member {
 
     private String role;
 
+    @Column(nullable = true)
+    private String profilePhoto;
+
+    public void setProfilePhoto(String profilePhoto) {
+        this.profilePhoto = profilePhoto;
+    }
 
 
 //    @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)

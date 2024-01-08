@@ -9,7 +9,7 @@
     <!-- Page top section -->
     <section class="page-top-section set-bg" data-setbg="/img/header-bg/5.jpg">
         <div class="container">
-            <h2>리뷰 게시판</h2>
+            <h2>Review</h2>
         </div>
     </section>
     <!-- Page top section end -->
@@ -24,13 +24,13 @@
                         <button class="btn btn-outline-dark" onclick="location.href='/review/list'">
                             목록
                         </button>
-                        <th:block th:if="${reviewDTO.writer == userId}">
-                            <a th:href="|@{/review/modify(rno=${dto.rno})}&${pageRequestDTO.getLink()}|">
+                        <th:block th:if="${reviewDTO.writer == #authentication.name}">
+                            <a th:href="|@{/review/modify(rno=${reviewDTO.rno})}&${pageRequestDTO.getLink()}|">
                                 <button class="btn btn-outline-dark ml-3">
                                     수정
                                 </button>
                             </a>
-                            <a th:href="|@{/review/remove(rno=${dto.rno})}|">
+                            <a th:href="|@{/review/remove(rno=${reviewDTO.rno})}|">
                                 <button class="btn btn-outline-danger ml-3">
                                     삭제
                                 </button>
@@ -45,7 +45,7 @@
                                     <h3>[[${reviewDTO.title}]]</h3>
                                 </div>
                                 <div>
-                                    <span th:text="'작성 '+${#temporals.format(reviewDTO.regDate, 'YYYY-MM-DD')}"></span>
+                                    <span th:if="${reviewDTO.regDate > reviewDTO.modDate}" th:text="'작성 '+${#temporals.format(reviewDTO.regDate, 'YYYY-MM-DD')}"></span>
                                     <span th:if="${reviewDTO.regDate < reviewDTO.modDate} "th:text="'수정 '+${#temporals.format(reviewDTO.modDate, 'YYYY-MM-DD')}"></span>
                                     <span class="ml-3">작성자 [[${reviewDTO.writer}]]</span>
                                 </div>
@@ -66,16 +66,156 @@
                         </div>
                     </div>
                     <!--Reply 영역-->
-                    <div class="reply-list">
+                    <div class="comments-container">
+                        <div class="comment-input mt-4">
+                            <textarea rows="2" class="form-control reply-text" placeholder="댓글을 입력하세요."
+                                      name="replyContent" id="replyContent" style="resize: none"></textarea>
+                            <button type="button" id="submitBtn" class="btn btn-outline-dark pl-5 pr-5">
+                                작성
+                            </button>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <div>
+                                    <ul class="list-group replyList">
+                                        aaaaa
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
 
+                        <div class="row mt=3">
+                            <div class="col">
+                                <ul class="pagination replyPaging">
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </section>
     <!-- Elements section end -->
 </div>
-<script layout:fragment="script" th:inline="javascript">
 
+<script layout:fragment="script" th:inline="javascript">
+    const rno = [[${reviewDTO.rno}]]
+    const writer = [[${#authentication.name}]]
+    const content = $('#replyContent')
+    const replyList = document.querySelector('.replyList')
+
+    // 출력
+    function printList(dtoList){
+        let str = '';
+        const TIME_ZONE = 9 * 60 * 60 * 1000; // 9시간
+
+
+        console.log(dtoList && dtoList.length>0)
+        if(dtoList && dtoList.length>0){
+            console.log("1")
+            for(const dto of dtoList){
+                const date = new Date(dto.regDate);
+                var regDate = new Date(date.getTime() + TIME_ZONE).toISOString().replace('T', ' ').slice(0, -5)
+
+                str += `<li class="list-group-item d-flex replItem">
+                      <span class="col-1 text-center">${dto.rrno}</span>
+                      <span class="col-5" text-center>${dto.content}</span>
+                      <span class="col-2 text-center">${dto.writer}</span>
+                      <span class="col-3 text-center">${regDate} </span>
+                      <span class="col-1">
+<!--                        <button class="btn btn-outline-dark mb-1">답글</button>-->
+                        <button class="btn btn-outline-dark removeBtn" onclick="remove(${dto.rrno})">삭제</button>
+                      </span>
+                    </li>`
+            }
+        }
+        replyList.innerHTML = str;
+    }
+
+    function printPages(data){
+        let pageStr = '';
+        if(data.prev) {
+            pageStr +=`<li class="page-item"><a class="page-link" data-page="${data.start-1}">PREV</a></li>`
+        }
+
+        for(let i = data.start; i <= data.end; i++){
+            pageStr +=`<li class="page-item ${i == data.page?"active":""} "><a class="page-link" data-page="${i}">${i}</a></li>`
+        }
+
+        if(data.next) {
+            pageStr +=`<li class="page-item"><a class="page-link" data-page="${data.end +1}">NEXT</a></li>`
+        }
+        $('.replyPaging').innerHTML = pageStr
+    }
+
+    function printReplies(page,size,goLast) {
+    // function printReplies() {
+
+        getList({rno, page, size, goLast}).then(
+        // getList(rno).then(
+            data => {
+                printList(data.dtoList) //목록 처리
+                printPages(data) //페이지 처리
+            }
+        ).catch(e => {
+            console.error(e)
+        })
+    }
+    printReplies(0,10, true)
+    // printReplies()
+
+
+    $("#submitBtn").click(function (e){
+        const replyObj = {
+            rno:rno,
+            content : content.val(),
+            writer : writer
+        }
+        addReply(replyObj).then(result =>{
+            alert(result)
+            printReplies(0,10,true)
+            // printReplies()
+            content.innerHTML='';
+        }).catch(e=>{
+            alert("Error")
+        })
+    })
+    $('.replyPaging').click(function (e){
+
+        e.preventDefault()
+        e.stopPropagation()
+
+        const target = e.target
+
+        if(!target || target.tagName != 'A'){
+            return
+        }
+
+        const pageNum = target.getAttribute("data-page")
+        page = pageNum
+        printReplies(page, size)
+
+    },false)
+    const removeBtn = document.querySelector('.removeBtn')
+
+    function remove(rrno){
+        deleteReply(rrno).then(result=>{
+            alert(result)
+            page = 1
+            printReplies(page, 10)
+
+        }).catch(e=>{
+            alert("Error")
+        })
+    }
+
+    // removeBtn.addEventListener('click',function (e){
+    //     alert("remove"+rrno)
+    //     deleteReply(rrno).then(result=>{
+    //         alert(result)
+    //         page = 1
+    //     }).catch(e=>{
+    //         alert("Error")
+    //     })
+    // },false)
 </script>

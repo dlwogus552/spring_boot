@@ -10,6 +10,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -17,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -30,10 +33,6 @@ public class ReviewController {
     public void reviewlist(PageRequestDTO pageRequestDTO, Model model) {
         PageResponseDTO<ReviewDTO> responseDTO = reviewService.getList(pageRequestDTO);
         model.addAttribute("responseDTO", responseDTO);
-    }
-
-    @GetMapping("/content")
-    public void reviewcontent() {
     }
 
     @GetMapping({"/view","/modify"})

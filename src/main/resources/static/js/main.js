@@ -28,6 +28,9 @@ $(window).on('load', function() {
 	$("#joinMember").click(function () {
 		location.href="/member/login";
 	});
+	$("#logout").click(function () {
+		location.href="/logout";
+	});
 
 	/*------------------
 		Background Set
