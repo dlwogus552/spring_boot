@@ -1,6 +1,6 @@
 package com.fitness.spring_boot.controller;
 
-import com.fitness.spring_boot.Service.MemberService;
+import com.fitness.spring_boot.Service.member.MemberService;
 import com.fitness.spring_boot.config.auth.PrincipalDetails;
 import com.fitness.spring_boot.entity.Member;
 import com.fitness.spring_boot.repository.MemberRepository;

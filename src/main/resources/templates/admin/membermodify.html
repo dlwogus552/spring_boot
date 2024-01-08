@@ -1,10 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic.html}"
+      lang="en">
 
-</body>
-</html>
+
+<div layout:fragment="title">
+    <!-- Page top section -->
+    <section class="page-top-section set-bg" data-setbg="/img/header-bg/5.jpg">
+        <div class="container">
+            <h2>회원정보수정</h2>
+        </div>
+    </section>
+    <!-- Page top section end -->
+</div>
+<div layout:fragment="content">
+    <section class="elements-section">
+        <div class="container">
+            <div class="element">
+                <h2 class="el-title text-center">회원정보 수정</h2>
+                <table class="table table-lg text-center mb-0 qna-table">
+                    <form action="/admin/membermodify" id="memberModifyForm" method="post">
+                        <tr>
+                            <th class="align-middle member-phone">연락처</th>
+                            <td>
+                                <input type="text" id="phone" name="phone" class="form-control form-control"
+                                       placeholder="연락처를 입력하세요." th:value="${member.phone}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="align-middle member-endDate">회원권 만료날짜</th>
+                            <td>
+                                <input type="text" id="endDate" name="endDate" class="form-control form-control w-50"
+                                       placeholder="날짜를 입력하세요." th:value="${#dates.format(member.endDate, 'yyyy-MM-dd')}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="align-middle member-role">회원등급</th>
+                            <td>
+                                <input type="text" id="role" name="role" class="form-control form-control w-50"
+                                       th:value="${member.role}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <button type="button" id="submitBtn" class="btn btn-outline-dark pl-5 pr-5">
+                                    수정하기
+                                </button>
+                                <button type="button" class="btn btn-outline-dark pl-5 pr-5"
+                                        onclick="location.href='/admin/memberlist'">
+                                    목록으로
+                                </button>
+                            </td>
+                        </tr>
+                    </form>
+                </table>
+            </div>
+        </div>
+    </section>
+    <!-- Elements section end -->
+</div>
+<script layout:fragment="script" th:inline="javascript">
+    $("#submitBtn").click(function (e) {
+        e.preventDefault();
+        fetch('/admin/membermodify', {
+            method: 'POST',
+            body: formData // body 부분에 폼데이터 변수를 할당
+        }).then((response) => {
+// response.json()
+            console.log("response : " + response)
+            location.href = "/admin/memberlist";
+        });
+    })
+</script>

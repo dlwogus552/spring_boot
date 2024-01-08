@@ -7,7 +7,7 @@
     <!-- Page top section -->
     <section class="page-top-section set-bg" data-setbg="/img/header-bg/5.jpg">
         <div class="container">
-            <h2>Member List</h2>
+            <h2>Page for ADMIN</h2>
         </div>
     </section>
     <!-- Page top section end -->
@@ -15,28 +15,33 @@
 
 <div layout:fragment="content">
     <section class="elements-section">
-    <div class="container">
-        <div class="form-group text-right">
-            <form action="/loginProcess" method="post">
-                <h2> My Page </h2>
-                <table class="table table-hover">
+        <div class="container">
+            <div class="element">
+                <h2 class="el-title text-center"> Member List </h2>
+                <table class="table table-lg text-center mb-0 memberlist-table member-list-table">
                     <thead>
                     <tr>
-                        <th>회원번호</th>
-                        <th>이름</th>
-                        <th>회원등급</th>
+                        <td colspan="6">
+                            <div class="col d-flex justify-content-between">
+                                <form action="/loginProcess" method="post" class="w-50">
+                                    <div class="d-flex">
+                                        <tbody>
+                                        <tr th:each="member:${list}">
+                                            <td>[[${member.mno}]]</td>
+                                            <td><a th:href="|@{/admin/memberview(mno=${member.mno})}|">[[${member.mname}]]</a>
+                                            </td>
+                                            <td>[[${member.role}]]</td>
+                                        </tr>
+                                        </tbody>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </td>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr th:each="member:${list}">
-                        <td>[[${member.mno}]]</td>
-                        <td><a th:href="|@{/admin/memberview(mno=${member.mno})}|">[[${member.mname}]]</a></td>
-                        <td>[[${member.role}]]</td>
-                    </tr>
-                    </tbody>
                 </table>
-            </form>
+            </div>
         </div>
-    </div>
     </section>
 </div>

@@ -1,7 +1,7 @@
 package com.fitness.spring_boot.controller;
 
 
-import com.fitness.spring_boot.Service.MemberService;
+import com.fitness.spring_boot.Service.member.MemberService;
 import com.fitness.spring_boot.Service.ptreserve.PtTrainerService;
 import com.fitness.spring_boot.domain.ptreserve.PtBoard;
 import com.fitness.spring_boot.entity.Member;

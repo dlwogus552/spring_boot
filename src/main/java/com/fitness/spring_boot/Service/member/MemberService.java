@@ -1,4 +1,4 @@
-package com.fitness.spring_boot.Service;
+package com.fitness.spring_boot.Service.member;
 
 import com.fitness.spring_boot.entity.Member;
 import org.springframework.web.multipart.MultipartFile;

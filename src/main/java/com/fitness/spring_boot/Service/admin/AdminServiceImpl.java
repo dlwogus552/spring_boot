@@ -19,7 +19,6 @@ public class AdminServiceImpl implements AdminService{
     public void update(Member member) {
         Member m=memberRepository.findById(member.getMno()).get();
         m.setPhone(m.getPhone());
-        m.setCnum(m.getCnum());
         m.setEndDate(m.getEndDate());
         m.setRole(m.getRole());
         memberRepository.save(m);

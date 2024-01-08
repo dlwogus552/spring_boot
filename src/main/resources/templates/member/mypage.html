@@ -1,72 +1,99 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layout/basic.html}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+
+<div layout:fragment="title">
+    <!-- Page top section -->
+    <section class="page-top-section set-bg" data-setbg="/img/header-bg/5.jpg">
+        <div class="container">
+            <h2>My Info</h2>
+        </div>
+    </section>
+    <!-- Page top section end -->
+</div>
 
 <div layout:fragment="content">
-    <div class="container">
-    <h2> My Page </h2>
-            <div class="form-group mt-3">
-                <label for="mno"> 회원번호 </label>
-                <input type="text" class="form-control" name="mno" id="mno" th:value="${member.mno}" readonly>
+    <section class="elements-section">
+        <div class="container">
+            <div class="element">
+                <h2 class="card-title" align="center">나의 정보</h2>
+                <table class="table tabl-lg text-center mb-0 qna-table">
+                    <tr>
+                        <th class="align-middle my-no">회원번호</th>
+                        <td>
+                            <input type="text" class="form-control form-control" name="mno" id="mno"
+                                   th:value="${member.mno}" readonly>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th class="align-middle my-name">이름</th>
+                        <td>
+                            <input type="text" class="form-control form-control" name="mname" id="mname"
+                                   th:value="${member.mname}" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="align-middle my-phone">연락처</th>
+                        <td>
+                            <input type="button" value="수정" class="modifyHP" onclick="openPhoneModal()">
+                            <input type="text" class="form-control" name="phone" id="phone" th:value="${member.phone}">
+                        </td>
+                    </tr>
+                    <div id="phoneModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="closePhoneModal()">&times;</span>
+                            <label for="newPhone">새 연락처:</label>
+                            <input type="text" id="newPhone">
+                            <button onclick="updatePhone()">수정</button>
+                        </div>
+                    </div>
+
+                    <tr>
+                        <th class="align-middle my-age">나이</th>
+                        <td>
+                            <input type="text" class="form-control form-control" name="age" id="age"
+                                   th:value="${member.age}" readonly>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th class="align-middle my-role">회원등급</th>
+                        <td>
+                            <input type="text" class="form-control form-control" name="role" id="role"
+                                   th:value="${member.role}" readonly>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th class="align-middle my-regDate">등록일자</th>
+                        <td>
+                            <input type="text" class="form-control form-control" name="regDate" id="regDate"
+                                   th:value="${#dates.format(member.regDate, 'yyyy-MM-dd')}" readonly>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th class="align-middle my-endDate">종료일자</th>
+                        <td>
+                            <input type="text" class="form-control form-control" name="endDate" id="endDate"
+                                   th:value="${#dates.format(member.endDate, 'yyyy-MM-dd')}" readonly>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td colspan="2">
+                            <a th:href="|@{/member/remove(mno=${member.mno})}|">
+                                <button type="button" class="btn btn-danger pl-5 pr-5">회원 탈퇴</button>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
             </div>
-
-            <div class="form-group mt-3">
-                <label for="mname"> 이름 </label>
-                <input type="text" class="form-control" name="mname" id="mname" th:value="${member.mname}" readonly>
-            </div>
-
-            <div class="form-group mt-3">
-                <label for="phone"> 연락처 </label>
-                <input type="button" value="수정" class="modifyHP" onclick="openPhoneModal()">
-                <input type="text" class="form-control" name="phone" id="phone" th:value="${member.phone}">
-            </div>
-
-            <div id="phoneModal" class="modal">
-                <div class="modal-content">
-                    <span class="close" onclick="closePhoneModal()">&times;</span>
-                    <label for="newPhone">새 연락처:</label>
-                    <input type="text" id="newPhone">
-                    <button onclick="updatePhone()">수정</button>
-                </div>
-            </div>
-
-            <div class="form-group mt-3">
-                <label for="age"> 나이 </label>
-                <input type="text" class="form-control" name="age" id="age" th:value="${member.age}" readonly>
-            </div>
-
-            <div class="form-group mt-3">
-                <label for="role"> 회원등급 </label>
-                <input type="text" class="form-control" name="role" id="role" th:value="${member.role}" readonly>
-            </div>
-
-            <div class="form-group mt-3">
-                <label for="regDate"> 등록일자 </label>
-                <input type="text" class="form-control" name="regDate" id="regDate" th:value="${#dates.format(member.regDate, 'yyyy-MM-dd')}" readonly>
-            </div>
-
-            <div class="form-group mt-3">
-                <label for="endDate"> 종료일자 </label>
-                <input type="text" class="form-control" name="endDate" id="endDate" th:value="${#dates.format(member.endDate, 'yyyy-MM-dd')}" readonly>
-            </div>
-
-            <div class="form-group mt-3">
-                <label for="cnum"> 개인사물함번호 </label>
-                <input type="text" class="form-control" name="cnum" id="cnum" th:value="${member.cnum}" readonly>
-            </div>
-
-
-
-            <div class="form-group mt-3">
-                <a th:href="|@{/member/remove(mno=${member.mno})}|">
-                <button type="button" class="btn btn-primary">회원 탈퇴</button>
-                </a>
-<!--                <button type="reset" class="btn btn-secondary">Reset</button>-->
-<!--                <button type="reset" class="btn btn-secondary">Reset</button>-->
-            </div>
-        </form>
-    </div>
+        </div>
+    </section>
 </div>
 
 <script layout:fragment="script" th:inline="javascript">
@@ -79,6 +106,7 @@
     function closePhoneModal() {
         document.getElementById('phoneModal').style.display = 'none';
     }
+
     // 연락처 수정
     function updatePhone() {
         var newPhoneValue = document.getElementById('newPhone').value;
@@ -87,7 +115,7 @@
         $.ajax({
             type: 'POST',
             url: '/member/updatePhone',
-            data: { newPhone: newPhoneValue },
+            data: {newPhone: newPhoneValue},
             success: function (response) {
                 console.log('연락처 수정 성공');
                 // 모달 닫기

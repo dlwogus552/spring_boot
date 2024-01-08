@@ -47,8 +47,6 @@ public class Member {
     @Column(nullable = true)
     private Date endDate;
 
-    @Column(nullable = true)
-    private int cnum;
 
     private String role;
 
