@@ -1,6 +1,5 @@
 package com.fitness.spring_boot.dto.review;
 
-import com.fitness.spring_boot.domain.review.ReviewBoard;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

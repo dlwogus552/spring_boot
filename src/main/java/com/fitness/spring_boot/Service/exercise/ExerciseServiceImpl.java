@@ -32,8 +32,6 @@ public class ExerciseServiceImpl implements ExerciseService {
     private final ExerciseRepository exerciseRepository;
     private final ModelMapper modelMapper;
     private final ExerciseFileService exerciseFileService;
-    @Value("${com.fitness.spring_boot.upload.path}")
-    private String uploadPath;
 
     @Transactional
     @Override

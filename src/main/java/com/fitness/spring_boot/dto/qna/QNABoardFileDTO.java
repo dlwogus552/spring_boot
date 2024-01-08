@@ -14,15 +14,5 @@ public class QNABoardFileDTO {
     private Long qnafno;
     private String uuid;
     private String filename;
-//    private boolean image;
-//    private boolean thumbnail;
     private QNABoard qnaBoard;
-
-//    public String getLink(Long qnafno){
-//        if(thumbnail && this.qnaBoard.getQnabno()==qnafno){
-//            return "s_"+uuid+"_"+filename;
-//        }else{
-//            return null;
-//        }
-//    }
 }

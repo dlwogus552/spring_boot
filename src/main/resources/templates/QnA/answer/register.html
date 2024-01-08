@@ -18,28 +18,64 @@
 <div layout:fragment="content">
     <section class="elements-section">
         <div class="container">
+            <div class="d-flex justify-content-end mb-3 w-100">
+                <button class="btn btn-outline-dark" onclick="location.href='/QnA/list'">
+                    목록
+                </button>
+            </div>
+            <div class="qna-view-q">
+                <!-- 상단부 -->
+                <div class="qna-view-q-title">
+                    <div class="d-flex justify-content-between qna-view-q-title-top">
+                        <th:block th:if="${dto.answer == false}">
+                            <div class="rounded-lg p-1 pl-2 pr-2 align-middle"
+                                 style="background-color: #eee; border: 1px solid #eee">
+                                답변대기
+                            </div>
+                        </th:block>
+                        <th:block th:unless="${dto.answer == false}">
+                            <div class="rounded-lg border border-success p-1 pl-2 pr-2 align-middle"
+                                 style="background-color: #d5f5dc;">
+                                답변완료
+                            </div>
+                        </th:block>
+                        <div>
+                            <span th:text="${#temporals.format(dto.writedate, 'YYYY-MM-DD')}"></span>
+                            <span class="ml-3">작성자 [[${dto.writer}]]</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>[[${dto.title}]]</h3>
+                    </div>
+                </div>
+                <div class="qna-view-q-content">
+                    [[${dto.content}]]
+                </div>
+                <div class="qna-view-q-file">
+                    <div class="list-group">
+                        <th:block th:each="file:${fileList}">
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <span>[[${file.filename}]]</span>
+                                <span><i class="fa-solid fa-link"></i></span>
+                            </a>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mt-5">
             <div class="element">
-                <h2 class="el-title text-center">질문작성</h2>
+                <h2 class="el-title text-center">답변작성</h2>
                 <table class="table table-lg text-center mb-0 qna-table">
-                    <form action="/QnA/register" id="qnaForm" method="post" enctype="multipart/form-data">
+                    <form action="/QnA/answer/register" id="qnaForm" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="writer" th:value="${#authentication.name}">
+                        <input type="hidden" name="qnabno" th:value="${dto.qnabno}">
                         <tr>
                             <th class="align-middle qna-title">제목</th>
                             <td>
                                 <input type="text" id="title" name="title" class="form-control form-control"
-                                       placeholder="제목을 입력하세요.">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th class="align-middle qna-title">이름</th>
-                            <td>
-                                <th:block sec:authorize="isAnonymous()">
-                                    <input type="text" name="writer" class="form-control form-control w-50"
-                                           placeholder="이름을 입력하세요.">
-                                </th:block>
-                                <th:block sec:authorize="isAuthenticated()">
-                                    <input type="text" name="writer" class="form-control form-control w-50"
-                                           th:value="${#authentication.name}" readonly>
-                                </th:block>
+                                       th:value="'RE:'+${dto.title}" readonly>
                             </td>
                         </tr>
                         <tr>
@@ -50,30 +86,9 @@
                             </td>
                         </tr>
                         <tr>
-                            <th class="align-middle qna-title">파일</th>
-                            <td>
-                                <div class="file_list">
-                                    <div>
-                                        <div class="file_input filebox text-left">
-                                            <input class="upload-name" value="첨부파일" placeholder="첨부파일" readonly>
-                                            <label>파일찾기
-                                                <input type="file" name="files" onchange="selectFile(this)">
-                                            </label>
-                                            <button type="button" class="btn btn-outline-info" onclick="addFile()">
-                                                <i class="fa-solid fa-circle-plus" style="color: #33b5e5;"></i> 추가
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
                             <td colspan="2">
-                                <button type="button" id="submitBtn" class="btn btn-outline-dark pl-5 pr-5">
+                                <button type="submit" id="submitBtn" class="btn btn-outline-dark pl-5 pr-5">
                                     작성
-                                </button>
-                                <button type="button" class="btn btn-outline-dark pl-5 pr-5" onclick="location.href='/QnA/list'">
-                                    목록
                                 </button>
                             </td>
                         </tr>
@@ -86,36 +101,36 @@
 </div>
 
 <script layout:fragment="script" th:inline="javascript">
-    $("#submitBtn").click(function (e) {
-        e.preventDefault();
-        var formData = new FormData($("#qnaForm")[0]);
-        const fileFormName = "files"
-        formData.delete(fileFormName)
-
-        var inputFile = $("input[name='files']");
-
-        if (inputFile.val() !== "" && inputFile.val() !== null) { // 파일이 있으면
-            console.log("인풋 파일 확인 : " + inputFile.val())
-            var files;
-
-            for (var i = 0; i < inputFile.length; i++) {
-                if(inputFile[i].value != null && inputFile[i].value !== "") {
-                    files = inputFile[i].files;
-                    console.log("files 확인 : " + files[0].name)
-                    formData.append("files", files[0]);
-                }
-            }
-        }
-
-        fetch('/QnA/register', {
-            method: 'POST',
-            body: formData // body 부분에 폼데이터 변수를 할당
-        }).then((response) => {
-            // response.json()
-            console.log("response : " + response)
-            location.href= "/QnA/list";
-        });
-    })
+    // $("#submitBtn").click(function (e) {
+    //     e.preventDefault();
+    //     var formData = new FormData($("#qnaForm")[0]);
+    //     const fileFormName = "files"
+    //     formData.delete(fileFormName)
+    //
+    //     var inputFile = $("input[name='files']");
+    //
+    //     if (inputFile.val() !== "" && inputFile.val() !== null) { // 파일이 있으면
+    //         console.log("인풋 파일 확인 : " + inputFile.val())
+    //         var files;
+    //
+    //         for (var i = 0; i < inputFile.length; i++) {
+    //             if(inputFile[i].value != null && inputFile[i].value !== "") {
+    //                 files = inputFile[i].files;
+    //                 console.log("files 확인 : " + files[0].name)
+    //                 formData.append("files", files[0]);
+    //             }
+    //         }
+    //     }
+    //
+    //     fetch('/QnA/register', {
+    //         method: 'POST',
+    //         body: formData // body 부분에 폼데이터 변수를 할당
+    //     }).then((response) => {
+    //         // response.json()
+    //         console.log("response : " + response)
+    //         location.href= "/QnA/list";
+    //     });
+    // })
 
     // 파일 선택
     function selectFile(element) {

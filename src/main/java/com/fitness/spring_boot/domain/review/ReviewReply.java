@@ -2,6 +2,7 @@ package com.fitness.spring_boot.domain.review;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
@@ -17,11 +18,15 @@ public class ReviewReply {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long rrno;
     @ManyToOne(fetch = FetchType.LAZY)
-    private ReviewBoard reviewBoard;
-
+    @JoinColumn(name="rno")
+    private Review review;
     private String replyText;
-    @Column(name = "postdate", updatable = false)
-    private LocalDateTime postDate;
+    @CreatedDate
+    @Column(name = "regdate", updatable = false)
+    private LocalDateTime regDate;
+    @CreatedDate
+    @Column(name = "moddate")
+    private LocalDateTime modDate;
     private String replyer;
 
     public void changeText(String text){

@@ -66,12 +66,13 @@
                             <div class="d-flex justify-content-center">
                                 <th:block th:if="${dto.answer == false}">
                                     <div class="rounded-lg p-1 pl-2 pr-2 align-middle"
-                                         style="background-color: #eee">
+                                         style="background-color: #eee;border: 1px solid #eee">
                                         답변대기
                                     </div>
                                 </th:block>
                                 <th:block th:unless="${dto.answer == false}">
-                                    <div class="rounded-lg border border-danger p-1 align-middle">
+                                    <div class="rounded-lg border border-success p-1 pl-2 pr-2 align-middle"
+                                         style="background-color: #d5f5dc;">
                                         답변완료
                                     </div>
                                 </th:block>

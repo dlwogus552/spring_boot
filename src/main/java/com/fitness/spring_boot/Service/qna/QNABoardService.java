@@ -14,4 +14,5 @@ public interface QNABoardService {
     void remove(Long bno);
 
     QNABoardDTO getBoard(Long bno);
+
 }
