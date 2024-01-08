@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/layout/basic.html}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       lang="en">
 
 <head>
@@ -29,187 +30,200 @@
             <div class="element">
                 <h2 class="el-title">P.T 예약</h2>
                 <div class="container mb-1">
-<!--                    <form action="/ptreserve/calendar" method="get">-->
-                        <!-- Calendar script -->
-                        <script>
-                            var today = new Date();
-                            var selectedDate = today;
+                    <!-- Calendar script -->
+                    <script>
+                        var today = new Date();
+                        var selectedDate = today;
 
-                            function buildCalendar() {
-                                var firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
-                                var lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-                                var calendarBody = document.getElementById("calendarBody");
-                                var calendarTitle = document.getElementById("calendarTitle");
-
-                                calendarTitle.innerHTML = today.getFullYear() + "년 " + (today.getMonth() + 1) + "월";
-                                calendarBody.innerHTML = "";
-
-                                var date = 1;
-                                for (var i = 0; i < 6; i++) {
-                                    var row = document.createElement("tr");
-
-                                    for (var j = 0; j < 7; j++) {
-                                        if (i === 0 && j < firstDay.getDay()) {
-                                            var cell = document.createElement("td");
-                                            row.appendChild(cell);
-                                        } else if (date > lastDay.getDate()) {
-                                            break;
-                                        } else {
-                                            var cell = document.createElement("td");
-                                            cell.innerText = date;
-                                            cell.setAttribute("onclick", "javascript:postData(" + date + ")");
-                                            cell.setAttribute("data-toggle", "modal");
-                                            cell.setAttribute("data-target", "#reservationModal");
-                                            cell.onmouseover = function () {
-                                                if (!this.getAttribute("data-reservation-disabled")) {
-                                                    this.style.backgroundColor = "lightblue";
-                                                }
-                                            };
-                                            cell.onmouseout = function () {
-                                                if (!this.getAttribute("data-reservation-disabled")) {
-                                                    this.style.backgroundColor = "";
-                                                }
-                                            };
-
-                                            if (!isReservationPossible(today.getFullYear(), today.getMonth(), date)) {
-                                                cell.style.backgroundColor = "gray";
-                                                cell.setAttribute("data-reservation-disabled", "true");
-                                                cell.onclick = function () {
-                                                    alert("예약이 불가능한 날짜입니다.");
-                                                };
-                                            } else if (date === today.getDate() && today.getMonth() === new Date().getMonth() && today.getFullYear() === new Date().getFullYear()) {
-                                                cell.style.backgroundColor = "yellow";
-                                            } else if (date === selectedDate.getDate() && selectedDate.getMonth() === today.getMonth() && selectedDate.getFullYear() === today.getFullYear()) {
-                                                cell.style.backgroundColor = "lightblue";
-                                            }
-
-                                            row.appendChild(cell);
-                                            date++;
-                                        }
-                                    }
-
-                                    calendarBody.appendChild(row);
-                                }
-                            }
-
-                            function isReservationPossible(year, month, date) {
-                                var currentDate = new Date();
-                                var selectedDate = new Date(year, month, date);
-
-                                if (selectedDate.getFullYear() < currentDate.getFullYear() ||
-                                    (selectedDate.getFullYear() === currentDate.getFullYear() &&
-                                        (selectedDate.getMonth() < currentDate.getMonth() ||
-                                            (selectedDate.getMonth() === currentDate.getMonth() && selectedDate.getDate() < currentDate.getDate())))) {
-                                    return false;
-                                }
-
-                                return true;
-                            }
-
-                            function prevCalendar() {
-                                today = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
-                                buildCalendar();
-                            }
-
-                            function nextCalendar() {
-                                today = new Date(today.getFullYear(), today.getMonth() + 1, today.getDate());
-                                buildCalendar();
-                            }
-
-                            function postData(date) {
+                        function showReservationModal(date) {
+                            if (isReservationPossible(today.getFullYear(), today.getMonth(), date)) {
                                 selectedDate = new Date(today.getFullYear(), today.getMonth(), date);
-                                // buildCalendar();
-                                selectedDate.toLocaleDateString() // 선택날짜 2024.01.09
+                                $('#reservationModal').modal('show');
+                            } else {
+                                alert("예약이 불가능한 날짜입니다.");
+                            }
+                        }
+
+                        function buildCalendar() {
+                            var firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+                            var lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+                            var calendarBody = document.getElementById("calendarBody");
+                            var calendarTitle = document.getElementById("calendarTitle");
+
+                            calendarTitle.innerHTML = today.getFullYear() + "년 " + (today.getMonth() + 1) + "월";
+                            calendarBody.innerHTML = "";
+
+                            var date = 1;
+                            for (var i = 0; i < 6; i++) {
+                                var row = document.createElement("tr");
+
+                                for (var j = 0; j < 7; j++) {
+                                    if (i === 0 && j < firstDay.getDay()) {
+                                        var cell = document.createElement("td");
+                                        row.appendChild(cell);
+                                    } else if (date > lastDay.getDate()) {
+                                        break;
+                                    } else {
+                                        var cell = document.createElement("td");
+                                        cell.innerText = date;
+                                        cell.setAttribute("onclick", "javascript:showReservationModal(" + date + ")");
+                                        cell.onmouseover = function () {
+                                            if (!this.getAttribute("data-reservation-disabled")) {
+                                                this.style.backgroundColor = "lightblue";
+                                            }
+                                        };
+                                        cell.onmouseout = function () {
+                                            if (!this.getAttribute("data-reservation-disabled")) {
+                                                this.style.backgroundColor = "";
+                                            }
+                                        };
+
+                                        if (!isReservationPossible(today.getFullYear(), today.getMonth(), date)) {
+                                            cell.style.backgroundColor = "gray";
+                                            cell.setAttribute("data-reservation-disabled", "true");
+                                            cell.onclick = function () {
+                                                alert("예약이 불가능한 날짜입니다.");
+                                            };
+                                        } else if (date === today.getDate() && today.getMonth() === new Date().getMonth() && today.getFullYear() === new Date().getFullYear()) {
+                                            cell.style.backgroundColor = "yellow";
+                                        } else if (date === selectedDate.getDate() && selectedDate.getMonth() === today.getMonth() && selectedDate.getFullYear() === today.getFullYear()) {
+                                            cell.style.backgroundColor = "lightblue";
+                                        }
+
+                                        row.appendChild(cell);
+                                        date++;
+                                    }
+                                }
+
+                                calendarBody.appendChild(row);
+                            }
+                        }
+
+                        function isReservationPossible(year, month, date) {
+                            var currentDate = new Date();
+                            var selectedDate = new Date(year, month, date);
+
+                            if (selectedDate.getFullYear() < currentDate.getFullYear() ||
+                                (selectedDate.getFullYear() === currentDate.getFullYear() &&
+                                    (selectedDate.getMonth() < currentDate.getMonth() ||
+                                        (selectedDate.getMonth() === currentDate.getMonth() && selectedDate.getDate() < currentDate.getDate())))) {
+                                return false;
                             }
 
-                            document.addEventListener("DOMContentLoaded", function () {
-                                buildCalendar();
-                            });
-                        </script>
+                            return true;
+                        }
 
-                        <table class="table table-bordered" id="calendar">
-                            <thead>
-                            <tr>
-                                <th class="text-center" onclick="prevCalendar()">◀</th>
-                                <th colspan="5" class="text-center" id="calendarTitle"></th>
-                                <th class="text-center" onclick="nextCalendar()">▶</th>
-                            </tr>
-                            <tr>
-                                <th class="text-center text-danger">일</th>
-                                <th class="text-center">월</th>
-                                <th class="text-center">화</th>
-                                <th class="text-center">수</th>
-                                <th class="text-center">목</th>
-                                <th class="text-center">금</th>
-                                <th class="text-center text-danger">토</th>
-                            </tr>
-                            </thead>
-                            <tbody id="calendarBody"></tbody>
-                        </table>
+                        function prevCalendar() {
+                            today = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
+                            buildCalendar();
+                        }
 
-                        <!-- 예약 가능한 경우 모달 창 추가 -->
-                        <div class="modal fade" id="reservationModal" tabindex="-1" role="dialog"
-                             aria-labelledby="reservationModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="reservationModalLabel">예약 가능한 시간 선택</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <form id="reservationForm" method="post" action="/ptreserve/calendar">
-                                        <div class="modal-body">
-                                            <!-- 예약 가능한 시간을 나타내는 체크박스 -->
-                                            <input type="hidden" name="tno" th:value="${tno}">
-                                            <input type="hidden" name="mname" th:value="${#authentication.getName()}">
-                                            <div class="form-group">
-                                                <label>예약 가능한 시간:</label><br>
-                                                <!-- 체크박스 생성 -->
-                                                <div class="form-row">
-                                                    <div class="form-check form-check-inline col-md-4">
-                                                        <input type="checkbox" class="form-check-input" id="9-11"
-                                                               name="timeSlot" value="9">
-                                                        <label class="form-check-label" for="9-11">9시 - 11시</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline col-md-4">
-                                                        <input type="checkbox" class="form-check-input" id="11-13"
-                                                               name="timeSlot" value="11">
-                                                        <label class="form-check-label" for="11-13">11시 - 13시</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline col-md-4">
-                                                        <input type="checkbox" class="form-check-input" id="14-16"
-                                                               name="timeSlot" value="14">
-                                                        <label class="form-check-label" for="14-16">14시 - 16시</label>
-                                                    </div>
+                        function nextCalendar() {
+                            today = new Date(today.getFullYear(), today.getMonth() + 1, today.getDate());
+                            buildCalendar();
+                        }
+
+                        function postData(date) {
+                            selectedDate = new Date(today.getFullYear(), today.getMonth(), date);
+                            selectedDate.toLocaleDateString(); // 선택날짜 2024.01.09
+                        }
+
+                        document.addEventListener("DOMContentLoaded", function () {
+                            buildCalendar();
+                        });
+                    </script>
+
+                    <table class="table table-bordered" id="calendar">
+                        <thead>
+                        <tr>
+                            <th class="text-center" onclick="prevCalendar()">◀</th>
+                            <th colspan="5" class="text-center" id="calendarTitle"></th>
+                            <th class="text-center" onclick="nextCalendar()">▶</th>
+                        </tr>
+                        <tr>
+                            <th class="text-center text-danger">일</th>
+                            <th class="text-center">월</th>
+                            <th class="text-center">화</th>
+                            <th class="text-center">수</th>
+                            <th class="text-center">목</th>
+                            <th class="text-center">금</th>
+                            <th class="text-center text-danger">토</th>
+                        </tr>
+                        </thead>
+                        <tbody id="calendarBody"></tbody>
+                    </table>
+
+                    <!-- 예약 가능한 경우 모달 창 추가 -->
+                    <div class="modal fade" id="reservationModal" tabindex="-1" role="dialog"
+                         aria-labelledby="reservationModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="reservationModalLabel">예약 가능한 시간 선택</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form id="reservationForm" method="post" action="/ptreserve/calendar">
+                                    <div class="modal-body">
+                                        <!-- 예약 가능한 시간을 나타내는 체크박스 -->
+                                        <input type="hidden" name="tno" th:value="${tno}">
+                                        <input type="hidden" name="mId" th:value="${#authentication.getName()}">
+                                        <div class="form-group">
+                                            <label>예약 가능한 시간:</label><br>
+                                            <!-- 체크박스 생성 -->
+                                            <div class="form-row">
+                                                <div class="form-check form-check-inline col-md-4">
+                                                    <input type="checkbox" class="form-check-input" id="09-11"
+                                                           name="timeSlot" value="09시 - 11시" style="zoom:2.0;">
+                                                    <label class="form-check-label" for="09-11" style="zoom: 1.0;">09시 - 11시</label>
                                                 </div>
-
-                                                <div class="form-row mt-2">
-                                                    <div class="form-check form-check-inline col-md-4">
-                                                        <input type="checkbox" class="form-check-input" id="16-18"
-                                                               name="timeSlot" value="16">
-                                                        <label class="form-check-label" for="16-18">16시 - 18시</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline col-md-4">
-                                                        <input type="checkbox" class="form-check-input" id="19-21"
-                                                               name="timeSlot" value="19">
-                                                        <label class="form-check-label" for="19-21">19시 - 21시</label>
-                                                    </div>
+                                                <div class="form-check form-check-inline col-md-4">
+                                                    <input type="checkbox" class="form-check-input" id="11-13"
+                                                           name="timeSlot" value="11시 - 13시" style="zoom:2.0;">
+                                                    <label class="form-check-label" for="11-13" style="zoom: 1.0;">11시 - 13시</label>
                                                 </div>
-
+                                                <div class="form-check form-check-inline col-md-4">
+                                                    <input type="checkbox" class="form-check-input" id="14-16"
+                                                           name="timeSlot" value="14시 - 16시" style="zoom:2.0;">
+                                                    <label class="form-check-label" for="14-16" style="zoom: 1.0;">14시 - 16시</label>
+                                                </div>
+                                                <div class="form-check form-check-inline col-md-4">
+                                                    <input type="checkbox" class="form-check-input" id="16-18"
+                                                           name="timeSlot" value="16시 - 18시" style="zoom:2.0;">
+                                                    <label class="form-check-label" for="16-18" style="zoom: 1.0;">16시 - 18시</label>
+                                                </div>
+                                                <div class="form-check form-check-inline col-md-4">
+                                                    <input type="checkbox" class="form-check-input" id="19-21"
+                                                           name="timeSlot" value="19시 - 21시" style="zoom:2.0;">
+                                                    <label class="form-check-label" for="19-21" style="zoom: 1.0;">19시 - 21시</label>
+                                                </div>
                                             </div>
                                         </div>
+                                    </div>
 
-                                        <div class="modal-footer">
-                                            <button type="button" id="calendarSubmitBtn" class="btn btn-primary">확인</button>
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
+                                    <!-- 예약 취소 테이블 -->
+                                    <table class="table table-bordered mt-3">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">날짜</th>
+                                            <th scope="col">예약 시간</th>
+                                            <th scope="col">취소</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="cancelTableBody">
+                                        <!-- 예약 취소 목록이 동적으로 추가될 부분 -->
+                                        </tbody>
+                                    </table>
+
+                                    <div class="modal-footer">
+                                        <button type="button" id="calendarSubmitBtn" class="btn btn-primary">예약</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-<!--                    </form>-->
+                    </div>
                 </div>
             </div>
         </div>
@@ -225,15 +239,31 @@
         console.log("timeSlot : " + timeSlot);
         console.log("timeSlotLength : " + timeSlot.length);
         var str = "";
-        for (var i = 0; i<timeSlot.length; i++) {
-            console.log("timSlot["+i+"] : " + timeSlot[i].value)
+        for (var i = 0; i < timeSlot.length; i++) {
+            console.log("timSlot[" + i + "] : " + timeSlot[i].value)
             str += timeSlot[i].value + ",";
         }
         str = str.slice(0, -1);
-        console.log("str : "+str);
+        console.log("str : " + str);
         frm.append("timeSlot", str);
-        console.log("selectedDate : "+selectedDate);
+        console.log("selectedDate : " + selectedDate);
         frm.append("reserve", selectedDate);
+
+        // Check if the selected date and time are already in the cancelTableBody
+        var cancelTableBody = document.getElementById("cancelTableBody");
+        var isDuplicateTime = false;
+        for (var i = 0; i < cancelTableBody.rows.length; i++) {
+            var existingTime = cancelTableBody.rows[i].cells[1].innerText;
+            if ( selectedDate.toLocaleDateString() === existingTime) {
+                isDuplicateTime = true;
+                break;
+            }
+        }
+
+        if (isDuplicateDateTime) {
+            alert("이미 예약된 날짜와 시간입니다.");
+            return;
+        }
 
         // 서버로 전달
         fetch('/ptreserve/calendar', {
@@ -241,14 +271,33 @@
             body: frm // body 부분에 폼데이터 변수를 할당
         }).then((response) => {
             // response.json()
-            for (var i = 0; i<timeSlot.length; i++) {
+            for (var i = 0; i < timeSlot.length; i++) {
                 timeSlot[i].checked = false;
             }
-            console.log("response : " + response)
+            console.log("response : " + response);
             // location.href= "/QnA/list";
+
+            // 예약 취소 테이블에 취소된 예약 정보 동적으로 추가
+            var cancelTableBody = document.getElementById("cancelTableBody");
+            var newRow = cancelTableBody.insertRow(0); // Insert at the beginning to display most recent first
+            var dateCell = newRow.insertCell(0);
+            var timeSlotCell = newRow.insertCell(1);
+            var cancelCell = newRow.insertCell(2);
+
+            dateCell.innerHTML = selectedDate.toLocaleDateString();
+            timeSlotCell.innerHTML = str;
+            cancelCell.innerHTML = '<button class="btn btn-danger" onclick="cancelReservation(this)">취소</button>';
         });
     })
+
+    function cancelReservation(button) {
+        // 취소 버튼을 눌렀을 때 실행되는 함수
+        var row = button.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+    }
 </script>
+
+
 
 </body>
 

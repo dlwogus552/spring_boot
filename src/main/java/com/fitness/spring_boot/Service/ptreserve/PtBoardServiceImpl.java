@@ -1,15 +1,23 @@
 package com.fitness.spring_boot.Service.ptreserve;
 
+import com.fitness.spring_boot.domain.ptreserve.PtBoard;
 import com.fitness.spring_boot.dto.ptreserve.PtBoardDTO;
+import com.fitness.spring_boot.repository.ptreserve.PtBoardRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 @Service
+@Log4j2
+@RequiredArgsConstructor
 public class PtBoardServiceImpl implements PtBoardService {
+    private final PtBoardRepository repository;
+    private final ModelMapper modelMapper;
 
     public void makeReservation(PtBoardDTO ptBoardDTO) {
-        // 여기에 예약 로직을 구현합니다.
-        // 리포지토리나 외부 시스템과 상호 작용할 수 있습니다.
-        // 현재는 간단히 예약 정보를 출력하는 것으로 대체합니다.
-        System.out.println("예약 정보: " + ptBoardDTO);
+        log.info("ptBoardDTO" + ptBoardDTO);
+        PtBoard ptBoard = modelMapper.map(ptBoardDTO, PtBoard.class);
+        repository.save(ptBoard);
     }
 }

@@ -24,11 +24,10 @@ public class PtBoard {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mno")
     private Member member; // 회원이름
-    private Date time; // 예약한 시간
     private Date reserve; // 예약 날짜
-    private String timeSlot;
+    private String timeSlot; // 예약한 시간
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tno", insertable = false, updatable = false)
     private PtTrainer trainer;
 }
