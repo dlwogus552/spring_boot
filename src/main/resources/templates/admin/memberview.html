@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic.html}"
+      lang="en">
+
+<div layout:fragment="content">
+    <div class="container">
+        <h3>회원상세정보</h3>
+        <div class="form-group mt-3">
+            <label for="mno">회원번호:</label>
+            <input type="text" class="form-control" id="mno"
+            th:value="${member.mno}" name="mno" readonly>
+        </div>
+        <div class="form-group mt-3">
+            <label for="mname">이름:</label>
+            <input type="text" class="form-control" id="mname"
+                   th:value="${member.mname}" name="mname" readonly>
+        </div>
+        <div class="form-group mt-3">
+            <label for="phone">연락처:</label>
+            <input type="text" class="form-control" id="phone"
+                   th:value="${member.phone}" name="phone" readonly>
+        </div>
+        <div class="form-group mt-3">
+            <label for="gender">성별:</label>
+            <input type="text" class="form-control" id="gender"
+                   th:value="${member.gender}" name="gender" readonly>
+        </div>
+        <div class="form-group mt-3">
+            <label for="regDate">등록일자:</label>
+            <input type="text" class="form-control" id="regDate"
+                   th:value="${member.regDate}" name="regDate" readonly>
+        </div>
+        <div class="form-group mt-3">
+            <label for="endDate">만료일자:</label>
+            <input type="text" class="form-control" id="endDate"
+                   th:value="${member.endDate}" name="endDate" readonly>
+        </div>
+        <div class="form-group mt-3">
+            <label for="cnum">개인사물함:</label>
+            <input type="text" class="form-control" id="cnum"
+                   th:value="${member.cnum}" name="cnum" readonly>
+        </div>
+        <div class="form-group mt-3">
+            <label for="role">회원등급:</label>
+            <input type="text" class="form-control" id="role"
+                   th:value="${member.role}" name="role" readonly>
+        </div>
+        <div class="form-group mt-3">
+            <a th:href="|@{/admin/membermodify(mno=${member.mno})}|">
+            <button type="button" class="btn btn-primary">회원정보 수정</button>
+            </a>
+            <a th:href="|@{/admin/remove(mno=${member.mno})}|">
+            <button type="button" class="btn btn-secondary">회원정보 삭제</button>
+            </a>
+            <a th:href="|@{/admin/memberlist}|">
+            <button type="button" class="btn-outline-dark">회원정보목록</button>
+            </a>
+        </div>
+
+    </div>
+</div>

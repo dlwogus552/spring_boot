@@ -3,26 +3,40 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/basic.html}">
 
+<div layout:fragment="title">
+    <!-- Page top section -->
+    <section class="page-top-section set-bg" data-setbg="/img/header-bg/5.jpg">
+        <div class="container">
+            <h2>Member List</h2>
+        </div>
+    </section>
+    <!-- Page top section end -->
+</div>
+
 <div layout:fragment="content">
+    <section class="elements-section">
     <div class="container">
         <div class="form-group text-right">
             <form action="/loginProcess" method="post">
-        <h2> My Page </h2>
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th>회원번호</th>
-                    <th>이름</th>
-                    <th>회원등급</th>
-                </tr>
-                </thead>
-            </table>
-                <tr th:each="member:${list}">
-                    <td>[[${member.mno}]]</td>
-                    <td><a th:href="|@{/member/view(mno=${member.mno})}|">[[${member.mname}]]</a></td>
-                    <td>[[${member.role}]]</td>
-                </tr>
+                <h2> My Page </h2>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>회원번호</th>
+                        <th>이름</th>
+                        <th>회원등급</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="member:${list}">
+                        <td>[[${member.mno}]]</td>
+                        <td><a th:href="|@{/admin/memberview(mno=${member.mno})}|">[[${member.mname}]]</a></td>
+                        <td>[[${member.role}]]</td>
+                    </tr>
+                    </tbody>
+                </table>
             </form>
         </div>
     </div>
+    </section>
 </div>

@@ -52,28 +52,5 @@ public class Member {
 
     private String role;
 
-    @Column(nullable = true)
-    private String profilePhoto;
 
-    public void setProfilePhoto(String profilePhoto) {
-        this.profilePhoto = profilePhoto;
-    }
-
-
-//    @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
-//    List<BoardEntity> boardEntityList = new ArrayList<>();
-
-//    public static MemberEntity joinMember(MemberDTO memberDTO, PasswordEncoder passwordEncoder){
-//        MemberEntity memberEntity = new MemberEntity();
-//        memberEntity.setMname(memberDTO.getMname());
-//        memberEntity.setId(memberDTO.getId());
-//        memberEntity.setPhone(memberDTO.getPhone());
-//        memberEntity.setGender(memberDTO.getGender());
-//        memberEntity.setAge(memberDTO.getAge());
-//        String pass = passwordEncoder.encode(memberDTO.getPass());
-//        memberEntity.setPass(pass);
-//        memberEntity.setRole(Role.Member);
-//
-//        return memberEntity;
-//    }
 }
