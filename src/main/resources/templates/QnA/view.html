@@ -27,16 +27,18 @@
                             목록
                         </button>
                         <th:block th:if="${dto.answer == false}">
-                            <a th:href="|@{/QnA/modify(qnabno=${dto.qnabno})}&${pageRequestDTO.getLink()}|">
-                                <button class="btn btn-outline-dark ml-3">
-                                    수정
-                                </button>
-                            </a>
-                            <a th:href="|@{/QnA/remove(qnabno=${dto.qnabno})}|">
-                                <button class="btn btn-outline-danger ml-3">
-                                    삭제
-                                </button>
-                            </a>
+                            <th:block sec:authorize="isAuthenticated()" th:if="${#authentication.name == dto.writer}">
+                                <a th:href="|@{/QnA/modify(qnabno=${dto.qnabno})}&${pageRequestDTO.getLink()}|">
+                                    <button class="btn btn-outline-dark ml-3">
+                                        수정
+                                    </button>
+                                </a>
+                                <a th:href="|@{/QnA/remove(qnabno=${dto.qnabno})}|">
+                                    <button class="btn btn-outline-danger ml-3">
+                                        삭제
+                                    </button>
+                                </a>
+                            </th:block>
                             <!-- <li sec:authorize="isAuthenticated()"><a href="/member/mypage" >My Page</a></li>-->
                             <a th:href="|@{/QnA/answer/register(qnabno=${dto.qnabno})}|" sec:authorize="hasAuthority('관리자')">
                                 <button class="btn btn-outline-success ml-3">
