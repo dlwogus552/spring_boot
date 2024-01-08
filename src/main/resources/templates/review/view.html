@@ -9,7 +9,7 @@
     <!-- Page top section -->
     <section class="page-top-section set-bg" data-setbg="/img/header-bg/5.jpg">
         <div class="container">
-            <h2>리뷰 게시판</h2>
+            <h2>Review</h2>
         </div>
     </section>
     <!-- Page top section end -->
@@ -45,7 +45,7 @@
                                     <h3>[[${reviewDTO.title}]]</h3>
                                 </div>
                                 <div>
-                                    <span th:text="'작성 '+${#temporals.format(reviewDTO.regDate, 'YYYY-MM-DD')}"></span>
+                                    <span th:if="${reviewDTO.regDate > reviewDTO.modDate}" th:text="'작성 '+${#temporals.format(reviewDTO.regDate, 'YYYY-MM-DD')}"></span>
                                     <span th:if="${reviewDTO.regDate < reviewDTO.modDate} "th:text="'수정 '+${#temporals.format(reviewDTO.modDate, 'YYYY-MM-DD')}"></span>
                                     <span class="ml-3">작성자 [[${reviewDTO.writer}]]</span>
                                 </div>
@@ -78,6 +78,7 @@
                             <div class="col-md-12">
                                 <div>
                                     <ul class="list-group replyList">
+                                        aaaaa
                                     </ul>
                                 </div>
                             </div>
@@ -123,7 +124,7 @@
                       <span class="col-3 text-center">${regDate} </span>
                       <span class="col-1">
 <!--                        <button class="btn btn-outline-dark mb-1">답글</button>-->
-                        <button class="btn btn-outline-dark removeBtn">삭제</button>
+                        <button class="btn btn-outline-dark removeBtn" onclick="remove(${dto.rrno})">삭제</button>
                       </span>
                     </li>`
             }
@@ -196,12 +197,25 @@
 
     },false)
     const removeBtn = document.querySelector('.removeBtn')
-    removeBtn.addEventListener('click',function (e){
-        deleteReply(rno).then(result=>{
+
+    function remove(rrno){
+        deleteReply(rrno).then(result=>{
             alert(result)
             page = 1
+            printReplies(page, 10)
+
         }).catch(e=>{
             alert("Error")
         })
-    },false)
+    }
+
+    // removeBtn.addEventListener('click',function (e){
+    //     alert("remove"+rrno)
+    //     deleteReply(rrno).then(result=>{
+    //         alert(result)
+    //         page = 1
+    //     }).catch(e=>{
+    //         alert("Error")
+    //     })
+    // },false)
 </script>

@@ -59,7 +59,7 @@ public class ReviewReplyServiceImpl implements ReviewReplyService{
     public void delete(Long rrno) {
         Optional<ReviewReply> reviewReply = reviewReplyRepository.findById(rrno);
         if(reviewReply.isPresent()){
-            reviewRepository.deleteById(rrno);
+            reviewReplyRepository.deleteById(rrno);
         }
     }
 //    public List<ReviewReplyResponseDTO> getList(Long rno) {

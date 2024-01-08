@@ -43,6 +43,7 @@ public class ReviewReplyController {
 
     @DeleteMapping("/{rrno}")
     public String remove(@PathVariable("rrno") Long rrno){
+        log.info("remove controller");
         reviewReplyService.delete(rrno);
         return "삭제되었습니다.";
     }
