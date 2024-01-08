@@ -17,47 +17,59 @@
     <section class="elements-section">
         <div class="container">
             <div class="element">
-                <h2 class="el-title">View</h2>
-                <div id="gallery-post" class="card mb-3">
-                    <div class="card-header">
-                        <h5 class="card-title" id="post-title" style="font-size: 30px">[[${exerciseDTO.title}]]</h5>
-                        <p class="card-text" style="font-size: 15px">운동부위 :
-                            [[${exerciseDTO.changePart(exerciseDTO.part)}]]</p>
+                <div class="review-view-con" style="border-bottom: 1px solid #0d0d0d;">
+                    <div class="d-flex justify-content-end mb-2 mt-2 w-100">
+                        <button class="btn btn-outline-dark" onclick="location.href='/exercise/list'">
+                            목록
+                        </button>
+                        <th:block sec:authorize="hasAuthority('관리자')">
+                            <a th:href="|@{/exercise/modify(eno=${exerciseDTO.eno})}&${link}|">
+                                <button class="btn btn-outline-dark ml-3">
+                                    수정
+                                </button>
+                            </a>
+                            <a th:href="|@{/exercise/remove(eno=${exerciseDTO.eno})}|">
+                                <button class="btn btn-outline-danger ml-3">
+                                    삭제
+                                </button>
+                            </a>
+                        </th:block>
                     </div>
-                    <div class="card-body" style="text-align: center">
-                        <p class="card-text" style="color : black; font-size: 20px" id="post-content">
-                            [[${exerciseDTO.content}]]</p>
-                        <div th:each="fileDTO:${fileDTOList}">
-                            <img class="view-image" th:if="${fileDTO.image}"
-                                 th:src="|/exercise/display/${fileDTO.getSaveFileName(fileDTO.filename,fileDTO.uuid)}|">
-                            <video class="view-image" th:if="${!fileDTO.image}" controls preload="metadata"
-                                   th:src="|/exercise/display/${fileDTO.getSaveFileName(fileDTO.filename,fileDTO.uuid)}|+'#t=0.5'">
-                                <source th:src="|/exercise/display/${fileDTO.getSaveFileName(fileDTO.filename,fileDTO.uuid)}|">
-                            </video>
+                    <div class="qna-view-q">
+                        <!-- 상단부 -->
+                        <div class="qna-view-q-title p-4">
+                            <div class="d-flex justify-content-between review-view-q-title-top">
+                                <div>
+                                    <h3>[[${exerciseDTO.title}]]</h3>
+                                    <p>운동부위 : [[${exerciseDTO.changePart(exerciseDTO.part)}]]</p>
+                                </div>
+                                <div>
+                                    <span>게시일 : [[${exerciseDTO.localDateFormat()}]]</span>
+                                    <span>조회수 : [[${exerciseDTO.visitcount}]]</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="card-footer" style="text-align: right">
-                        <p style="font-size: 15px;" class="text-muted" id="post-details">게시일:
-                            [[${exerciseDTO.localDateFormat()}]] | 조회수 : [[${exerciseDTO.visitcount}]]</p>
+                    <div class="qna-view-q-content" style="text-align: center; padding: 2rem 2rem 2rem 2rem;">
+                        <div>
+                            <p class="card-text" style="color : black; font-size: 20px" id="post-content">
+                                [[${exerciseDTO.content}]]</p>
+                            <th:block th:each="fileDTO:${fileDTOList}">
+                                <img class="view-image" th:if="${fileDTO.image}"
+                                     th:src="|/exercise/display/${fileDTO.getSaveFileName(fileDTO.filename,fileDTO.uuid)}|">
+                                <video class="view-image" th:if="${!fileDTO.image}" controls preload="metadata"
+                                       th:src="|/exercise/display/${fileDTO.getSaveFileName(fileDTO.filename,fileDTO.uuid)}|+'#t=0.5'">
+                                    <source th:src="|/exercise/display/${fileDTO.getSaveFileName(fileDTO.filename,fileDTO.uuid)}|">
+                                </video>
+                            </th:block>
+                        </div>
                     </div>
                 </div>
 
-                <div align="right" th:with="link=${pageRequestDTO.getLink()}">
-                    <a sec:authorize="hasAuthority('관리자')"
-                       th:href="|@{/exercise/modify(eno=${exerciseDTO.eno})}&${link}|" class="btn btn-primary">수정하기</a>
-                    <a sec:authorize="hasAuthority('관리자')" th:href="|@{/exercise/remove(eno=${exerciseDTO.eno})}|"
-                       class="btn btn-danger">삭제하기</a>
-                    <a th:href="|@{/exercise/list}?${link}|" type="button" class="btn btn-secondary">뒤로가기</a>
-                </div>
             </div>
         </div>
     </section>
 </div>
 <script layout:fragment="script" th:inline="javascript">
-    document.querySelector('.btn-secondary').addEventListener('click', function (e) {
-        console.log("클릭")
-        e.preventDefault();
-        const link = [[${pageRequestDTO.getLink()}]]
-        self.location = `/exercise/list?${link}`
-    })
+
 </script>
