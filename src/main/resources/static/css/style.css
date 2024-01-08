@@ -7,6 +7,16 @@
 
 
 /* custom */
+/*review */
+.reply-text{
+	display: inline-block;
+	width: 87%;
+	row:1;
+}
+.comment-input{
+	display: flex;
+	justify-content: space-between;
+}
 /* Exercise */
 .view-image{
 	max-width: 80%;
@@ -340,15 +350,16 @@ Commom elements
 	font-weight: 700;
 	min-width: 228px;
 	padding: 20px 40px;
-	background: #fcff18;
-	color: #353535;
+	background: #38386e;
+	color: #fff;
 	line-height: normal;
 	cursor: pointer;
 	text-align: center;
 }
 
 .site-btn:hover {
-	color: #353535;
+	background-color: #565696;
+	color: #fff;
 }
 
 .site-btn.sb-dark {
@@ -692,23 +703,28 @@ Hero section
 	-ms-flex-pack: center;
 	justify-content: center;
 	text-align: center;
+	flex-direction: column;
 }
 
 .hero-text {
-	padding-top: 100px;
+	padding-bottom: 50px;
+	padding-top: 50px;
+	width: 100%;
+	background-color: rgba(135, 135, 176, 0.63);
 }
 
-.hero-text h2 {
-	font-size: 96px;
+.hero-text h4 {
+	font-size: 5rem;
 	color: #fff;
 	line-height: 1;
+	width: 100%;
 }
 
-.hero-text h2 span {
-	color: #38386e;
+.hero-text h4 span {
+	/*color: #d6d6f1;*/
 }
 
-.hero-text .site-btn {
+.hero-section .site-btn {
 	margin-top: 44px;
 }
 

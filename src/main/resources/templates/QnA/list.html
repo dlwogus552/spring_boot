@@ -59,7 +59,7 @@
                             <a th:href="|@{/QnA/view(qnabno=${dto.qnabno})}&${link}|" class="qna-list-link">[[${dto.title}]]</a>
                         </th>
                         <td style="width: 15%" class="align-middle">[[${dto.writer}]]</td>
-                        <td style="width: 12%" class="align-middle">[[${dto.readcnt}]]</td>
+                        <td style="width: 12%" class="align-middle"><i class="fa-regular fa-eye"></i> [[${dto.readcnt}]]</td>
                         <td style="width: 18%" class="align-middle"
                             th:text="${#temporals.format(dto.writedate, 'YYYY-MM-DD')}"></td>
                         <th style="width: 13%" class="align-middle">

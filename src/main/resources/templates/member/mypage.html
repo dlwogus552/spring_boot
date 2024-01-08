@@ -6,21 +6,6 @@
 <div layout:fragment="content">
     <div class="container">
     <h2> My Page </h2>
-
-            <!-- 이미지 표시 부분 추가 -->
-            <div class="form-group mt-3">
-                <label for="profilePhoto">프로필 사진</label>
-                <img id="profilePhoto" th:src="@{'file:///c:/upload/member/' + ${member.profilePhoto}}" alt="프로필 사진" style="max-width: 200px; max-height: 200px;">
-            </div>
-
-        <form action="/member/uploadPhoto" method="post" enctype="multipart/form-data">
-            <div class="form-group mt-3">
-                <img id="preview" src="#" alt="" style="max-width: 200px; max-height: 200px;">
-                <input type="file" name="profilePhoto" accept="img/memberphoto/*" onchange="previewImage(this);">
-                <input type="submit" value="프로필 사진 변경" class="uploadPhoto">
-            </div>
-
-
             <div class="form-group mt-3">
                 <label for="mno"> 회원번호 </label>
                 <input type="text" class="form-control" name="mno" id="mno" th:value="${member.mno}" readonly>
@@ -122,47 +107,6 @@
         // 연락처를 보여주는 엘리먼트의 ID를 확인하고 해당 엘리먼트를 업데이트
         document.getElementById('phone').value = newPhoneValue;
     }
-
-    function previewImage(input) {
-        var preview = document.getElementById('preview');
-        var file = input.files[0];
-        var reader = new FileReader();
-
-        reader.onloadend = function () {
-            preview.src = reader.result;
-        };
-
-        if (file) {
-            reader.readAsDataURL(file);
-        } else {
-            preview.src = "#";
-        }
-    }
-    // function uploadImage() {
-    //     // 파일 입력 엘리먼트 가져오기
-    //     var fileInput = document.getElementById('imageInput');
-    //
-    //     // 선택된 파일 가져오기
-    //     var file = fileInput.files[0];
-    //
-    //     if (file) {
-    //         // FileReader를 사용하여 이미지를 읽고 표시
-    //         var reader = new FileReader();
-    //
-    //         reader.onload = function (e) {
-    //             // 이미지 표시 영역에 이미지 추가
-    //             var imageContainer = document.getElementById('imageContainer');
-    //             imageContainer.innerHTML = '<img src="' + e.target.result + '" alt="Uploaded Image" style="max-width: 100%;" />';
-    //         };
-    //
-    //         // 파일을 Data URL로 읽기
-    //         reader.readAsDataURL(file);
-    //     } else {
-    //         alert('Please select an image file.');
-    //     }
-    // }
-
-
 
 
 </script>

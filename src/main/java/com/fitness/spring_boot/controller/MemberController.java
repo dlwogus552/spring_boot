@@ -1,6 +1,6 @@
 package com.fitness.spring_boot.controller;
 
-import com.fitness.spring_boot.Service.member.MemberService;
+import com.fitness.spring_boot.Service.MemberService;
 import com.fitness.spring_boot.config.auth.PrincipalDetails;
 import com.fitness.spring_boot.entity.Member;
 import com.fitness.spring_boot.repository.MemberRepository;
@@ -73,12 +73,7 @@ public class MemberController {
         return "redirect:/logout";
     }
 
-    // 프로필 사진 업로드 처리
-    @PostMapping("/uploadPhoto")
-    public String handleFileUpload(@RequestParam("profilePhoto") MultipartFile file, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        memberService.uploadProfilePhoto(principalDetails.getMember().getMno(), file);
-        return "redirect:/member/mypage";
-    }
+
 
 
 }
