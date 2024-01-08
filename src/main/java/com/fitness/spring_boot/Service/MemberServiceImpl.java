@@ -38,7 +38,10 @@ public class MemberServiceImpl implements MemberService{
         SecurityContextHolder.clearContext();
     }
 
-
+    @Override
+    public Member findBymId(String mname) {
+        return memberRepository.findBymId(mname);
+    }
 
 
 }
