@@ -91,19 +91,7 @@
                     <th:block th:if="${answer != null}">
                         <div class="qna-view-a">
                             <div class="qna-view-a-title">
-                                <div class="d-flex justify-content-between qna-view-q-title-top">
-                                    <th:block th:if="${dto.answer == false}">
-                                        <div class="rounded-lg p-1 pl-2 pr-2 align-middle"
-                                             style="background-color: #eee; border: 1px solid ">
-                                            답변대기
-                                        </div>
-                                    </th:block>
-                                    <th:block th:unless="${dto.answer == false}">
-                                        <div class="rounded-lg border border-success p-1 pl-2 pr-2 align-middle"
-                                             style="background-color: #d5f5dc;">
-                                            답변완료
-                                        </div>
-                                    </th:block>
+                                <div class="d-flex justify-content-end qna-view-q-title-top">
                                     <div>
                                         <span th:text="${#temporals.format(answer.writedate, 'YYYY-MM-DD')}"></span>
                                         <span class="ml-3">작성자 [[${answer.writer}]]</span>
