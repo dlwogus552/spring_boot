@@ -18,12 +18,12 @@
 
     <!-- Stylesheets -->
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
-<!--    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}"/>-->
+    <!--    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}"/>-->
     <link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/flaticon.css}"/>
     <link rel="stylesheet" th:href="@{/css/slicknav.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/bootstrap.min.css}">
-<!--    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/font-awesome.css}">-->
+    <!--    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/font-awesome.css}">-->
 
     <!-- our project just needs Font Awesome Solid + Brands -->
     <link th:href="@{/assets/fontawesome-free-6.5.1-web/css/fontawesome.css}" rel="stylesheet">
@@ -40,7 +40,7 @@
     <![endif]-->
 
     <!-- MDB 부트스트랩 -->
-<!--    <link rel="stylesheet" th:href="@{/assets/MDB-Free_4.20.0/css/mdb.min.css}">-->
+    <!--    <link rel="stylesheet" th:href="@{/assets/MDB-Free_4.20.0/css/mdb.min.css}">-->
     <!-- Plugin file -->
     <link rel="stylesheet" th:href="@{/assets/MDB-Free_4.20.0/css/addons/datatables.min.css}">
     <link rel="stylesheet" th:href="@{/assets/MDB-Free_4.20.0/css/style.css}">
@@ -92,7 +92,7 @@
         <li class="header-right" sec:authorize="isAuthenticated()">
             <div class="hr-box" id="logout">
                 <i class="fa-solid fa-user"></i>&nbsp;&nbsp;
-<!--                로그아웃 기능은 하나 LogOut 글자가 검은색이 되버림-->
+                <!--                로그아웃 기능은 하나 LogOut 글자가 검은색이 되버림-->
                 <h6>LogOut</h6>
             </div>
         </li>
@@ -103,82 +103,24 @@
 <div style="height: 94px; background-color: #38386e"></div>
 <!-- ***** Main Banner Area Start ***** -->
 <div layout:fragment="title"></div>
+<div class="container">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link" href="#">Active</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link disabled">Disabled</a>
+        </li>
+    </ul>
+</div>
 <div layout:fragment="content"></div>
 
-<!-- ***** Main Banner Area End ***** -->
-
-<!-- Footer section -->
-<footer class="footer-section set-bg" data-setbg="/img/footer-bg.jpg">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3 col-sm-6">
-                <div class="footer-widget">
-                    <h4>Location</h4>
-                    <div class="fw-info-box">
-                        <img src="/img/icons/1.png" alt="">
-                        <div class="fw-info-text">
-                            <p>1525  Awesome Lane, Los Angeles, CA</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="footer-widget">
-                    <h4>Subscriptions</h4>
-                    <div class="fw-info-box">
-                        <img src="/img/icons/2.png" alt="">
-                        <div class="fw-info-text">
-                            <p>+1 (603)535-4592</p>
-                            <p>+1 (603)535-4556</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="footer-widget">
-                    <h4>E-mail</h4>
-                    <div class="fw-info-box">
-                        <img src="/img/icons/3.png" alt="">
-                        <div class="fw-info-text">
-                            <p>Contact@xgym.com</p>
-                            <p>www.xgym.com</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="footer-widget">
-                    <h4>Social Media</h4>
-                    <div class="fw-info-box">
-                        <img src="/img/icons/4.png" alt="">
-                        <div class="social-links">
-                            <a href="#"><i class="fa fa-pinterest"></i></a>
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-dribbble"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 order-2 order-md-1">
-                <div class="copyright"><p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p></div>
-            </div>
-            <div class="col-md-6 order-1 order-md-2">
-                <ul class="footer-menu">
-                    <li><a href="">Q&A</a></li>
-                    <li><a href="">Review</a></li>
-                    <li><a href="/exercise/list">Exercise Guide</a></li>
-                    <li><a href="/foodInfo/info">Food Info</a></li>
-                    <li><a href="">P.T. Reserve</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</footer>
 
 <!-- jQuery -->
 <script th:src="@{/assets/js/jquery-2.1.0.min.js}"></script>

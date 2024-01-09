@@ -50,7 +50,7 @@ public class MemberController {
         member.setPass(enPass);
         member.setRole("일반회원");
         memberRepository.save(member);
-        return "redirect:/";
+        return "redirect:/member/login";
     }
 
     @GetMapping("/mypage")
