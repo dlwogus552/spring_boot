@@ -284,7 +284,7 @@ Helper CSS
 }
 
 .section-title h2 span {
-	background: #fcff18;
+	background: #bebee1;
 	display: inline-block;
 	padding: 0 4px;
 }
@@ -350,15 +350,16 @@ Commom elements
 	font-weight: 700;
 	min-width: 228px;
 	padding: 20px 40px;
-	background: #fcff18;
-	color: #353535;
+	background: #38386e;
+	color: #fff;
 	line-height: normal;
 	cursor: pointer;
 	text-align: center;
 }
 
 .site-btn:hover {
-	color: #353535;
+	background-color: #565696;
+	color: #fff;
 }
 
 .site-btn.sb-dark {
@@ -671,6 +672,10 @@ Header section
 	cursor: pointer;
 	color : #eeeeee;
 }
+.header-right .hr-box:hover {
+	background-color: #565696;
+	cursor: pointer;
+}
 
 /*.header-right .hr-box img {*/
 /*	float: left;*/
@@ -702,23 +707,28 @@ Hero section
 	-ms-flex-pack: center;
 	justify-content: center;
 	text-align: center;
+	flex-direction: column;
 }
 
 .hero-text {
-	padding-top: 100px;
+	padding-bottom: 50px;
+	padding-top: 50px;
+	width: 100%;
+	background-color: rgba(135, 135, 176, 0.5);
 }
 
-.hero-text h2 {
-	font-size: 96px;
+.hero-text h4 {
+	font-size: 5rem;
 	color: #fff;
 	line-height: 1;
+	width: 100%;
 }
 
-.hero-text h2 span {
-	color: #38386e;
+.hero-text h4 span {
+	/*color: #d6d6f1;*/
 }
 
-.hero-text .site-btn {
+.hero-section .site-btn {
 	margin-top: 44px;
 }
 
@@ -1505,6 +1515,14 @@ Responsive
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
 	.main-menu li a {
 		margin-right: 10px;
+	}
+	.site-logo {
+		height: 94px;
+		display: inline-flex;
+		align-items: center;
+	}
+	.site-logo img {
+		width: 100px;
 	}
 	.header-right .hr-box {
 		width: 240px;
