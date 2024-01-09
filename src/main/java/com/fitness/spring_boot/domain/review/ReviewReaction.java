@@ -15,11 +15,11 @@ public class ReviewReaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long rano;
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="mno")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="rno")
     private Review review;
 

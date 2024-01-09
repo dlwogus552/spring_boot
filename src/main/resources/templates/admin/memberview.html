@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/layout/adminBasic.html}"
+      layout:decorate="~{/layout/basic.html}"
       lang="en">
 
 <div layout:fragment="title">
@@ -75,8 +75,8 @@
                                 <button type="button" id="submitBtn" class="btn btn-outline-dark pl-5 pr-5">수정하기
                                 </button>
                             </a>
-<!--                            <a th:href="|@{/admin/remove(mno=${member.mno})}|">-->
-                                <button type="button" class="btn btn-danger pl-5 pr-5" onclick="showWithdrawWarning()">삭제하기</button>
+                            <!--                            <a th:href="|@{/admin/remove(mno=${member.mno})}|">-->
+                            <button type="button" class="btn btn-danger pl-5 pr-5" onclick="showWithdrawWarning()">삭제하기</button>
                             </a>
                             <a th:href="|@{/admin/memberlist}|">
                                 <button type="button" class="btn-outline-dark pl-5 pr-5">목록으로</button>
