@@ -7,6 +7,19 @@
 
 
 /* custom */
+/*admin css*/
+
+.admin-nav {
+	padding-bottom: 0.75rem;
+	padding-top: 0.75rem;
+	font-size: 1.15rem;
+	color: #38386e;
+}
+.admin-nav:hover {
+	background-color: #38386e;
+	color: #fff;
+}
+
 /*review */
 .reply-text{
 	display: inline-block;
