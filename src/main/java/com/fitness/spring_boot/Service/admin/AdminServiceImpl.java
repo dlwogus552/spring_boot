@@ -6,6 +6,8 @@ import com.fitness.spring_boot.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService{
@@ -16,12 +18,12 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public void update(Member member) {
-        Member m=memberRepository.findById(member.getMno()).get();
-        m.setPhone(m.getPhone());
-        m.setEndDate(m.getEndDate());
-        m.setRole(m.getRole());
-        memberRepository.save(m);
+    public Long update(Member member) {
+        Optional<Member> result=memberRepository.findById(member.getMno());
+        Member member1 = result.orElseThrow();
+        member1.change(member.getPhone(), member.getEndDate(), member.getRole());
+        Long mno=memberRepository.save(member1).getMno();
+        return mno;
     }
 
     @Override

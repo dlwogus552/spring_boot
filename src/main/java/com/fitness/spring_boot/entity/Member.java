@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -44,11 +45,20 @@ public class Member {
     @Column(nullable = false)
     private Date regDate;
 
-    @Column(nullable = true)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(nullable = true, name = "end_date")
     private Date endDate;
 
 
     private String role;
+
+
+
+    public void change(String phone, Date endDate, String role){
+        this.phone=phone;
+        this.endDate=endDate;
+        this.role=role;
+    }
 
 
 }

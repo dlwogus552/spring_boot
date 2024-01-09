@@ -20,7 +20,8 @@
             <div class="element">
                 <h2 class="el-title text-center">회원정보 수정</h2>
                 <table class="table table-lg text-center mb-0 qna-table">
-                    <form action="/admin/membermodify" id="memberModifyForm" method="post">
+                    <form th:action="@{/admin/membermodify}" id="memberModifyForm" method="post">
+                        <input type="hidden" th:value="${member.mno}" name="mno">
                         <tr>
                             <th class="align-middle member-phone">연락처</th>
                             <td>
@@ -44,11 +45,11 @@
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <button type="button" id="submitBtn" class="btn btn-outline-dark pl-5 pr-5">
+                                <button type="submit" id="submitBtn" class="btn btn-outline-dark pl-5 pr-5">
                                     수정하기
                                 </button>
                                 <button type="button" class="btn btn-outline-dark pl-5 pr-5"
-                                        onclick="location.href='/admin/memberlist'">
+                                        onclick="location.href='/admin/'">
                                     목록으로
                                 </button>
                             </td>
@@ -61,15 +62,31 @@
     <!-- Elements section end -->
 </div>
 <script layout:fragment="script" th:inline="javascript">
-    $("#submitBtn").click(function (e) {
-        e.preventDefault();
-        fetch('/admin/membermodify', {
-            method: 'POST',
-            body: formData // body 부분에 폼데이터 변수를 할당
-        }).then((response) => {
-// response.json()
-            console.log("response : " + response)
-            location.href = "/admin/memberlist";
-        });
-    })
+    // function updateInfo() {
+    //     // 각각의 필드에 대한 값을 가져옵니다.
+    //     var phoneValue = document.getElementById('phone').value;
+    //     var endDateValue = document.getElementById('endDate').value;
+    //     var roleValue = document.getElementById('role').value;
+    //
+    //     // 서버로 전송할 데이터를 준비합니다.
+    //     var dataToSend = {
+    //         phone: phoneValue,
+    //         endDate: endDateValue,
+    //         role: roleValue
+    //     };
+    //
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: '/admin/membermodify',
+    //         data: dataToSend,
+    //         success: function (response) {
+    //             console.log('회원정보 수정 성공');
+    //             document.getElementById('submitBtn').innerHTML = '수정완료';
+    //         },
+    //         error: function (error) {
+    //             console.log('회원정보 수정 실패');
+    //         }
+    //     });
+    // }
+
 </script>

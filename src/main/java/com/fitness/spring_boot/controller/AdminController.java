@@ -7,14 +7,12 @@ import com.fitness.spring_boot.dto.PageRequestDTO;
 import com.fitness.spring_boot.dto.PageResponseDTO;
 import com.fitness.spring_boot.dto.qna.QNABoardDTO;
 import com.fitness.spring_boot.entity.Member;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/admin")
@@ -42,15 +40,18 @@ public class AdminController {
         model.addAttribute("responseDTO", responseDTO);
     }
     @PostMapping("/membermodify")
-    public String modify(Member member) {
-        adminService.update(member);
-        return "redirect:/admin/memberview?num="+member.getMno();
+    public String modify(Member member){
+        Long mno=adminService.update(member);
+        if(mno != null){
+            return "redirect:/admin/memberview?mno="+mno;
+        }
+        return "rediect:/admin/membermodify?mno="+mno;
     }
 
     @GetMapping("/remove")
     public String remove (Long mno){
         memberService.delete(mno);
-        return "redirect:/admin/memberlist";
+        return "redirect:/admin/";
     }
 
 }
