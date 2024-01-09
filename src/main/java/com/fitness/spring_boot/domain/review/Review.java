@@ -42,7 +42,7 @@ public class Review {
         this.title = title;
         this.content = content;
     }
-
+    public void updateBestCount(int i){this.bestCount += i; }
     public void updateVisitCount(){
         this.visitCount+=1;
     }

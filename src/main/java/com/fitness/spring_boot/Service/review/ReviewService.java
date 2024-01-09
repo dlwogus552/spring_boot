@@ -10,4 +10,5 @@ public interface ReviewService {
     Long modify(ReviewDTO reviewDTO);
     void remove(Long rno);
     ReviewDTO getBoard(Long rno);
+    int updateCount(ReviewDTO reviewDTO, boolean b);
 }

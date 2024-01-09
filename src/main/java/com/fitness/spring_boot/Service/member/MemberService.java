@@ -12,4 +12,5 @@ public interface MemberService {
     public void delete(Long mno);
     public Member findBymId(String mname);
 
+
 }

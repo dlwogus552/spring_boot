@@ -8,7 +8,7 @@
     <!-- Page top section -->
     <section class="page-top-section set-bg" data-setbg="/img/header-bg/4.jpg">
         <div class="container">
-            <h2>Exercise Information</h2>
+            <h2>Exercise Guide</h2>
         </div>
     </section>
     <!-- Page top section end -->
@@ -57,7 +57,7 @@
                                         </div>
                                     </div>
                                 </form>
-                                <button class="btn btn-outline-dark" onclick="location.href='/exercise/register'">
+                                <button sec:authorize="hasAuthority('관리자')" class="btn btn-outline-dark" onclick="location.href='/exercise/register'">
                                     글쓰기
                                 </button>
                             </div>
