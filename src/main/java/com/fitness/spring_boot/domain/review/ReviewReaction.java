@@ -17,10 +17,12 @@ public class ReviewReaction {
     private Long rano;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="mno")
+    @OnDelete(action= OnDeleteAction.CASCADE)
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="rno")
+    @OnDelete(action= OnDeleteAction.CASCADE)
     private Review review;
 
 }
