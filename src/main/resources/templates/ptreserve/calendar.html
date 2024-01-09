@@ -5,18 +5,9 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       lang="en">
 
-<head>
-    <!-- Add necessary CSS and JavaScript libraries for the modal and calendar -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-</head>
-
-<body>
 <div layout:fragment="title">
     <!-- Page top section -->
-    <section class="page-top-section set-bg" data-setbg="/img/header-bg/5.jpg">
+    <section class="page-top-section set-bg" data-setbg="/img/header-bg/4.jpg">
         <div class="container">
             <h2>P.T 예약</h2>
         </div>
@@ -249,20 +240,49 @@
         console.log("selectedDate : " + selectedDate);
         frm.append("reserve", selectedDate);
 
-        // Check if the selected date and time are already in the cancelTableBody
+        // Check for duplicate checkboxes within the reservation time
+        var existingTimes = [];
+        var duplicateCheckbox = false;
+        for (var i = 0; i < timeSlot.length; i++) {
+            if (existingTimes.includes(timeSlot[i].value)) {
+                duplicateCheckbox = true;
+                break;
+            } else {
+                existingTimes.push(timeSlot[i].value);
+            }
+        }
+
+        if (duplicateCheckbox) {
+            alert("이미 예약된 시간이 선택되었습니다.");
+            return;
+        }
+
+        // Check if there is already a row for the selected date
         var cancelTableBody = document.getElementById("cancelTableBody");
-        var isDuplicateTime = false;
+        var existingRow = null;
         for (var i = 0; i < cancelTableBody.rows.length; i++) {
-            var existingTime = cancelTableBody.rows[i].cells[1].innerText;
-            if ( selectedDate.toLocaleDateString() === existingTime) {
-                isDuplicateTime = true;
+            if (cancelTableBody.rows[i].cells[0].innerText === selectedDate.toLocaleDateString()) {
+                existingRow = cancelTableBody.rows[i];
                 break;
             }
         }
 
-        if (isDuplicateDateTime) {
-            alert("이미 예약된 날짜와 시간입니다.");
-            return;
+        if (existingRow) {
+            // If a row for the date exists, update the reservation time
+            var timeSlotCell = existingRow.cells[1];
+            var existingTimes = timeSlotCell.innerHTML.split(', ').concat(str.split(', ')).sort();
+            var uniqueTimes = [...new Set(existingTimes)]; // Remove duplicates
+            timeSlotCell.innerHTML = uniqueTimes.join(', ');
+        } else {
+            // If no row exists, create a new row
+            var newRow = cancelTableBody.insertRow(0); // Insert at the beginning to display most recent first
+            var dateCell = newRow.insertCell(0);
+            var timeSlotCell = newRow.insertCell(1);
+            var cancelCell = newRow.insertCell(2);
+
+            dateCell.innerHTML = selectedDate.toLocaleDateString();
+            timeSlotCell.innerHTML = str;
+            cancelCell.innerHTML = '<button class="btn btn-danger" onclick="cancelReservation(this)">취소</button>';
         }
 
         // 서버로 전달
@@ -276,17 +296,6 @@
             }
             console.log("response : " + response);
             // location.href= "/QnA/list";
-
-            // 예약 취소 테이블에 취소된 예약 정보 동적으로 추가
-            var cancelTableBody = document.getElementById("cancelTableBody");
-            var newRow = cancelTableBody.insertRow(0); // Insert at the beginning to display most recent first
-            var dateCell = newRow.insertCell(0);
-            var timeSlotCell = newRow.insertCell(1);
-            var cancelCell = newRow.insertCell(2);
-
-            dateCell.innerHTML = selectedDate.toLocaleDateString();
-            timeSlotCell.innerHTML = str;
-            cancelCell.innerHTML = '<button class="btn btn-danger" onclick="cancelReservation(this)">취소</button>';
         });
     })
 
@@ -302,3 +311,4 @@
 </body>
 
 </html>
+
