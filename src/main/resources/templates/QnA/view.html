@@ -30,6 +30,9 @@
                         </a>
                         <!-- 관리자 QnA관리 목록 -->
                         <a th:href="|@{/admin/qnalist}|" sec:authorize="hasAuthority('관리자')">
+                            <button class="btn btn-outline-dark">
+                                목록
+                            </button>
                             <button class="btn btn-outline-success ml-3">
                                 관리자용 목록
                             </button>
