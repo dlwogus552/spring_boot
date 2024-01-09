@@ -23,9 +23,18 @@
                 <div class="qna-view-con">
                     <!-- 버튼부 -->
                     <div class="d-flex justify-content-end mb-3 w-100">
-                        <button class="btn btn-outline-dark" onclick="location.href='/QnA/list'">
-                            목록
-                        </button>
+                        <a th:href="|@{/QnA/list}|" sec:authorize="!hasAuthority('관리자')">
+                            <button class="btn btn-outline-dark">
+                                목록
+                            </button>
+                        </a>
+                        <!-- 관리자 QnA관리 목록 -->
+                        <a th:href="|@{/admin/qnalist}|" sec:authorize="hasAuthority('관리자')">
+                            <button class="btn btn-outline-success ml-3">
+                                관리자용 목록
+                            </button>
+                        </a>
+                        <!-- 로그인하고 로그인 사용자와 같으면 삭제 가능 -->
                         <th:block sec:authorize="isAuthenticated()" th:if="${#authentication.name == dto.writer}">
                             <a th:href="|@{/QnA/remove(qnabno=${dto.qnabno})}|">
                                 <button class="btn btn-outline-danger ml-3">
@@ -33,7 +42,9 @@
                                 </button>
                             </a>
                         </th:block>
+                        <!-- 답변이 없으면 -->
                         <th:block th:if="${dto.answer == false}">
+                            <!-- 답변이 없고 로그인한 사용자와 이름이 같으면 -->
                             <th:block sec:authorize="isAuthenticated()" th:if="${#authentication.name == dto.writer}">
                                 <a th:href="|@{/QnA/modify(qnabno=${dto.qnabno})}&${pageRequestDTO.getLink()}|">
                                     <button class="btn btn-outline-dark ml-3">
@@ -41,7 +52,7 @@
                                     </button>
                                 </a>
                             </th:block>
-                            <!-- <li sec:authorize="isAuthenticated()"><a href="/member/mypage" >My Page</a></li>-->
+                            <!-- 답변이 없고 관리자면 -->
                             <a th:href="|@{/QnA/answer/register(qnabno=${dto.qnabno})}|" sec:authorize="hasAuthority('관리자')">
                                 <button class="btn btn-outline-success ml-3">
                                     답변 작성

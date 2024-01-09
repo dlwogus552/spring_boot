@@ -18,12 +18,12 @@
 
     <!-- Stylesheets -->
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
-<!--    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}"/>-->
+    <!--    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}"/>-->
     <link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/flaticon.css}"/>
     <link rel="stylesheet" th:href="@{/css/slicknav.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/bootstrap.min.css}">
-<!--    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/font-awesome.css}">-->
+    <!--    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/font-awesome.css}">-->
 
     <!-- our project just needs Font Awesome Solid + Brands -->
     <link th:href="@{/assets/fontawesome-free-6.5.1-web/css/fontawesome.css}" rel="stylesheet">
@@ -40,7 +40,7 @@
     <![endif]-->
 
     <!-- MDB 부트스트랩 -->
-<!--    <link rel="stylesheet" th:href="@{/assets/MDB-Free_4.20.0/css/mdb.min.css}">-->
+    <!--    <link rel="stylesheet" th:href="@{/assets/MDB-Free_4.20.0/css/mdb.min.css}">-->
     <!-- Plugin file -->
     <link rel="stylesheet" th:href="@{/assets/MDB-Free_4.20.0/css/addons/datatables.min.css}">
     <link rel="stylesheet" th:href="@{/assets/MDB-Free_4.20.0/css/style.css}">
@@ -52,6 +52,9 @@
 
     <!-- 전부 완성하고 메인 stylesheet로 이동 예정 -->
     <link rel="stylesheet" th:href="@{/css/qnastyle.css}">
+    <th:block sec:authorize="hasAuthority('관리자')">
+        <link rel="stylesheet" th:href="@{/css/adminStyle.css}">
+    </th:block>
 </head>
 <body>
 
@@ -71,6 +74,13 @@
         </div>
     </div>
 </div>
+<div sec:authorize="hasAuthority('관리자')" class="admin-nav-con">
+    <ul class="nav justify-content-center bg-white font-weight-bold">
+        <li class="nav-item">
+            <a class="nav-link admin-nav" href="/admin/">Admin Page</a>
+        </li>
+    </ul>
+</div>
 <!-- ***** Preloader End ***** -->
 <header class="header-section background-header">
     <a href="/" class="site-logo">
@@ -82,7 +92,7 @@
         <li><a href="/exercise/list">Exercise Guide</a></li>
         <li><a href="/foodInfo/info">Food Info</a></li>
         <li sec:authorize="hasAnyAuthority('VIP','관리자')"><a href="/ptreserve/trainer">P.T. Reserve</a></li>
-        <li sec:authorize="isAuthenticated()"><a href="/member/mypage" >My Page</a></li>
+        <li sec:authorize="isAuthenticated()"><a href="/member/mypage">My Page</a></li>
         <li class="header-right" sec:authorize="!isAuthenticated()">
             <div class="hr-box" id="joinMember">
                 <i class="fa-solid fa-user"></i>&nbsp;&nbsp;
@@ -92,7 +102,7 @@
         <li class="header-right" sec:authorize="isAuthenticated()">
             <div class="hr-box" id="logout">
                 <i class="fa-solid fa-user"></i>&nbsp;&nbsp;
-<!--                로그아웃 기능은 하나 LogOut 글자가 검은색이 되버림-->
+                <!--                로그아웃 기능은 하나 LogOut 글자가 검은색이 되버림-->
                 <h6>LogOut</h6>
             </div>
         </li>
@@ -101,6 +111,7 @@
 <!--<div class="clearfix"></div>-->
 <!-- ***** Header Area End ***** -->
 <div style="height: 94px; background-color: #38386e"></div>
+<div style="height: 51.61px; background-color: #38386e" sec:authorize="hasAuthority('관리자')"></div>
 <!-- ***** Main Banner Area Start ***** -->
 <div layout:fragment="title"></div>
 <div layout:fragment="content"></div>
@@ -117,7 +128,7 @@
                     <div class="fw-info-box">
                         <img src="/img/icons/1.png" alt="">
                         <div class="fw-info-text">
-                            <p>1525  Awesome Lane, Los Angeles, CA</p>
+                            <p>1525 Awesome Lane, Los Angeles, CA</p>
                         </div>
                     </div>
                 </div>
@@ -163,16 +174,20 @@
         </div>
         <div class="row">
             <div class="col-md-6 order-2 order-md-1">
-                <div class="copyright"><p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p></div>
+                <div class="copyright">
+                    <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+                        All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i>
+                        by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                </div>
             </div>
             <div class="col-md-6 order-1 order-md-2">
                 <ul class="footer-menu">
                     <li><a href="">Q&A</a></li>
                     <li><a href="">Review</a></li>
                     <li><a href="/exercise/list">Exercise Guide</a></li>
-                    <li><a href="/foodInfo/info">Food Info</a></li>
+                    <li><a href="/foodInfo/info">Nutrient Calc</a></li>
                     <li><a href="">P.T. Reserve</a></li>
                 </ul>
             </div>
@@ -207,7 +222,6 @@
 <script th:src="@{/js/main.js}"></script>
 <script th:src="@{/js/reviewReply.js}"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
 
 
 <!-- Footer section end -->

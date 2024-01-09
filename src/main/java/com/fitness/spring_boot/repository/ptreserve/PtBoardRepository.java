@@ -1,8 +1,16 @@
 package com.fitness.spring_boot.repository.ptreserve;
 
 import com.fitness.spring_boot.domain.ptreserve.PtBoard;
+import com.fitness.spring_boot.domain.ptreserve.PtTrainer;
+import com.fitness.spring_boot.dto.ptreserve.PtBoardDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.Date;
+import java.util.List;
 
 public interface PtBoardRepository extends JpaRepository<PtBoard, Long> {
-    // 추가적인 쿼리 메서드가 필요하다면 여기에 추가 가능
+    @Query("select pt from PtBoard pt where pt.trainer.tno =:tno and pt.reserve=:reserve")
+
+    List<PtBoard> findByReserveAndTrainer(Date reserve, Long tno);
 }
