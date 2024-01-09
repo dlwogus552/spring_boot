@@ -3,6 +3,8 @@ package com.fitness.spring_boot.domain.review;
 import com.fitness.spring_boot.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Data
@@ -13,11 +15,11 @@ public class ReviewReaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long rano;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name ="mno")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name ="rno")
     private Review review;
 
