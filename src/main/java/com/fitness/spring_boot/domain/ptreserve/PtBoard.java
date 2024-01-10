@@ -20,14 +20,13 @@ public class PtBoard {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long pno;
 
-    private int tno; // 강사 번호
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mno")
     private Member member; // 회원이름
     private Date reserve; // 예약 날짜
     private String timeSlot; // 예약한 시간
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tno", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
+    @JoinColumn(name = "tno")
     private PtTrainer trainer;
 }

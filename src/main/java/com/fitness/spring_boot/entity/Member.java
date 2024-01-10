@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -21,6 +24,7 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @OnDelete(action= OnDeleteAction.CASCADE)
     private Long mno;
 
     @Column(nullable = false)
@@ -46,36 +50,20 @@ public class Member {
     @Column(nullable = false)
     private Date regDate;
 
-    @Column(nullable = true)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(nullable = true, name = "end_date")
     private Date endDate;
 
-    @Column(nullable = true)
-    private int cnum;
 
     private String role;
 
-    @Column(nullable = true)
-    private String profilePhoto;
 
-    public void setProfilePhoto(String profilePhoto) {
-        this.profilePhoto = profilePhoto;
+
+    public void change(String phone, Date endDate, String role){
+        this.phone=phone;
+        this.endDate=endDate;
+        this.role=role;
     }
 
 
-//    @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
-//    List<BoardEntity> boardEntityList = new ArrayList<>();
-
-//    public static MemberEntity joinMember(MemberDTO memberDTO, PasswordEncoder passwordEncoder){
-//        MemberEntity memberEntity = new MemberEntity();
-//        memberEntity.setMname(memberDTO.getMname());
-//        memberEntity.setId(memberDTO.getId());
-//        memberEntity.setPhone(memberDTO.getPhone());
-//        memberEntity.setGender(memberDTO.getGender());
-//        memberEntity.setAge(memberDTO.getAge());
-//        String pass = passwordEncoder.encode(memberDTO.getPass());
-//        memberEntity.setPass(pass);
-//        memberEntity.setRole(Role.Member);
-//
-//        return memberEntity;
-//    }
 }

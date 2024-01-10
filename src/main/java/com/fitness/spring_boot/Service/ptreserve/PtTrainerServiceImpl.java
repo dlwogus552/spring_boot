@@ -20,11 +20,12 @@ public class PtTrainerServiceImpl implements PtTrainerService {
     @Override
     public void initPtTrainer() {
         List<PtTrainer> ptTrainerList = new ArrayList<>();
-
-        ptTrainerList.add(new PtTrainer(1l, "트레이너1","010-1234-2345"));
-        ptTrainerList.add(new PtTrainer(2l, "트레이너2","010-2345-3456"));
-        ptTrainerList.add(new PtTrainer(3l, "트레이너3","010-3456-4567"));
-        ptTrainerList.add(new PtTrainer(4l, "트레이너4","010-4567-5678"));
+        PtTrainer ptTrainer = new PtTrainer();
+        for(int i=1; i<=4;i++){
+            ptTrainer.setTname("트레이너"+i);
+            ptTrainer.setTphone("010-"+i+""+i+""+i+""+i+"-"+i+""+i+""+i+""+i+"");
+            ptTrainerList.add(ptTrainer);
+        }
         log.info("pt trainer : " + ptTrainerList);
 
         for(PtTrainer trainer: ptTrainerList){

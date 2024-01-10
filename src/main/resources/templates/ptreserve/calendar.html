@@ -25,11 +25,19 @@
                     <script>
                         var today = new Date();
                         var selectedDate = today;
+                        function openModal() {
 
+                        }
                         function showReservationModal(date) {
                             if (isReservationPossible(today.getFullYear(), today.getMonth(), date)) {
                                 selectedDate = new Date(today.getFullYear(), today.getMonth(), date);
                                 $('#reservationModal').modal('show');
+                                var checkboxes = document.getElementsByName('timeSlot')
+                                checkboxes.forEach((checkbox) => {
+                                    checkbox.checked = false;
+                                });
+                                checkTime()
+                                // document.querySelectorAll(".timeCheck").checked = false;
                             } else {
                                 alert("예약이 불가능한 날짜입니다.");
                             }
@@ -165,29 +173,29 @@
                                             <!-- 체크박스 생성 -->
                                             <div class="form-row">
                                                 <div class="form-check form-check-inline col-md-4">
-                                                    <input type="checkbox" class="form-check-input" id="09-11"
+                                                    <input type="checkbox" class="form-check-input timeCheck" id="time09"
                                                            name="timeSlot" value="09시 - 11시" style="zoom:2.0;">
-                                                    <label class="form-check-label" for="09-11" style="zoom: 1.0;">09시 - 11시</label>
+                                                    <label class="form-check-label" for="time09" style="zoom: 1.0;">09시 - 11시</label>
                                                 </div>
                                                 <div class="form-check form-check-inline col-md-4">
-                                                    <input type="checkbox" class="form-check-input" id="11-13"
+                                                    <input type="checkbox" class="form-check-input timeCheck" id="time11"
                                                            name="timeSlot" value="11시 - 13시" style="zoom:2.0;">
-                                                    <label class="form-check-label" for="11-13" style="zoom: 1.0;">11시 - 13시</label>
+                                                    <label class="form-check-label" for="time11" style="zoom: 1.0;">11시 - 13시</label>
                                                 </div>
                                                 <div class="form-check form-check-inline col-md-4">
-                                                    <input type="checkbox" class="form-check-input" id="14-16"
+                                                    <input type="checkbox" class="form-check-input timeCheck" id="time14"
                                                            name="timeSlot" value="14시 - 16시" style="zoom:2.0;">
-                                                    <label class="form-check-label" for="14-16" style="zoom: 1.0;">14시 - 16시</label>
+                                                    <label class="form-check-label" for="time14" style="zoom: 1.0;">14시 - 16시</label>
                                                 </div>
                                                 <div class="form-check form-check-inline col-md-4">
-                                                    <input type="checkbox" class="form-check-input" id="16-18"
-                                                           name="timeSlot" value="16시 - 18시" style="zoom:2.0;">
-                                                    <label class="form-check-label" for="16-18" style="zoom: 1.0;">16시 - 18시</label>
+                                                    <input type="checkbox" class="form-check-input timeCheck" id="time16"
+                                                           name="timeSlot" value="16시 - 18시" style="zoom:2.0;" readonly>
+                                                    <label class="form-check-label" for="time16" style="zoom: 1.0;">16시 - 18시</label>
                                                 </div>
                                                 <div class="form-check form-check-inline col-md-4">
-                                                    <input type="checkbox" class="form-check-input" id="19-21"
+                                                    <input type="checkbox" class="form-check-input timeCheck" id="time19"
                                                            name="timeSlot" value="19시 - 21시" style="zoom:2.0;">
-                                                    <label class="form-check-label" for="19-21" style="zoom: 1.0;">19시 - 21시</label>
+                                                    <label class="form-check-label" for="time19" style="zoom: 1.0;">19시 - 21시</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -222,6 +230,8 @@
 </div>
 
 <script layout:fragment="script" th:inline="javascript">
+    const tno = [[${tno}]]
+    const mId = [[${#authentication.getName()}]]
     $("#calendarSubmitBtn").click(function () {
         let frm = new FormData($("#reservationForm")[0]);
         var timeSlotName = "timeSlot";
@@ -286,17 +296,36 @@
         }
 
         // 서버로 전달
-        fetch('/ptreserve/calendar', {
-            method: 'POST',
-            body: frm // body 부분에 폼데이터 변수를 할당
-        }).then((response) => {
-            // response.json()
-            for (var i = 0; i < timeSlot.length; i++) {
-                timeSlot[i].checked = false;
-            }
-            console.log("response : " + response);
-            // location.href= "/QnA/list";
-        });
+        // fetch('/ptreserve/calendar', {
+        //     method: 'POST',
+        //     body: frm // body 부분에 폼데이터 변수를 할당
+        // }).then((response) => {
+        //     // response.json()
+        //     for (var i = 0; i < timeSlot.length; i++) {
+        //         timeSlot[i].checked = false;
+        //     }
+        //     console.log("response : " + response);
+        //     // location.href= "/QnA/list";
+        // });
+
+        for(var i=0;i<timeSlot.length ;i++){
+            console.log("ajax tno : "+tno)
+            console.log("ajax mId : "+mId)
+            console.log("ajax timeSlot : "+ timeSlot[i].value)
+            console.log("ajax selectedDate : "+selectedDate)
+            var data ={"tno" : tno, "mId" : mId, "timeSlot" : timeSlot[i].value,"reserve":selectedDate}
+            console.log(data)
+            $.ajax({
+                url:`/ptreserve/calendar`,
+                method:'POST',
+                data:data
+            }).done(function (result){
+                console.log(result)
+            }).fail(function (){
+                console.log("실패")
+            })
+        }
+        checkTime()
     })
 
     function cancelReservation(button) {
@@ -304,12 +333,47 @@
         var row = button.parentNode.parentNode;
         row.parentNode.removeChild(row);
     }
+    function checkTime(){
+        var data ={"tno" : tno, "reserve":selectedDate}
+        console.log("checkTime  " + data)
+        $.ajax({
+            url:"/ptreserve/check",
+            method: "Post",
+            data : data
+        }).done(result=>{
+            console.log(result)
+            checkBoxDisable(result)
+        }).fail(e=>{
+            checkBoxDisable(null)
+        })
+    }
+    function checkBoxDisable(result){
+        var target
+        if(result){
+            for(var i=0; i<result.length; i++){
+                const timeSlot = result[i]
+                console.log(result[i])
+                switch (result[i]){
+                    case '09시 - 11시' : target = document.querySelector('#time09'); break;
+                    case '11시 - 13시' : target = document.querySelector('#time11'); break;
+                    case '14시 - 16시' : target = document.querySelector('#time14'); break;
+                    case '16시 - 18시' : target = document.querySelector('#time16'); break;
+                    case '19시 - 21시' : target = document.querySelector('#time19'); break;
+                }
+                console.log(target)
+                target.disabled = true
+            }
+        }else{
+            document.querySelector('#time09').disabled=false;
+            document.querySelector('#time11').disabled=false;
+            document.querySelector('#time14').disabled=false;
+            document.querySelector('#time16').disabled=false;
+            document.querySelector('#time19').disabled=false;
+        }
+    }
+
 </script>
 
 
 
 </body>
-
-</html>
-
-ddd

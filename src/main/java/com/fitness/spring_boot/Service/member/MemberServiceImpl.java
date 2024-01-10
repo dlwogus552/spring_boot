@@ -1,6 +1,5 @@
 package com.fitness.spring_boot.Service.member;
 
-import com.fitness.spring_boot.Service.MemberService;
 import com.fitness.spring_boot.entity.Member;
 import com.fitness.spring_boot.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;

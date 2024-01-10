@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorate="~{/layout/basic.html}"
+      layout:decorate="~{/layout/adminBasic.html}"
       lang="en">
+
 
 <div layout:fragment="title">
     <!-- Page top section -->
     <section class="page-top-section set-bg" data-setbg="/img/header-bg/5.jpg">
         <div class="container">
-            <h2>Review</h2>
+            <h2>Q&A관리</h2>
         </div>
     </section>
     <!-- Page top section end -->
 </div>
-
 <div layout:fragment="content">
     <section class="elements-section">
         <div class="container">
@@ -23,20 +22,17 @@
                 <table class="table table-lg text-center mb-0 qna-table qna-list-table">
                     <thead>
                     <tr>
-                        <td colspan="6">
+                        <td colspan="7">
                             <div class="col d-flex justify-content-between">
-                                <form action="/review/list" method="get" class="w-50">
+                                <form action="/QnA/list" method="get" class="w-50">
                                     <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
                                     <div class="d-flex">
                                         <select name="type" class="form-control mr-3" style="width: 100px">
-                                            <option value="t" style="width: 100px"
-                                                    th:selected="${pageRequestDTO.type=='t'}">제목
+                                            <option value="title" style="width: 100px"
+                                                    th:selected="${pageRequestDTO.type=='title'}">제목
                                             </option>
-                                            <option value="c" style="width: 100px"
-                                                    th:selected="${pageRequestDTO.type=='c'}">내용
-                                            </option>
-                                            <option value="w" style="width: 100px"
-                                                    th:selected="${pageRequestDTO.type=='w'}">작성자
+                                            <option value="writer" style="width: 100px"
+                                                    th:selected="${pageRequestDTO.type=='writer'}">작성자
                                             </option>
                                         </select>
                                         <div class="input-group">
@@ -49,31 +45,52 @@
                                         </div>
                                     </div>
                                 </form>
-                                <button sec:authorize="hasAnyAuthority('관리자','VIP')" class="btn btn-outline-dark" onclick="location.href='/review/register'">
-                                    글쓰기
-                                </button>
+<!--                                <button class="btn btn-outline-dark" onclick="location.href='/QnA/register'">-->
+<!--                                    글쓰기-->
+<!--                                </button>-->
                             </div>
                         </td>
                     </tr>
                     </thead>
                     <tbody th:with="link=${pageRequestDTO.getLink()}">
                     <tr th:each="dto:${responseDTO.dtoList}">
-                        <th style="width: 12%" class="align-middle">[[${dto.rno}]]</th>
-                        <th style="width: 30%" class="align-middle text-left pl-3">
-                            <a th:href="|@{/review/view(rno=${dto.rno})}&${link}|" class="qna-list-link">[[${dto.title}]]</a>
+                        <th style="width: 8%" class="align-middle">[[${dto.qnabno}]]</th>
+                        <th style="width: 27%" class="align-middle text-left pl-3">
+                            <a th:href="|@{/QnA/view(qnabno=${dto.qnabno})}&${link}|" class="qna-list-link">[[${dto.title}]]</a>
                         </th>
-                        <td style="width: 16%" class="align-middle">[[${dto.writer}]]</td>
-                        <td style="width: 12%" class="align-middle"><i class="fa-regular fa-eye"></i> [[${dto.visitCount}]]</td>
-                        <td style="width: 12%" class="align-middle"><i class="fa-regular fa-thumbs-up"></i> [[${dto.bestCount}]]</td>
-                        <td style="width: 18%" class="align-middle"
-                            th:text="${#temporals.format(dto.regDate, 'YYYY-MM-DD HH:mm')}"></td>
+                        <td style="width: 15%" class="align-middle">[[${dto.writer}]]</td>
+                        <td style="width: 10%" class="align-middle"><i class="fa-regular fa-eye"></i> [[${dto.readcnt}]]</td>
+                        <td style="width: 17%" class="align-middle"
+                            th:text="${#temporals.format(dto.writedate, 'YYYY-MM-DD')}"></td>
+                        <th style="width: 13%" class="align-middle">
+                            <div class="d-flex justify-content-center">
+                                <th:block th:if="${dto.answer == false}">
+                                    <div class="rounded-lg p-1 pl-2 pr-2 align-middle"
+                                         style="background-color: #eee;border: 1px solid #eee">
+                                        답변대기
+                                    </div>
+                                </th:block>
+                                <th:block th:unless="${dto.answer == false}">
+                                    <div class="rounded-lg border border-success p-1 pl-2 pr-2 align-middle"
+                                         style="background-color: #d5f5dc;">
+                                        답변완료
+                                    </div>
+                                </th:block>
+                            </div>
+                        </th>
+                        <th style="width: 10%" class="align-middle">
+                            <a href="/QnA/remove">
+                                <button class="btn btn-outline-danger">삭제</button>
+                            </a>
+                        </th>
+                    </tr>
                     <tr th:if="${responseDTO.dtoList == null}">
-                        <td colspan="6">게시글이 없습니다.</td>
+                        <td colspan="7">게시글이 없습니다.</td>
                     </tr>
                     </tbody>
                     <tfoot>
-                    <tr th:if="${responseDTO.dtoList != null}">
-                        <td colspan="6" style="border: none">
+                    <tr>
+                        <td colspan="7">
                             <div class="d-flex justify-content-center">
                                 <ul class="pagination flex-wrap">
                                     <li class="page-item" th:if="${responseDTO.prev}">
@@ -96,7 +113,9 @@
             </div>
         </div>
     </section>
+    <!-- Elements section end -->
 </div>
+
 <script layout:fragment="script" th:inline="javascript">
     document.querySelector(".pagination").addEventListener("click", function (e) {
         e.preventDefault();
@@ -107,6 +126,7 @@
         }
         const num = target.getAttribute("data-num");
         console.log("num : " + num)
+        // self.location = "/board/list?bno="+num
         const formObj = document.querySelector("form");
         formObj.innerHTML += `<input type="hidden" name="page" value="${num}" >`;
         formObj.submit();

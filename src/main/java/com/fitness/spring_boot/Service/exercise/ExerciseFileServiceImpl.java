@@ -79,6 +79,8 @@ public class ExerciseFileServiceImpl implements ExerciseFileService {
                         File thumbFile = new File(folder.getPath(), "s_" + uuid + "_" + originalFileName);
                         Thumbnailator.createThumbnail(savePath.toFile(), thumbFile, 200, 200);
                     }
+                }else if(Files.probeContentType(savePath).startsWith("image")){
+                    image=true;
                 }
             } catch (Exception e) {
                 e.printStackTrace();

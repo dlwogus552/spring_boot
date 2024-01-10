@@ -1,0 +1,10 @@
+.background-header {
+    top: 51.61px;
+}
+.admin-nav-con {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 5;
+    background-color: #fff;
+}

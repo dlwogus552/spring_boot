@@ -13,7 +13,6 @@ import java.util.Date;
 @ToString
 public class PtBoardDTO {
     private Long pno;
-    private Long tno; // 강사 번호
     private Member member; // 회원이름
     private Date reserve; // 예약 날짜
     private String timeSlot; // 예약한 시간

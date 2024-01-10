@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic.html}"
+      lang="en">
+
+<div layout:fragment="title">
+    <!-- Page top section -->
+    <section class="page-top-section set-bg" data-setbg="/img/header-bg/5.jpg">
+        <div class="container">
+            <h2>Member Info</h2>
+        </div>
+    </section>
+    <!-- Page top section end -->
+</div>
+
+<div layout:fragment="content">
+    <section class="elements-section">
+        <div class="container">
+            <div class="element">
+                <h2 class="card-title" align="center">회원상세정보</h2>
+                <table class="table tabl-lg text-center mb-0 qna-table">
+                    <tr>
+                        <th class="align-middle member-no">회원번호</th>
+                        <td>
+                            <input type="text" class="form-control form-control" id="mno"
+                                   th:value="${member.mno}" name="mno" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="align-middle member-name">이름</th>
+                        <td>
+                            <input type="text" class="form-control form-control" id="mname"
+                                   th:value="${member.mname}" name="mname" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="align-middle member-phone">연락처</th>
+                        <td>
+                            <input type="text" class="form-control form-control" id="phone"
+                                   th:value="${member.phone}" name="phone" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="align-middle member-gender">성별</th>
+                        <td>
+                            <input type="text" class="form-control form-control" id="gender"
+                                   th:value="${member.gender}" name="gender" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="align-middle member-regDate">등록일자</th>
+                        <td>
+                            <input type="text" class="form-control form-control" id="regDate"
+                                   th:value="${#dates.format(member.regDate, 'yyyy-MM-dd')}" name="regDate" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="align-middle member-endDate">만료일자</th>
+                        <td>
+                            <input type="text" class="form-control form-control" id="endDate"
+                                   th:value="${#dates.format(member.endDate, 'yyyy-MM-dd')}" name="endDate" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="align-middle member-role">회원등급</th>
+                        <td>
+                            <input type="text" class="form-control form-control" id="role"
+                                   th:value="${member.role}" name="role" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <a th:href="|@{/admin/membermodify(mno=${member.mno})}|">
+                                <button type="button" id="submitBtn" class="btn btn-outline-dark pl-5 pr-5">수정하기
+                                </button>
+                            </a>
+                            <!--                            <a th:href="|@{/admin/remove(mno=${member.mno})}|">-->
+                            <button type="button" class="btn btn-danger pl-5 pr-5" onclick="showWithdrawWarning()">삭제하기</button>
+                            </a>
+                            <a th:href="|@{/admin/}|">
+                                <button type="button" class="btn btn-outline-dark pl-5 pr-5">목록으로</button>
+                            </a>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script layout:fragment="script" th:inline="javascript">
+    const mno = [[${member.mno}]]
+
+    // Thymeleaf를 사용하여 경고 메시지 표시
+    function showWithdrawWarning() {
+        // 경고 메시지 창 띄우기
+        var confirmResult = confirm("회원정보를 삭제하시겠습니까?")
+        console.log(confirmResult)
+        if (confirmResult === true) {
+            // 여기에 실제 회원 탈퇴 로직을 호출하는 코드를 추가
+            console.log(confirmResult)
+            $.ajax({
+                type: 'GET', // 혹은 POST, PUT, DELETE에 맞게 변경
+                url: `/member/remove?mno=${mno}`, // Thymeleaf 표현식 사용
+                success: function (response) {
+                    console.log('회원 탈퇴 성공');
+                    location.href = '/admin/';
+                    // 여기에서 필요한 처리를 추가
+                },
+                error: function (error) {
+                    console.log('회원 탈퇴 실패');
+                    // 실패 시의 처리를 추가ㅊ
+                }
+            });
+        } else if (confirmResult === false) {
+            console.log("취소")
+            // 취소 버튼 클릭 시 모달 창 닫기
+        }
+
+    }
+
+
+</script>

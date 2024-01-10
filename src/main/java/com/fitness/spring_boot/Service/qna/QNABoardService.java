@@ -15,4 +15,6 @@ public interface QNABoardService {
 
     QNABoardDTO getBoard(Long bno);
 
+    PageResponseDTO<QNABoardDTO> getNoAnswerList(PageRequestDTO pageRequestDTO);
+
 }

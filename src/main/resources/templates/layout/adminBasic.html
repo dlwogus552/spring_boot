@@ -52,9 +52,6 @@
 
     <!-- 전부 완성하고 메인 stylesheet로 이동 예정 -->
     <link rel="stylesheet" th:href="@{/css/qnastyle.css}">
-    <th:block sec:authorize="hasAuthority('관리자')">
-        <link rel="stylesheet" th:href="@{/css/adminStyle.css}">
-    </th:block>
 </head>
 <body>
 
@@ -74,13 +71,6 @@
         </div>
     </div>
 </div>
-<div sec:authorize="hasAuthority('관리자')" class="admin-nav-con">
-    <ul class="nav justify-content-center bg-white font-weight-bold">
-        <li class="nav-item">
-            <a class="nav-link admin-nav" href="/admin/">Admin Page</a>
-        </li>
-    </ul>
-</div>
 <!-- ***** Preloader End ***** -->
 <header class="header-section background-header">
     <a href="/" class="site-logo">
@@ -92,7 +82,7 @@
         <li><a href="/exercise/list">Exercise Guide</a></li>
         <li><a href="/foodInfo/info">Food Info</a></li>
         <li sec:authorize="hasAnyAuthority('VIP','관리자')"><a href="/ptreserve/trainer">P.T. Reserve</a></li>
-        <li sec:authorize="isAuthenticated()"><a href="/member/mypage">My Page</a></li>
+        <li sec:authorize="isAuthenticated()"><a href="/member/mypage" >My Page</a></li>
         <li class="header-right" sec:authorize="!isAuthenticated()">
             <div class="hr-box" id="joinMember">
                 <i class="fa-solid fa-user"></i>&nbsp;&nbsp;
@@ -111,89 +101,20 @@
 <!--<div class="clearfix"></div>-->
 <!-- ***** Header Area End ***** -->
 <div style="height: 94px; background-color: #38386e"></div>
-<div style="height: 51.61px; background-color: #38386e" sec:authorize="hasAuthority('관리자')"></div>
 <!-- ***** Main Banner Area Start ***** -->
 <div layout:fragment="title"></div>
+<div>
+    <ul class="nav justify-content-center shadow-sm font-weight-bold">
+        <li class="nav-item">
+            <a class="nav-link admin-nav" href="/admin/">회원 관리</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link admin-nav" href="/admin/qnalist">Q&A 관리</a>
+        </li>
+    </ul>
+</div>
 <div layout:fragment="content"></div>
 
-<!-- ***** Main Banner Area End ***** -->
-
-<!-- Footer section -->
-<footer class="footer-section set-bg" data-setbg="/img/footer-bg.jpg">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3 col-sm-6">
-                <div class="footer-widget">
-                    <h4>Location</h4>
-                    <div class="fw-info-box">
-                        <img src="/img/icons/1.png" alt="">
-                        <div class="fw-info-text">
-                            <p>1525 Awesome Lane, Los Angeles, CA</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="footer-widget">
-                    <h4>Subscriptions</h4>
-                    <div class="fw-info-box">
-                        <img src="/img/icons/2.png" alt="">
-                        <div class="fw-info-text">
-                            <p>+1 (603)535-4592</p>
-                            <p>+1 (603)535-4556</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="footer-widget">
-                    <h4>E-mail</h4>
-                    <div class="fw-info-box">
-                        <img src="/img/icons/3.png" alt="">
-                        <div class="fw-info-text">
-                            <p>Contact@xgym.com</p>
-                            <p>www.xgym.com</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="footer-widget">
-                    <h4>Social Media</h4>
-                    <div class="fw-info-box">
-                        <img src="/img/icons/4.png" alt="">
-                        <div class="social-links">
-                            <a href="#"><i class="fa fa-pinterest"></i></a>
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-dribbble"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 order-2 order-md-1">
-                <div class="copyright">
-                    <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        Copyright &copy;<script>document.write(new Date().getFullYear());</script>
-                        All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i>
-                        by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-                </div>
-            </div>
-            <div class="col-md-6 order-1 order-md-2">
-                <ul class="footer-menu">
-                    <li><a href="">Q&A</a></li>
-                    <li><a href="">Review</a></li>
-                    <li><a href="/exercise/list">Exercise Guide</a></li>
-                    <li><a href="/foodInfo/info">Nutrient Calc</a></li>
-                    <li><a href="">P.T. Reserve</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</footer>
 
 <!-- jQuery -->
 <script th:src="@{/assets/js/jquery-2.1.0.min.js}"></script>
@@ -222,6 +143,7 @@
 <script th:src="@{/js/main.js}"></script>
 <script th:src="@{/js/reviewReply.js}"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 
 
 <!-- Footer section end -->
