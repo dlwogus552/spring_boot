@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{/layout/basic.html}"
+      lang="en">
+
+<div layout:fragment="title">
+    <!-- Page top section -->
+    <section class="page-top-section set-bg" data-setbg="/img/header-bg/5.jpg">
+        <div class="container">
+            <h2>My Review</h2>
+        </div>
+    </section>
+    <!-- Page top section end -->
+</div>
+
+<div layout:fragment="content">
+    <div>
+        <ul class="nav justify-content-center shadow-sm font-weight-bold">
+            <li class="nav-item">
+                <a class="nav-link admin-nav" href="/member/mypage">내 정보</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link admin-nav" href="#"></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link admin-nav" href="/member/review">내가 쓴 리뷰</a>
+            </li>
+        </ul>
+    </div>
+    <section class="elements-section">
+        <div class="container">
+            <div class="element">
+                <h2 class="el-title text-center">목록</h2>
+                <table class="table table-lg text-center mb-0 qna-table qna-list-table">
+                    <tbody>
+                    <tr th:each="dto:${responseDTO.dtoList}">
+                        <th style="width: 12%" class="align-middle">[[${dto.rno}]]</th>
+                        <th style="width: 30%" class="align-middle text-left pl-3">
+                            <a th:href="|@{/review/view(rno=${dto.rno})}|" class="qna-list-link">[[${dto.title}]]</a>
+                        </th>
+                        <td style="width: 16%" class="align-middle">[[${dto.writer}]]</td>
+                        <td style="width: 12%" class="align-middle"><i class="fa-regular fa-eye"></i> [[${dto.visitCount}]]</td>
+                        <td style="width: 12%" class="align-middle"><i class="fa-regular fa-thumbs-up"></i> [[${dto.bestCount}]]</td>
+                        <td style="width: 18%" class="align-middle"
+                            th:text="${#temporals.format(dto.regDate, 'YYYY-MM-DD HH:mm')}"></td>
+                    <tr th:if="${responseDTO.dtoList == null}">
+                        <td colspan="6">게시글이 없습니다.</td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr th:if="${responseDTO.dtoList != null}">
+                        <td colspan="6" style="border: none">
+                            <div class="d-flex justify-content-center">
+                                <ul class="pagination flex-wrap">
+                                    <li class="page-item" th:if="${responseDTO.prev}">
+                                        <a class="page-link" th:data-num="${responseDTO.start -1}">Prev</a>
+                                    </li>
+                                    <th:block th:each="i : ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                                        <li th:class="${responseDTO.page == i} ? 'active page-item' : 'page-item' ">
+                                            <a class="page-link" th:data-num="${i}">[[${i}]]</a>
+                                        </li>
+                                    </th:block>
+                                    <li class="page-item" th:if="${responseDTO.next}">
+                                        <a class="page-link" th:data-num="${responseDTO.end +1}">Next</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+<script layout:fragment="script" th:inline="javascript">
+    document.querySelector(".pagination").addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const target = e.target;
+        if (target.tagName !== 'A') {
+            return
+        }
+        const num = target.getAttribute("data-num");
+        console.log("num : " + num)
+        const formObj = document.querySelector("form");
+        formObj.innerHTML += `<input type="hidden" name="page" value="${num}" >`;
+        formObj.submit();
+    }, false);
+</script>
