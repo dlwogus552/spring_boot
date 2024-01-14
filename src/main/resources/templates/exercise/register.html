@@ -65,16 +65,23 @@
         e.preventDefault();
         self.location=`/exercise/list`
     })
-
-    function uploadFile() {
-        var fileVal = $("input[name=files]").val();
-        if( fileVal != "" ){
-            var ext = fileVal.split('.').pop().toLowerCase(); //확장자분리
-            //아래 확장자가 있는지 체크
-            if($.inArray(ext, ['jpg','jpeg','gif','png','mp4']) == -1) {
-                alert('jpg,gif,jpeg,png,mp4 파일만 업로드 할수 있습니다.');
-                return;
+    $("#customFile").on("change", function(e)
+    {
+        var i = 0;
+        var files     = e.target.files;
+        var filesArr  = Array.prototype.slice.call(files);
+        filesArr.forEach(function(f)
+        {
+            let pp= f.name.lastIndexOf('.');
+            let fext= f.name.substring(pp+1,f.name.length);
+            fext= fext.toLowerCase();
+            if(  fext != 'jpg' || fext != 'gif' || fext!='png' || fext!='jpeg' || fext!='mp4') {
+                i++
             }
+        });
+        if(i>0){
+            alert("이미지 및 동영상 파일만 업로드 할 수 있습니다.")
+            e.target.value=''
         }
-    }
+    });
 </script>
