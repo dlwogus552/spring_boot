@@ -16,7 +16,7 @@
     <section class="elements-section">
         <div class="container">
             <div class="element">
-                <h2 class="el-title">Register</h2>
+                <h2 class="el-title">Modify</h2>
                 <form action="/exercise/modify" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="eno" th:value="${exerciseDTO.eno}">
                     <div class="mb-3">
@@ -72,4 +72,31 @@
         const eno =[[${exerciseDTO.eno}]]
         self.location=`/exercise/view?eno=${eno}&${link}`
     })
+    document.querySelector('.btn-secondary').addEventListener('click',function (e){
+        e.preventDefault();
+        self.location=`/exercise/list`
+    })
+
+
+    $("#customFile").on("change", function(e)
+    {
+        var i = 0;
+        var files     = e.target.files;
+        var filesArr  = Array.prototype.slice.call(files);
+        filesArr.forEach(function(f)
+        {
+            let pp= f.name.lastIndexOf('.');
+            let fext= f.name.substring(pp+1,f.name.length);
+            fext= fext.toLowerCase();
+            console.log(fext)
+            if(fext == 'jpg' || fext == 'gif' || fext=='png' || fext=='jpeg' || fext=='mp4') {
+                i++
+                console.log(i)
+            }
+        });
+        if(i==0){
+            alert("이미지 및 동영상 파일만 업로드 할 수 있습니다.")
+            e.target.value=''
+        }
+    });
 </script>

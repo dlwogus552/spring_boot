@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fitness.spring_boot.dto.review.ReviewReplyRequestDTO;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -29,6 +31,7 @@ public class ReviewReply {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="rno")
+    @OnDelete(action= OnDeleteAction.CASCADE)
     private Review review;
     @CreatedDate
     @Column(name = "regdate", updatable = false)

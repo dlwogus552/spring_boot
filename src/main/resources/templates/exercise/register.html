@@ -75,11 +75,13 @@
             let pp= f.name.lastIndexOf('.');
             let fext= f.name.substring(pp+1,f.name.length);
             fext= fext.toLowerCase();
-            if(  fext != 'jpg' || fext != 'gif' || fext!='png' || fext!='jpeg' || fext!='mp4') {
+            console.log(fext)
+            if(fext == 'jpg' || fext == 'gif' || fext=='png' || fext=='jpeg' || fext=='mp4') {
                 i++
+                console.log(i)
             }
         });
-        if(i>0){
+        if(i==0){
             alert("이미지 및 동영상 파일만 업로드 할 수 있습니다.")
             e.target.value=''
         }
