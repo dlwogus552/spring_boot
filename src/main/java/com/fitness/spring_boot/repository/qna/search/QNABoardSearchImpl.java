@@ -64,4 +64,28 @@ public class QNABoardSearchImpl extends QuerydslRepositorySupport implements QNA
         Long count = query.fetchCount();
         return new PageImpl<>(list, pageable, count);
     }
+
+    @Override
+    public Page<QNABoard> searchMyQnA(String type, String keyword, Pageable pageable, String writer) {
+        QQNABoard board = QQNABoard.qNABoard;
+        JPQLQuery<QNABoard> query = this.from(board);
+        if (type != null && keyword != null) {
+            BooleanBuilder booleanBuilder = new BooleanBuilder();
+            switch (type) {
+                case "title":
+                    booleanBuilder.or(board.title.contains(keyword));
+                    break;
+                case "writer":
+                    booleanBuilder.or(board.writer.contains(keyword));
+                    break;
+            }
+            query.where(booleanBuilder);
+        }//end if
+        query.where(board.writer.eq(writer));
+        query.where(board.qnabno.gt(0L));
+        this.getQuerydsl().applyPagination(pageable, query);
+        List<QNABoard> list = query.fetch();
+        Long count = query.fetchCount();
+        return new PageImpl<>(list, pageable, count);
+    }
 }

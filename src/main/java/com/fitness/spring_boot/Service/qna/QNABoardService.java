@@ -17,4 +17,6 @@ public interface QNABoardService {
 
     PageResponseDTO<QNABoardDTO> getNoAnswerList(PageRequestDTO pageRequestDTO);
 
+    PageResponseDTO<QNABoardDTO> getMyList(PageRequestDTO pageRequestDTO, String writer);
+
 }

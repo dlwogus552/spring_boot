@@ -65,6 +65,22 @@ public class QNABoardServiceImpl implements QNABoardService {
     }
 
     @Override
+    public PageResponseDTO<QNABoardDTO> getMyList(PageRequestDTO pageRequestDTO, String writer) {
+        String type = pageRequestDTO.getType();
+        String keyword = pageRequestDTO.getKeyword();
+        Pageable pageable = pageRequestDTO.getPageable("qnabno");
+        Page<QNABoard> result = repository.searchMyQnA(type, keyword, pageable, writer);
+        List<QNABoardDTO> dtoList = result.getContent().stream()
+                .map(board -> modelMapper.map(board, QNABoardDTO.class))
+                .toList();
+        return PageResponseDTO.<QNABoardDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(dtoList)
+                .total((int)result.getTotalElements())
+                .build();
+    }
+
+    @Override
     public Long register(QNABoardDTO qnaBoardDTO) {
         QNABoard board = modelMapper.map(qnaBoardDTO, QNABoard.class);
         Long qnabno = repository.save(board).getQnabno();
