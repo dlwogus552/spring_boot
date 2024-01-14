@@ -63,7 +63,6 @@ public class ReactionServiceImpl implements ReactionService {
         Member member = memberService.findBymId(username);
         if (member != null) {
             ReviewReaction reviewReaction = reactionRepository.findByMember_MnoAndReview_Rno(member.getMno(), rno);
-            log.info(reviewReaction != null);
             if (reviewReaction != null) {
                 return true;
             }

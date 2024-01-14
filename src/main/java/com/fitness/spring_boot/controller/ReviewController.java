@@ -48,9 +48,8 @@ public class ReviewController {
     }
 
     @GetMapping({"/view","/modify"})
-    public void reviewModify(PageRequestDTO PageRequestDTO, Long rno, Model model) {
+    public void reviewModify(PageRequestDTO PageRequestDTO, Long rno, Model model,String myPage) {
         model.addAttribute("best",reactionService.getBest(rno));
-        log.info(reactionService.getBest(rno));
         model.addAttribute("reviewDTO", reviewService.getBoard(rno));
         model.addAttribute("fileDTOList", reviewFileService.getList(rno));
     }

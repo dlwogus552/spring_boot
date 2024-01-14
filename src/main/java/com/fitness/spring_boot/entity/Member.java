@@ -24,7 +24,6 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @OnDelete(action= OnDeleteAction.CASCADE)
     private Long mno;
 
     @Column(nullable = false)

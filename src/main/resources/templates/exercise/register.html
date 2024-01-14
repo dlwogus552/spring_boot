@@ -65,4 +65,16 @@
         e.preventDefault();
         self.location=`/exercise/list`
     })
+
+    function uploadFile() {
+        var fileVal = $("input[name=files]").val();
+        if( fileVal != "" ){
+            var ext = fileVal.split('.').pop().toLowerCase(); //확장자분리
+            //아래 확장자가 있는지 체크
+            if($.inArray(ext, ['jpg','jpeg','gif','png','mp4']) == -1) {
+                alert('jpg,gif,jpeg,png,mp4 파일만 업로드 할수 있습니다.');
+                return;
+            }
+        }
+    }
 </script>

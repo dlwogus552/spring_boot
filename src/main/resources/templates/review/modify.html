@@ -33,7 +33,8 @@
                             <th class="align-middle qna-title">내용</th>
                             <td>
                                 <textarea rows="10" class="form-control" placeholder="내용을 입력하세요"
-                                          name="content" id="content" style="resize: none">[[${reviewDTO.content}]]</textarea>
+                                          name="content" id="content"
+                                          style="resize: none">[[${reviewDTO.content}]]</textarea>
                             </td>
                         </tr>
                         <tr>
@@ -59,7 +60,8 @@
                                 <button type="button" id="submitBtn" class="btn btn-outline-dark pl-5 pr-5">
                                     작성
                                 </button>
-                                <button type="button" class="btn btn-outline-dark pl-5 pr-5" onclick="location.href='/review/list'">
+                                <button type="button" class="btn btn-outline-dark pl-5 pr-5"
+                                        onclick="location.href='/review/list'">
                                     목록
                                 </button>
                             </td>
@@ -87,21 +89,29 @@
             var files;
 
             for (var i = 0; i < inputFile.length; i++) {
-                if(inputFile[i].value != null && inputFile[i].value !== "") {
+                if (inputFile[i].value != null && inputFile[i].value !== "") {
                     files = inputFile[i].files;
                     console.log("files 확인 : " + files[0].name)
                     formData.append("files", files[0]);
                 }
             }
         }
-
-        fetch('/review/modify', {
-            method: 'POST',
-            body: formData // body 부분에 폼데이터 변수를 할당
-        }).then((response) => {
-            console.log("response : " + response)
-            location.href="/review/view?rno="+rno+'&'+link
-        })
+        if ($("input[name=title]").val() == '') {
+            alert("제목을 입력하세요")
+        }
+        console.log($("textarea[name=content]").val())
+        if ($("textarea[name=content]").val() == '') {
+            alert("내용을 입력하세요")
+        }
+        if ($("input[name=title]").val() != '' && $("textarea[name=content]").val() != '') {
+            fetch('/review/modify', {
+                method: 'POST',
+                body: formData // body 부분에 폼데이터 변수를 할당
+            }).then((response) => {
+                console.log("response : " + response)
+                location.href = "/review/view?rno=" + rno + '&' + link
+            })
+        }
     })
 
     // 파일 선택

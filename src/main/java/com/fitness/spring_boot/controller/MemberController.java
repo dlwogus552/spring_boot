@@ -1,7 +1,11 @@
 package com.fitness.spring_boot.controller;
 
 import com.fitness.spring_boot.Service.member.MemberService;
+import com.fitness.spring_boot.Service.review.ReviewService;
 import com.fitness.spring_boot.config.auth.PrincipalDetails;
+import com.fitness.spring_boot.dto.PageRequestDTO;
+import com.fitness.spring_boot.dto.PageResponseDTO;
+import com.fitness.spring_boot.dto.review.ReviewDTO;
 import com.fitness.spring_boot.entity.Member;
 import com.fitness.spring_boot.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +31,7 @@ public class MemberController {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final MemberService memberService;
-
+    private final ReviewService reviewService;
     @GetMapping("/login")
     public void login(){
 
@@ -73,9 +77,15 @@ public class MemberController {
         return "redirect:/logout";
     }
 
+    @GetMapping("/review")
+    public void myReviewList(@AuthenticationPrincipal PrincipalDetails principalDetails,PageRequestDTO pageRequestDTO, Model model){
+        String writer = principalDetails.getUsername();
+        pageRequestDTO.setType("w");
+        pageRequestDTO.setKeyword(writer);
+        PageResponseDTO<ReviewDTO> responseDTO = reviewService.getList(pageRequestDTO);
+        model.addAttribute("responseDTO", responseDTO);
 
-
-
+    }
 }
 
 

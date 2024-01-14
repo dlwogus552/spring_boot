@@ -101,15 +101,23 @@
                 }
             }
         }
-
-        fetch('/review/register', {
-            method: 'POST',
-            body: formData // body 부분에 폼데이터 변수를 할당
-        }).then((response) => {
-            // response.json()
-            console.log("response : " + response)
-            location.href = "/review/list";
-        })
+        if ($("input[name=title]").val() == '') {
+            alert("제목을 입력하세요")
+        }
+        console.log($("textarea[name=content]").val())
+        if ($("textarea[name=content]").val() == '') {
+            alert("내용을 입력하세요")
+        }
+        if ($("input[name=title]").val() != '' && $("textarea[name=content]").val() != '') {
+            fetch('/review/register', {
+                method: 'POST',
+                body: formData // body 부분에 폼데이터 변수를 할당
+            }).then((response) => {
+                // response.json()
+                console.log("response : " + response)
+                location.href='/review/list'
+            })
+        }
     })
 
     // 파일 선택
