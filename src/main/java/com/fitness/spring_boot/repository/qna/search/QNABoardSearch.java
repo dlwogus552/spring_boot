@@ -7,4 +7,5 @@ import org.springframework.data.domain.Pageable;
 public interface QNABoardSearch {
     Page<QNABoard> searchAll(String type, String keyword, Pageable pageable);
     Page<QNABoard> searchAllNoAnswer(String type, String keyword, Pageable pageable);
+    Page<QNABoard> searchMyQnA(String type, String keyword, Pageable pageable, String writer);
 }

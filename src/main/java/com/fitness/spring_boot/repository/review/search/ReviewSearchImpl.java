@@ -28,10 +28,10 @@ public class ReviewSearchImpl extends QuerydslRepositorySupport implements Revie
                     booleanBuilder.or(review.title.contains(keyword));
                     break;
                     case "c":
-                        booleanBuilder.or(review.title.contains(keyword));
+                        booleanBuilder.or(review.content.contains(keyword));
                         break;
                     case "w":
-                        booleanBuilder.or(review.title.contains(keyword));
+                        booleanBuilder.or(review.writer.contains(keyword));
                 }
             query.where(new Predicate[]{booleanBuilder});
         }//end if

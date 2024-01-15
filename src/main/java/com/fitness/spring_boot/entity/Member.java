@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
@@ -16,13 +17,13 @@ import java.util.Date;
 @Entity
 @Table(name = "GYMMember")
 @Data
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @OnDelete(action= OnDeleteAction.CASCADE)
     private Long mno;
 
     @Column(nullable = false)

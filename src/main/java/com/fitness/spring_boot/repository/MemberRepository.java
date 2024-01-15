@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
+    @Query("select m from Member m where m.mId =:mId")
     Member findBymId(String mId);
 
 //    @Query(value = "select m.role from member m where m.id = :id", nativeQuery = true)

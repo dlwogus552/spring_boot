@@ -65,4 +65,25 @@
         e.preventDefault();
         self.location=`/exercise/list`
     })
+    $("#customFile").on("change", function(e)
+    {
+        var i = 0;
+        var files     = e.target.files;
+        var filesArr  = Array.prototype.slice.call(files);
+        filesArr.forEach(function(f)
+        {
+            let pp= f.name.lastIndexOf('.');
+            let fext= f.name.substring(pp+1,f.name.length);
+            fext= fext.toLowerCase();
+            console.log(fext)
+            if(fext == 'jpg' || fext == 'gif' || fext=='png' || fext=='jpeg' || fext=='mp4') {
+                i++
+                console.log(i)
+            }
+        });
+        if(i==0){
+            alert("이미지 및 동영상 파일만 업로드 할 수 있습니다.")
+            e.target.value=''
+        }
+    });
 </script>
