@@ -17,4 +17,7 @@ public class PtBoardDTO {
     private Date reserve; // 예약 날짜
     private String timeSlot; // 예약한 시간
     private PtTrainer trainer;
+    private Long mno; // 회원이름
+    private Long tno;
+
 }

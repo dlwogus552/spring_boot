@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/layout/basic.html}"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      lang="en">
+      layout:decorate="~{/layout/basic.html}" lang="en">
 
 <div layout:fragment="title">
     <!-- Page top section -->
@@ -32,12 +31,11 @@
                             if (isReservationPossible(today.getFullYear(), today.getMonth(), date)) {
                                 selectedDate = new Date(today.getFullYear(), today.getMonth(), date);
                                 $('#reservationModal').modal('show');
-                                var checkboxes = document.getElementsByName('timeSlot')
+                                var checkboxes = document.getElementsByName('timeSlot');
                                 checkboxes.forEach((checkbox) => {
                                     checkbox.checked = false;
                                 });
-                                checkTime()
-                                // document.querySelectorAll(".timeCheck").checked = false;
+                                checkTime();
                             } else {
                                 alert("예약이 불가능한 날짜입니다.");
                             }
@@ -292,7 +290,7 @@
 
             dateCell.innerHTML = selectedDate.toLocaleDateString();
             timeSlotCell.innerHTML = str;
-            cancelCell.innerHTML = '<button class="btn btn-danger" onclick="cancelReservation(this)">취소</button>';
+            cancelCell.innerHTML = '<button class="btn btn-danger" type="button" onclick="cancelReservation(this)">취소</button>';
         }
 
         // 서버로 전달
@@ -308,67 +306,104 @@
         //     // location.href= "/QnA/list";
         // });
 
-        for(var i=0;i<timeSlot.length ;i++){
-            console.log("ajax tno : "+tno)
-            console.log("ajax mId : "+mId)
-            console.log("ajax timeSlot : "+ timeSlot[i].value)
-            console.log("ajax selectedDate : "+selectedDate)
-            var data ={"tno" : tno, "mId" : mId, "timeSlot" : timeSlot[i].value,"reserve":selectedDate}
-            console.log(data)
+        for (var i = 0; i < timeSlot.length; i++) {
+            console.log("ajax tno : " + tno);
+            console.log("ajax mId : " + mId);
+            console.log("ajax timeSlot : " + timeSlot[i].value);
+            console.log("ajax selectedDate : " + selectedDate);
+            var data = {"tno": tno, "mId": mId, "timeSlot": timeSlot[i].value, "reserve": selectedDate};
+            console.log(data);
             $.ajax({
-                url:`/ptreserve/calendar`,
-                method:'POST',
-                data:data
-            }).done(function (result){
-                console.log(result)
-            }).fail(function (){
-                console.log("실패")
-            })
+                url: `/ptreserve/calendar`,
+                method: 'POST',
+                data: data
+            }).done(function (result) {
+                console.log(result);
+
+                // 예약 성공 시 선택한 날짜의 모달을 다시 엽니다
+                showReservationModal(selectedDate.getDate());
+            }).fail(function () {
+                console.log("실패");
+                // 실패 시 여기에 대한 처리 추가
+            });
         }
-        checkTime()
-    })
+
+        // 예약 처리 후 모달 내용 초기화
+        var checkboxes = document.getElementsByName('timeSlot');
+        checkboxes.forEach((checkbox) => {
+            checkbox.checked = false;
+        });
+        checkTime();
+    });
 
     function cancelReservation(button) {
         // 취소 버튼을 눌렀을 때 실행되는 함수
         var row = button.parentNode.parentNode;
-        row.parentNode.removeChild(row);
+        // var date = row.cells[0].innerText;
+        // var timeSlot = row.cells[1].innerText;
+
+        // 서버로 예약 취소 요청
+        // var year=selectedDate.getFullYear();
+        // var month=selectedDate.getMonth();
+        // var day=selectedDate.getDate();
+        // datestr=year+"-"+(month+1)+"-"+day
+        // alert(year+"-"+(month+1)+"-"+day)
+
+        var data = {"tno": tno, "mId": mId, "reserve": selectedDate};
+        $.ajax({
+            url: "/ptreserve/remove",
+            method: "POST",
+            // contentType: application/json,
+            // data: JSON.stringify(data)
+            data:data
+        }).done(result => {
+            console.log(result);
+            // 취소에 성공한 경우 테이블에서 해당 예약 제거
+            row.parentNode.removeChild(row);
+        }).fail(e => {
+            console.log("Error: " + e);
+            // 취소에 실패한 경우 여기에 대한 처리 추가
+        });
     }
-    function checkTime(){
-        var data ={"tno" : tno, "reserve":selectedDate}
+    function checkTime() {
+        var data = {"tno": tno, "reserve": selectedDate}
         console.log("checkTime  " + data)
         $.ajax({
-            url:"/ptreserve/check",
-            method: "Post",
-            data : data
-        }).done(result=>{
-            console.log(result)
-            checkBoxDisable(result)
-        }).fail(e=>{
-            checkBoxDisable(null)
+            url: "/ptreserve/check",
+            method: "POST",
+            data: data
+        }).done(result => {
+            console.log(result);
+            checkBoxDisable(result);
+        }).fail(e => {
+            console.log("Error: " + e);
+            checkBoxDisable(null);
         })
     }
-    function checkBoxDisable(result){
-        var target
-        if(result){
-            for(var i=0; i<result.length; i++){
-                const timeSlot = result[i]
-                console.log(result[i])
-                switch (result[i]){
-                    case '09시 - 11시' : target = document.querySelector('#time09'); break;
-                    case '11시 - 13시' : target = document.querySelector('#time11'); break;
-                    case '14시 - 16시' : target = document.querySelector('#time14'); break;
-                    case '16시 - 18시' : target = document.querySelector('#time16'); break;
-                    case '19시 - 21시' : target = document.querySelector('#time19'); break;
+    function checkBoxDisable(result) {
+        if (result) {
+            for (var i = 0; i < result.length; i++) {
+                const timeSlot = result[i];
+                let target;
+
+                switch (timeSlot) {
+                    case '09시 - 11시': target = document.querySelector('#time09'); break;
+                    case '11시 - 13시': target = document.querySelector('#time11'); break;
+                    case '14시 - 16시': target = document.querySelector('#time14'); break;
+                    case '16시 - 18시': target = document.querySelector('#time16'); break;
+                    case '19시 - 21시': target = document.querySelector('#time19'); break;
                 }
-                console.log(target)
-                target.disabled = true
+
+                if (target) {
+                    target.disabled = true;
+                }
             }
-        }else{
-            document.querySelector('#time09').disabled=false;
-            document.querySelector('#time11').disabled=false;
-            document.querySelector('#time14').disabled=false;
-            document.querySelector('#time16').disabled=false;
-            document.querySelector('#time19').disabled=false;
+        } else {
+            document.querySelector('#time09').disabled = false;
+            document.querySelector('#time11').disabled = false;
+            document.querySelector('#time14').disabled = false;
+            document.querySelector('#time16').disabled = false;
+            document.querySelector('#time19').disabled = false;
         }
     }
 
@@ -377,3 +412,4 @@
 
 
 </body>
+</html>

@@ -23,9 +23,7 @@ public class PtBoardServiceImpl implements PtBoardService {
 
     @Override
     public List<PtBoardDTO> chechReserve(Date reserve, Long tno) {
-        log.info("repository 전 "+reserve);
         List<PtBoard> boardList = repository.findByReserveAndTrainer(reserve, tno);
-        log.info("repository 후 "+boardList);
         if(boardList!=null && boardList.get(0)!=null) {
 //            List<PtBoardDTO> ptBoardDTOList = modelMapper.map(boardList,PtBoardDTO.class);
             List<PtBoardDTO> ptBoardDTOList = boardList.stream().map(result-> modelMapper.map(result,PtBoardDTO.class)).collect(Collectors.toList());
@@ -35,8 +33,29 @@ public class PtBoardServiceImpl implements PtBoardService {
     }
 
     public void makeReservation(PtBoardDTO ptBoardDTO) {
-        log.info("ptBoardDTO" + ptBoardDTO);
         PtBoard ptBoard = modelMapper.map(ptBoardDTO, PtBoard.class);
         repository.save(ptBoard);
+    }
+
+    @Override
+    public void remove(Date reserve, Long tno, Long mno) {
+        log.info("remove확인"+reserve);
+        log.info("remove확인"+tno);
+        log.info("remove확인"+mno);
+
+        repository.deleteReserve(tno,mno,reserve);
+    }
+
+//    public void remove(Long tno,Long mno,Date reserve) {
+//        log.info("remove확인"+reserve);
+//        log.info("remove확인"+tno);
+//        log.info("remove확인"+mno);
+//
+//        repository.deleteReserve(tno,mno,reserve);
+//    }
+
+    @Override
+    public void removeById(Long pno) {
+        repository.deleteById(pno);
     }
 }
