@@ -20,7 +20,7 @@ public class PtBoard {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long pno;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "mno")
     private Member member; // 회원이름
     private Date reserve; // 예약 날짜

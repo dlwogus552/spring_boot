@@ -92,7 +92,27 @@
         const fileFormName = "files"
         formData.delete(fileFormName)
 
+        var inputTitle = $("input[name='title']");
+        var inputWriter = $("input[name='writer']");
+        var inputContent = $("textarea[name='content']");
         var inputFile = $("input[name='files']");
+
+        if(inputTitle.val() == "" || inputTitle.val() == null) { // title이 없으면
+            alert("제목을 입력해주세요");
+            inputTitle[0].focus()
+            return false
+        }
+        if(inputWriter.val() == "" || inputWriter.val() == null) { // title이 없으면
+            alert("이름을 입력해주세요");
+            inputWriter[0].focus()
+            return false
+        }
+        if(inputContent.val() == "" || inputContent.val() == null) { // title이 없으면
+            alert("내용을 입력해주세요");
+            inputContent.focus()
+            return false
+        }
+
 
         if (inputFile.val() !== "" && inputFile.val() !== null) { // 파일이 있으면
             console.log("인풋 파일 확인 : " + inputFile.val())

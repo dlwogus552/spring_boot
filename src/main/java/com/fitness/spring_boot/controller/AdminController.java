@@ -10,6 +10,7 @@ import com.fitness.spring_boot.entity.Member;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +46,7 @@ public class AdminController {
         if(mno != null){
             return "redirect:/admin/memberview?mno="+mno;
         }
-        return "rediect:/admin/membermodify?mno="+mno;
+        return "redirect:/admin/membermodify?mno="+mno;
     }
 
     @GetMapping("/remove")
@@ -54,4 +55,15 @@ public class AdminController {
         return "redirect:/admin/";
     }
 
-}
+    @PostMapping("/updateRole")
+    public ResponseEntity<String> updateRole(@RequestParam Long mno, @RequestParam String newRole){
+        try {
+            // 회원 역할 업데이트 로직
+            adminService.updateRole(mno, newRole);
+            return ResponseEntity.ok("Role updated successfully");
+        } catch (Exception e) {
+            log.error("Failed to update role", e);
+            return ResponseEntity.status(500).body("Failed to update role");
+        }
+
+}}

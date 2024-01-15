@@ -3,6 +3,7 @@ package com.fitness.spring_boot.controller;
 import com.fitness.spring_boot.Service.qna.QNAAnswerService;
 import com.fitness.spring_boot.Service.qna.QNABoardFileService;
 import com.fitness.spring_boot.Service.qna.QNABoardService;
+import com.fitness.spring_boot.config.auth.PrincipalDetails;
 import com.fitness.spring_boot.dto.PageRequestDTO;
 import com.fitness.spring_boot.dto.PageResponseDTO;
 import com.fitness.spring_boot.dto.qna.QNAAnswerDTO;
@@ -17,6 +18,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -121,5 +123,14 @@ public class QNABoardController {
             e.printStackTrace();
         }
         return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/mylist") // 이 코드 Member쪽에 옮겨서 MyPage에 추가해주세요
+    public void getMyQnAList(PageRequestDTO pageRequestDTO, Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        String writer = principalDetails.getUsername();
+        PageResponseDTO<QNABoardDTO> responseDTO = service.getMyList(pageRequestDTO, writer);
+        log.info(pageRequestDTO);
+        log.info(responseDTO);
+        model.addAttribute("responseDTO", responseDTO);
     }
 }

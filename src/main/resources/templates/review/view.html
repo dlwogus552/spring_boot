@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{/layout/basic.html}"
       lang="en">
 
@@ -21,20 +22,20 @@
                 <div class="review-view-con">
                     <!-- 버튼부 -->
                     <div class="d-flex justify-content-end mb-3 w-100">
-                        <button class="btn btn-outline-dark" onclick="location.href='/review/list'">
-                            목록
-                        </button>
+                        <a th:href="|@{/review/list}?${pageRequestDTO.getLink()}|">
+                            <button class="btn btn-outline-dark ml-3">
+                                목록
+                            </button>
+                        </a>
                         <th:block th:if="${reviewDTO.writer == #authentication.name}">
                             <a th:href="|@{/review/modify(rno=${reviewDTO.rno})}&${pageRequestDTO.getLink()}|">
                                 <button class="btn btn-outline-dark ml-3">
                                     수정
                                 </button>
                             </a>
-                            <a th:href="|@{/review/remove(rno=${reviewDTO.rno})}|">
-                                <button class="btn btn-outline-danger ml-3">
-                                    삭제
-                                </button>
-                            </a>
+                            <button class="btn btn-outline-danger ml-3" onclick="removeReview()">
+                                삭제
+                            </button>
                         </th:block>
                     </div>
                     <div class="qna-view-q">
@@ -59,7 +60,8 @@
                         <div class="qna-view-q-file">
                             <div class="list-group">
                                 <th:block th:each="file:${fileDTOList}">
-                                    <a th:href="|@{/review/download/{filename}(filename=${file.uuid+'_'+file.filename})}|" class="list-group-item list-group-item-action">
+                                    <a th:href="|@{/review/download/{filename}(filename=${file.uuid+'_'+file.filename})}|"
+                                       class="list-group-item list-group-item-action">
                                         <span>[[${file.filename}]]</span>
                                         <span><i class="fa-solid fa-link"></i></span>
                                     </a>
@@ -72,7 +74,7 @@
                     </div>
                     <!--Reply 영역-->
                     <div class="comments-container">
-                        <div class="comment-input mt-4">
+                        <div class="comment-input mt-4" sec:authorize="isAuthenticated()">
                             <textarea rows="2" class="form-control reply-text" placeholder="댓글을 입력하세요."
                                       name="replyContent" id="replyContent" style="resize: none"></textarea>
                             <button type="button" id="submitBtn" class="btn btn-outline-dark pl-5 pr-5">
@@ -105,11 +107,23 @@
     const content = document.querySelector('#replyContent')
     const replyList = document.querySelector('.replyList')
 
-
+    //리뷰 삭제
+    function removeReview() {
+        if (confirm("삭제하시겠습니까?")) {
+            $.ajax({
+                type: 'GET',
+                url: `/review/remove?rno=${rno}`,
+                success: function (response) {
+                    console.log('회원 탈퇴 성공');
+                    location.href = '/review/list';
+                }
+            });
+        }
+    }
     //페이지네이션
     function printPages(data) {
         let pageStr = '';
-        if(dtoList && dtoList.length > 0){
+        if (data.dtoList && data.dtoList.length > 0) {
             if (data.prev) {
                 pageStr += `<li class="page-item"><a class="page-link" data-page="${data.start - 1}">PREV</a></li>`
             }
@@ -125,47 +139,52 @@
     }
 
     //페이지네이션 클릭
-    document.querySelector('.replyPaging').addEventListener("click", function (e){
+    document.querySelector('.replyPaging').addEventListener("click", function (e) {
         e.preventDefault()
         e.stopPropagation()
         const target = e.target
-        if(!target || target.tagName != 'A'){
+        if (!target || target.tagName != 'A') {
             return
         }
         const pageNum = target.getAttribute("data-page")
         page = pageNum
         printReplies(page, 10)
-    },false)
+    }, false)
+
     // 리플 리스트 출력
     function printList(dtoList) {
         let str = ``;
         const TIME_ZONE = 9 * 60 * 60 * 1000; // 9시간
         if (dtoList && dtoList.length > 0) {
             str += `<li class="list-group-item d-flex replItem">
-                <span class="col-1 text-center">번호</span>
-                <span class="col-5 text-center">내용</span>
                 <span class="col-2 text-center">작성자</span>
+                <span class="col-5 text-center">내용</span>
                 <span class="col-3 text-center">작성일</span>
-                <span class="col-1">`;
+                <span class="col-2">`;
             for (const dto of dtoList) {
                 const date = new Date(dto.regDate);
                 var regDate = new Date(date.getTime() + TIME_ZONE).toISOString().replace('T', ' ').slice(0, -5)
-                str += `<li class="list-group-item d-flex replItem">
-                      <span class="col-1 text-center">${dto.rrno}</span>
-                      <span class="col-5">${dto.content}</span>
+                str += `<li id="${dto.rrno}" class="list-group-item d-flex replItem">
                       <span class="col-2 text-center">${dto.writer}</span>
+                      <span class="col-5">${dto.content}</span>
                       <span class="col-3 text-center">${regDate} </span>
-                      <span class="col-1">
-<!--                        <button class="btn btn-outline-dark mb-1">답글</button>-->
-                        <button class="btn btn-outline-dark removeBtn" onclick="remove(${dto.rrno})">삭제</button>
-                      </span>
+                      <span class="col-2 text-center">`
+                // if(loginName!='anonymousUser'){
+                //     str+=`<div class="text-center">
+                //         <button class="btn btn-outline-dark mr-1 reReply" onclick="printReReply(${dto.rrno})">답글</button>`
+                // }
+                if (loginName == dto.writer) {
+                    str += `<button class="btn btn-outline-dark removeBtn" onclick="removeReply(${dto.rrno})">삭제</button>
+                            </span>
                     </li>`
+                }
             }
-        }else{
+        } else {
             str += `<div class="text-center">댓글이 없습니다.</div>`
         }
         replyList.innerHTML = str;
     }
+
     //리플 출력 함수
     function printReplies(page, size, goLast) {
         // function printReplies() {
@@ -173,13 +192,16 @@
         getList({rno, page, size, goLast}).then(
             // getList(rno).then(
             data => {
+                console.log(data)
+                console.log(data.dtoList)
                 printList(data.dtoList) //목록 처리
                 printPages(data) //페이지 처리
             }
         ).catch(e => {
-            console.error(e)
+            console.log(e)
         })
     }
+
     printReplies(0, 10, true)
 
 
@@ -201,59 +223,91 @@
     })
 
     //댓글 삭제
-    function remove(rrno) {
-        deleteReply(rrno).then(result => {
-            page = 1
-            printReplies(page, 10)
-
-        }).catch(e => {
-            alert("Error")
-        })
+    function removeReply(rrno) {
+        if (confirm("삭제하시겠습니까?")) {
+            deleteReply(rrno).then(result => {
+                page = 1
+                printReplies(page, 10)
+            }).catch(e => {
+                alert("Error")
+            })
+        }
     }
+    // //대댓글 등록
+    // function printReReply(rrno){
+    //     str=`<li class="list-group-item">
+    //         <div class="comment-input">
+    //          <textarea rows="2" class="form-control reply-text" placeholder="댓글을 입력하세요."
+    //          name="replyContent" id="replyContent" style="resize: none"></textarea>
+    //          <button type="button" id="submitBtn" class="btn btn-outline-dark">
+    //          작성
+    //          </button>
+    //         <button type="button" id="submitBtn" class="btn btn-outline-dark">
+    //          취소
+    //          </button>
+    //          </div>
+    //         </li>`
+    //     $(`#`+rrno).after(str)
+    // }
+
+
+
 
 
     //공감 표시 확인 및 공감 수
     var bestCount = [[${reviewDTO.bestCount}]]
-    const bestStat=[[${best}]]
-    console.log("best : "+bestStat)
+    const bestStat = [[${best}]]
+    const loginName = [[${#authentication.name}]]
+    console.log("login : " + loginName)
+
     function printReactionBtn(reaction) {
         let str = '';
         console.log("reaction : " + reaction)
-        if (reaction=='true') {
-            str += `<button class="btn btn-outline-dark removeBtn" onclick="worstReaction(${rno})">
-                     <i class="fa-solid fa-heart-circle-check" style="color: #ff6464;"></i>
-                     ${bestCount}
-                     </button>`
-        }else {
-            str += `<button class="btn btn-outline-dark removeBtn" onclick="bestReaction(${rno})">
-                     <i class="fa-solid fa-heart-circle-plus"></i>
-                     ${bestCount}
-                     </button>`
+        if (loginName != 'anonymousUser') {
+            if (reaction == 'true') {
+                str += `<button class="btn btn-outline-dark removeBtn" onclick="worstReaction(${rno})">
+                         <i class="fa-solid fa-heart-circle-check" style="color: #ff6464;"></i>
+                         ${bestCount}
+                         </button>`
+            } else {
+                str += `<button class="btn btn-outline-dark removeBtn" onclick="bestReaction(${rno})">
+                         <i class="fa-solid fa-heart-circle-plus"></i>
+                         ${bestCount}
+                         </button>`
+            }
+        } else {
+            str += `<button class="btn btn-outline-dark removeBtn" onclick="alert('로그인 하세요.')">
+                         <i class="fa-solid fa-heart-circle-plus"></i>
+                         ${bestCount}
+                         </button>`
         }
         document.querySelector('.reactionBtn').innerHTML = str
     }
-    if(bestStat){
+
+    if (bestStat) {
         printReactionBtn('true')
-    }else{
+    } else {
         printReactionBtn('false')
     }
+
     //좋아요
-    function bestReaction(rno){
-        best(rno).then(result=>{
-            console.log("result : "+result)
+    function bestReaction(rno) {
+        best(rno).then(result => {
+            console.log("result : " + result)
             bestCount = result
             printReactionBtn('true')
-        }).catch(e=>{
+        }).catch(e => {
             console.log("best error")
         })
     }
+
     //취소
-    function worstReaction(rno){
-        worst(rno).then(result=>{
-            console.log("result : "+result)
+    function worstReaction(rno) {
+        worst(rno).then(result => {
+            console.log("result : " + result)
             bestCount = result
             printReactionBtn('false')
-        }).catch(e=>{
+        }).catch(e => {
             console.log("worst error")
         })
     }

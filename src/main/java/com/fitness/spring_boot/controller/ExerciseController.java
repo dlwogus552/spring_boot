@@ -94,8 +94,12 @@ public class ExerciseController {
 
     @Transactional
     @PostMapping(value = "/modify", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String modify(PageRequestDTO pageRequestDTO, ExerciseDTO exerciseDTO) {
-        log.info("modify"+exerciseDTO);
+    public String modify(PageRequestDTO pageRequestDTO, @Valid ExerciseDTO exerciseDTO, BindingResult bindingResult,Model model) {
+        if(bindingResult.hasErrors()) {
+            bindingResult.getFieldErrors().forEach(error -> model.addAttribute(error.getField()+"Error", error.getDefaultMessage()));
+            model.addAttribute("exerciseDTO",exerciseDTO);
+            return "/exercise/modify";
+        }
         exerciseService.modify(exerciseDTO);
         if (exerciseDTO.getFiles() != null && !exerciseDTO.getFiles().get(0).isEmpty()) {
             exerciseFileService.deleteAll(exerciseDTO.getEno());

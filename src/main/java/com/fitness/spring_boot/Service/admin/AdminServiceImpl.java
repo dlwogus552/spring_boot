@@ -31,4 +31,11 @@ public class AdminServiceImpl implements AdminService{
         memberRepository.deleteById(mno);
 
     }
+
+    @Override
+    public void updateRole(Long mno, String newRole) {
+        Member member = memberRepository.findById(mno).orElseThrow(() -> new RuntimeException("Member not found"));
+        member.setRole(newRole);
+        memberRepository.save(member);
+    }
 }
