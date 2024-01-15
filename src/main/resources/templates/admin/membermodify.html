@@ -32,15 +32,21 @@
                         <tr>
                             <th class="align-middle member-endDate">회원권 만료날짜</th>
                             <td>
-                                <input type="text" id="endDate" name="endDate" class="form-control form-control w-50"
+                                <input type="date" id="endDate" name="endDate" class="form-control form-control w-50"
                                        placeholder="날짜를 입력하세요." th:value="${#dates.format(member.endDate, 'yyyy-MM-dd')}">
                             </td>
                         </tr>
                         <tr>
                             <th class="align-middle member-role">회원등급</th>
                             <td>
-                                <input type="text" id="role" name="role" class="form-control form-control w-50"
-                                       th:value="${member.role}">
+                                <div class="form-check form-check-inline w-50">
+                                    <input class="form-check-input" type="radio" name="role" id="vipRadio" value="VIP" th:checked="${member.role == 'VIP'}">
+                                    <label class="form-check-label" for="vipRadio">VIP</label>
+                                </div>
+                                <div class="form-check form-check-inline w-auto">
+                                    <input class="form-check-input" type="radio" name="role" id="normalRadio" value="일반회원" th:checked="${member.role == '일반회원'}">
+                                    <label class="form-check-label" for="normalRadio">일반회원</label>
+                                </div>
                             </td>
                         </tr>
                         <tr>

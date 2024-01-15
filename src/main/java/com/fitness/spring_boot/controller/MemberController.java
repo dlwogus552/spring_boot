@@ -36,11 +36,9 @@ public class MemberController {
     @GetMapping("/join")
     public void join(){
 
-
-        //  현재(2024년 1월3일) 로그인상태에서 회원가입시 로그인상태그대로 가입진행하고 메인으로 이동
-        //  조금 거슬려서 수정한다면 -> 로그인상태 - 가입진행 - 자동로그아웃된 상태로 메인페이지??? 일단보류 큰 이슈 아님
-
     }
+
+
 
     @PostMapping("/register")
     public String register(Member member){

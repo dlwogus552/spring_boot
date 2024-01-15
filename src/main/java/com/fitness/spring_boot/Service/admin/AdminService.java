@@ -6,4 +6,6 @@ public interface AdminService {
     public Member findById(Long mno);
     public Long update(Member member);
     public void delete(Long mno);
+
+    void updateRole(Long mno, String newRole);
 }
